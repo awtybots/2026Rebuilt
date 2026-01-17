@@ -26,6 +26,9 @@ import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.io.File;
 import swervelib.SwerveInputStream;
 
+
+import frc.robot.subsystems.Intake;
+
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a "declarative" paradigm, very
  * little robot logic should actually be handled in the {@link Robot} periodic methods (other than the scheduler calls).
@@ -35,10 +38,13 @@ public class RobotContainer
 {
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
-  final         CommandXboxController driverXbox = new CommandXboxController(0);
+  final CommandXboxController driverXbox = new CommandXboxController(0);
   // The robot's subsystems and commands are defined here...
   private final SwerveSubsystem       drivebase  = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
                                                                                 "swerve"));
+
+  // Instantiate Intake
+  private final Intake m_intake = new Intake();
 
   // Establish a Sendable Chooser that will be able to be sent to the SmartDashboard, allowing selection of desired auto
   private final SendableChooser<Command> autoChooser;
@@ -96,11 +102,18 @@ public class RobotContainer
                                                                                .translationHeadingOffset(Rotation2d.fromDegrees(
                                                                                    0));
 
+  //Triggers For Controller
+  private final Trigger runIntake = driverXbox.rightTrigger(0.5);
+  private final Trigger runOuttake = driverXbox.leftTrigger(0.5);
+
+
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer()
   {
+   
+    
     // Configure the trigger bindings
     configureBindings();
     DriverStation.silenceJoystickConnectionWarning(true);
@@ -130,6 +143,12 @@ public class RobotContainer
    */
   private void configureBindings()
   {
+    //Intake Commands
+    runIntake.whileTrue(m_intake.runIntakeCommand());
+    runOuttake.whileTrue(m_intake.runOuttakeCommand());
+    
+    
+    // Swerve Drive Commands
     Command driveFieldOrientedDirectAngle      = drivebase.driveFieldOriented(driveDirectAngle);
     Command driveFieldOrientedAnglularVelocity = drivebase.driveFieldOriented(driveAngularVelocity);
     Command driveRobotOrientedAngularVelocity  = drivebase.driveFieldOriented(driveRobotOriented);
@@ -210,4 +229,6 @@ public class RobotContainer
   {
     drivebase.setMotorBrake(brake);
   }
+
+  
 }
