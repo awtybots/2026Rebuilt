@@ -8,6 +8,7 @@ import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.Configs;
@@ -32,9 +33,10 @@ public class Shooter extends SubsystemBase {
     }
 
     public void shootFuel(){
-        ShooterKickerMotor.set(ShooterConstants.KICKER_SPEED);
-        ShooterRightMotor.set(ShooterConstants.SHOOTER_RIGHT_SPEED);
-        ShooterLeftMotor.set(ShooterConstants.SHOOTER_LEFT_SPEED);
+    ShooterKickerMotor.set(ShooterConstants.KICKER_SPEED);
+    // Use the closed-loop controller's setSetpoint so the configured PID slot is used
+    shooterrightController.setSetpoint(ShooterConstants.SHOOTER_SPEED, ControlType.kVelocity);
+    shooterleftController.setSetpoint(ShooterConstants.SHOOTER_SPEED, ControlType.kVelocity);
     }
     public void stopShooting(){
         ShooterKickerMotor.set(0);

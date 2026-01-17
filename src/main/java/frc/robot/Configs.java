@@ -91,8 +91,8 @@ public final class Configs
                                 // Set PID values for position control. We don't need to pass a closed
                                 // loop slot, as it will default to slot 0.
                                 .p(0.4)
-                                .i(0)
-                                .d(0)
+                                .i(0.01)
+                                .d(0.03)
                                 .outputRange(-1, 1)
                                 // Set PID values for velocity control in slot 1
                                 .p(0.0001, ClosedLoopSlot.kSlot1)
