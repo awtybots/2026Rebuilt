@@ -28,6 +28,8 @@ import swervelib.SwerveInputStream;
 
 
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Hopper;
+import frc.robot.subsystems.Shooter;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a "declarative" paradigm, very
@@ -43,8 +45,12 @@ public class RobotContainer
   private final SwerveSubsystem       drivebase  = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
                                                                                 "swerve"));
 
-  // Instantiate Intake
+  // Instantiate Subsystems
   private final Intake m_intake = new Intake();
+  private final Hopper m_hopper = new Hopper();
+  private final Shooter m_shooter = new Shooter();
+  
+
 
   // Establish a Sendable Chooser that will be able to be sent to the SmartDashboard, allowing selection of desired auto
   private final SendableChooser<Command> autoChooser;
@@ -106,6 +112,14 @@ public class RobotContainer
   private final Trigger runIntake = driverXbox.rightTrigger(0.5);
   private final Trigger runOuttake = driverXbox.leftTrigger(0.5);
 
+  private final Trigger shootFuel = driverXbox.x();
+  
+  private final Trigger forwardHopper = driverXbox.leftBumper();
+  private final Trigger reverseHopper = driverXbox.rightBumper();
+
+
+
+
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -146,6 +160,13 @@ public class RobotContainer
     //Intake Commands
     runIntake.whileTrue(m_intake.runIntakeCommand());
     runOuttake.whileTrue(m_intake.runOuttakeCommand());
+
+    //Hopper Commands
+    forwardHopper.whileTrue(m_hopper.runHopperToShooterCommand());
+    reverseHopper.whileTrue(m_hopper.runReverseHopperCommand());
+
+    //Shooter Commands
+    shootFuel.whileTrue(m_shooter.shootFuelCommand());
     
     
     // Swerve Drive Commands
