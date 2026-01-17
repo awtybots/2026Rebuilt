@@ -46,8 +46,8 @@ public class RobotContainer
                                                                                 "swerve"));
 
   // Instantiate Subsystems
-  private final Intake m_intake = new Intake();
-  private final Hopper m_hopper = new Hopper();
+  // private final Intake m_intake = new Intake();
+  // private final Hopper m_hopper = new Hopper();
   private final Shooter m_shooter = new Shooter();
   
 
@@ -109,13 +109,13 @@ public class RobotContainer
                                                                                    0));
 
   //Triggers For Controller
-  private final Trigger runIntake = driverXbox.rightTrigger(0.5);
-  private final Trigger runOuttake = driverXbox.leftTrigger(0.5);
+  // private final Trigger runIntake = driverXbox.rightTrigger(0.5);
+  // private final Trigger runOuttake = driverXbox.leftTrigger(0.5);
 
   private final Trigger shootFuel = driverXbox.x();
   
-  private final Trigger forwardHopper = driverXbox.leftBumper();
-  private final Trigger reverseHopper = driverXbox.rightBumper();
+  // private final Trigger forwardHopper = driverXbox.leftBumper();
+  // private final Trigger reverseHopper = driverXbox.rightBumper();
 
 
 
@@ -158,12 +158,12 @@ public class RobotContainer
   private void configureBindings()
   {
     //Intake Commands
-    runIntake.whileTrue(m_intake.runIntakeCommand());
-    runOuttake.whileTrue(m_intake.runOuttakeCommand());
+    // runIntake.whileTrue(m_intake.runIntakeCommand());
+    // runOuttake.whileTrue(m_intake.runOuttakeCommand());
 
     //Hopper Commands
-    forwardHopper.whileTrue(m_hopper.runHopperToShooterCommand());
-    reverseHopper.whileTrue(m_hopper.runReverseHopperCommand());
+    // forwardHopper.whileTrue(m_hopper.runHopperToShooterCommand());
+    // reverseHopper.whileTrue(m_hopper.runReverseHopperCommand());
 
     //Shooter Commands
     shootFuel.whileTrue(m_shooter.shootFuelCommand());
@@ -215,23 +215,23 @@ public class RobotContainer
 //                              );
 
     }
-    if (DriverStation.isTest())
-    {
-      drivebase.setDefaultCommand(driveFieldOrientedAnglularVelocity); // Overrides drive command above!
+    // if (DriverStation.isTest())
+    // {
+    //   drivebase.setDefaultCommand(driveFieldOrientedAnglularVelocity); // Overrides drive command above!
 
-      driverXbox.x().whileTrue(Commands.runOnce(drivebase::lock, drivebase).repeatedly());
-      driverXbox.start().onTrue((Commands.runOnce(drivebase::zeroGyro)));
-      driverXbox.back().whileTrue(drivebase.centerModulesCommand());
-      driverXbox.leftBumper().onTrue(Commands.none());
-      driverXbox.rightBumper().onTrue(Commands.none());
-    } else
-    {
-      driverXbox.a().onTrue((Commands.runOnce(drivebase::zeroGyro)));
-      driverXbox.start().whileTrue(Commands.none());
-      driverXbox.back().whileTrue(Commands.none());
-      driverXbox.leftBumper().whileTrue(Commands.runOnce(drivebase::lock, drivebase).repeatedly());
-      driverXbox.rightBumper().onTrue(Commands.none());
-    }
+    //   driverXbox.x().whileTrue(Commands.runOnce(drivebase::lock, drivebase).repeatedly());
+    //   driverXbox.start().onTrue((Commands.runOnce(drivebase::zeroGyro)));
+    //   driverXbox.back().whileTrue(drivebase.centerModulesCommand());
+    //   driverXbox.leftBumper().onTrue(Commands.none());
+    //   driverXbox.rightBumper().onTrue(Commands.none());
+    // } else
+    // {
+    //   driverXbox.a().onTrue((Commands.runOnce(drivebase::zeroGyro)));
+    //   driverXbox.start().whileTrue(Commands.none());
+    //   driverXbox.back().whileTrue(Commands.none());
+    //   driverXbox.leftBumper().whileTrue(Commands.runOnce(drivebase::lock, drivebase).repeatedly());
+    //   driverXbox.rightBumper().onTrue(Commands.none());
+    // }
 
   }
 

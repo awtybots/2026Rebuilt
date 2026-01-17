@@ -62,14 +62,14 @@ public final class Configs
         public static final class ShooterSubsystem {
 
                 public static final SparkFlexConfig ShooterKickerMotorConfig = new SparkFlexConfig();
-                public static final SparkFlexConfig ShooterRightMotorConfig = new SparkFlexConfig();
+                public static final SparkFlexConfig ShooterRightMotorConfig = new SparkFlexConfig(); 
                 public static final SparkFlexConfig ShooterLeftMotorConfig = new SparkFlexConfig();
                 
                         static {
 
-                                ShooterKickerMotorConfig.idleMode(IdleMode.kBrake).smartCurrentLimit(50).voltageCompensation(12);
-                                ShooterRightMotorConfig.idleMode(IdleMode.kBrake).smartCurrentLimit(50).voltageCompensation(12);
-                                ShooterLeftMotorConfig.inverted(true).idleMode(IdleMode.kBrake).smartCurrentLimit(50).voltageCompensation(12);
+                                ShooterKickerMotorConfig.idleMode(IdleMode.kCoast).smartCurrentLimit(50).voltageCompensation(12);
+                                ShooterRightMotorConfig.idleMode(IdleMode.kCoast).smartCurrentLimit(50).voltageCompensation(12);
+                                ShooterLeftMotorConfig.inverted(true).idleMode(IdleMode.kCoast).smartCurrentLimit(50).voltageCompensation(12);
                                 
                                 ShooterKickerMotorConfig.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder)
                                 // Set PID values for position control. We don't need to pass a closed
