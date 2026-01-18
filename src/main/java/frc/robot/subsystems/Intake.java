@@ -12,8 +12,7 @@ import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkFlex;
 
 import com.revrobotics.spark.SparkLowLevel.MotorType;
-import com.revrobotics.ResetMode;
-import com.revrobotics.PersistMode;
+
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.Configs;
 public class Intake extends SubsystemBase {
