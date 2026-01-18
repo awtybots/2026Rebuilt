@@ -6,10 +6,14 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkFlex;
-import com.revrobotics.spark.SparkBase.ResetMode;
+import com.revrobotics.ResetMode;
+import com.revrobotics.PersistMode;
+import com.revrobotics.spark.ClosedLoopSlot;
+import com.revrobotics.REVLibError;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkBase.ControlType;
-import com.revrobotics.spark.SparkBase.PersistMode;
+
+
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.Configs;
 public class Shooter extends SubsystemBase {
@@ -29,7 +33,8 @@ public class Shooter extends SubsystemBase {
     public Shooter(){
         ShooterKickerMotor.configure(Configs.ShooterSubsystem.ShooterKickerMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
         ShooterRightMotor.configure(Configs.ShooterSubsystem.ShooterRightMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
-        ShooterLeftMotor.configure(Configs.ShooterSubsystem.ShooterLeftMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
+        ShooterLeftMotor.configure(Configs.ShooterSubsystem.ShooterLeftMotorConfig, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
+      
     }
 
     public void shootFuel(){

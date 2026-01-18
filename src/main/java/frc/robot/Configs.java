@@ -1,8 +1,6 @@
 package frc.robot;
 
 import com.revrobotics.spark.config.SparkFlexConfig;
-import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.Shooter;
 
 import com.revrobotics.spark.config.SparkBaseConfig.*;
 import com.revrobotics.spark.ClosedLoopSlot;
