@@ -42,6 +42,7 @@ public class RobotContainer {
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   final CommandXboxController driverXbox = new CommandXboxController(0);
+  final CommandXboxController operatorXbox = new CommandXboxController(1);
   // The robot's subsystems and commands are defined here...
   private final SwerveSubsystem drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
       "swerve"));
@@ -131,6 +132,7 @@ public class RobotContainer {
 
     // Create the NamedCommands that will be used in PathPlanner
     NamedCommands.registerCommand("test", Commands.print("I EXIST"));
+    NamedCommands.registerCommand("Shoot", m_shooter.shootFuelCommand());
 
     // Have the autoChooser pull in all PathPlanner autos as options
     autoChooser = AutoBuilder.buildAutoChooser();
@@ -138,9 +140,9 @@ public class RobotContainer {
     // Set the default auto (do nothing)
     autoChooser.setDefaultOption("Do Nothing", Commands.none());
 
-    // Add a simple auto option to have the robot drive forward for 1 second then
-    // stop
-    autoChooser.addOption("Drive Forward", drivebase.driveForward().withTimeout(1));
+    // // Add a simple auto option to have the robot drive forward for 1 second then
+    // // stop
+    // autoChooser.addOption("Drive Forward", drivebase.driveForward().withTimeout(1));
 
     // Put the autoChooser on the SmartDashboard
     SmartDashboard.putData("Auto Chooser", autoChooser);
@@ -213,7 +215,7 @@ public class RobotContainer {
       // drivebase.driveToPose(
       // new Pose2d(new Translation2d(4, 4), Rotation2d.fromDegrees(0)))
       // );
-
+     
     }
     // if (DriverStation.isTest())
     // {

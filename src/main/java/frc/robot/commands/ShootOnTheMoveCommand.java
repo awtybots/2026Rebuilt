@@ -18,9 +18,11 @@ import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularAcceleration;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.Commands;
+import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import swervelib.SwerveInputStream;
-
 
 public class ShootOnTheMoveCommand extends Command
 {
@@ -29,9 +31,11 @@ public class ShootOnTheMoveCommand extends Command
    * The velocity scalar is used to compensate for the robot's velocity. This must be tuned and found empircially.
    */
   private final double velocityScalar    = 0.1;
+
   private final Angle  setpointTolerance = Degrees.of(1);
   private final SwerveSubsystem        swerveSubsystem;
   private final SwerveInputStream      inputStream;
+  private final Shooter                shooter;
   private final Pose2d                 targetPose;
   private final AngularVelocity        maxProfiledVelocity     = RotationsPerSecond.of(3);
   private final AngularAcceleration    maxProfiledAcceleration = RotationsPerSecondPerSecond.of(3);
@@ -44,7 +48,6 @@ public class ShootOnTheMoveCommand extends Command
                                                                                                maxProfiledAcceleration.in(
                                                                                                    RadiansPerSecondPerSecond)));
   private final SimpleMotorFeedforward feedforward             = new SimpleMotorFeedforward(0, 0, 0);
-
   /**
    * Estimate the pose in which you will be shooting from, taking into account the current robot velocity.
    *
@@ -74,15 +77,16 @@ public class ShootOnTheMoveCommand extends Command
     return targetPose.getTranslation().minus(currentPose.getTranslation()).getAngle().getMeasure();
   }
 
-  public ShootOnTheMoveCommand(SwerveSubsystem swerveSubsystem, SwerveInputStream inputStream, Pose2d targetPose)
+  public ShootOnTheMoveCommand(SwerveSubsystem swerveSubsystem, SwerveInputStream inputStream, Pose2d targetPose, Shooter shooter)
   {
     this.swerveSubsystem = swerveSubsystem;
     this.inputStream = inputStream;
+    this.shooter = shooter;
     this.targetPose = targetPose;
     pidController.setTolerance(setpointTolerance.in(Radians));
     // each subsystem used by the command must be passed into the
     // addRequirements() method (which takes a vararg of Subsystem)
-    addRequirements(this.swerveSubsystem);
+    addRequirements(this.swerveSubsystem, this.shooter);
   }
 
   @Override
@@ -108,21 +112,20 @@ public class ShootOnTheMoveCommand extends Command
     swerveSubsystem.drive(ChassisSpeeds.fromFieldRelativeSpeeds(originalSpeed,
                                                                 swerveSubsystem.getHeading()));
     if (pidController.atGoal())
-    {
-      // TODO: Allow firing
+      CommandScheduler.getInstance().schedule(shooter.shootFuelCommand());
+  
     }
-  }
+  
 
   @Override
   public boolean isFinished()
   {
-    // TODO: Make this return true when this Command no longer needs to run execute()
     return false;
   }
 
   @Override
   public void end(boolean interrupted)
   {
-
+    CommandScheduler.getInstance().schedule(shooter.stopShootingCommand());
   }
 }

@@ -6,9 +6,10 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkFlex;
-import com.revrobotics.spark.SparkBase.ResetMode;
+import com.revrobotics.ResetMode;
+import com.revrobotics.PersistMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
-import com.revrobotics.spark.SparkBase.PersistMode;
+
 import frc.robot.Constants.HopperConstants;
 import frc.robot.Configs;
 public class Hopper extends SubsystemBase {
@@ -21,8 +22,8 @@ public class Hopper extends SubsystemBase {
     private SparkClosedLoopController HopperTransferController = HopperTransferMotor.getClosedLoopController(); // idk what this is
 
     public Hopper(){
-        HopperPushDownMotor.configure(Configs.HopperSubsystem.HopperPushDownMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
-        HopperTransferMotor.configure(Configs.HopperSubsystem.HopperTransferMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
+        HopperPushDownMotor.configure(Configs.HopperSubsystem.HopperPushDownMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        HopperTransferMotor.configure(Configs.HopperSubsystem.HopperTransferMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     }
 
     public void HopperToShooter(){

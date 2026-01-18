@@ -13,45 +13,58 @@ import com.revrobotics.REVLibError;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkBase.ControlType;
 
-
 import frc.robot.Constants.ShooterConstants;
+import yams.motorcontrollers.SmartMotorControllerConfig.ControlMode;
 import frc.robot.Configs;
+
 public class Shooter extends SubsystemBase {
-   
+
     // Instantiating the hopper to shooter motor
     private SparkFlex ShooterKickerMotor = new SparkFlex(ShooterConstants.SHOOTER_KICKER_ID, MotorType.kBrushless);
-    private SparkClosedLoopController shooterkickerController = ShooterKickerMotor.getClosedLoopController(); // idk what this is
+    private SparkClosedLoopController shooterkickerController = ShooterKickerMotor.getClosedLoopController(); // idk
+                                                                                                              // what
+                                                                                                              // this is
 
     private SparkFlex ShooterRightMotor = new SparkFlex(ShooterConstants.SHOOTER_RIGHT_ID, MotorType.kBrushless);
-    private SparkClosedLoopController shooterrightController = ShooterRightMotor.getClosedLoopController(); // idk what this is
-    
+    private SparkClosedLoopController shooterrightController = ShooterRightMotor.getClosedLoopController(); // idk what
+                                                                                                            // this is
+
     private SparkFlex ShooterLeftMotor = new SparkFlex(ShooterConstants.SHOOTER_LEFT_ID, MotorType.kBrushless);
-    private SparkClosedLoopController shooterleftController = ShooterLeftMotor.getClosedLoopController(); // idk what this is
+    private SparkClosedLoopController shooterleftController = ShooterLeftMotor.getClosedLoopController(); // idk what
+                                                                                                          // this is
 
+    public Shooter() {
 
+        ShooterKickerMotor.configure(Configs.ShooterSubsystem.ShooterKickerMotorConfig, ResetMode.kResetSafeParameters,
+                PersistMode.kPersistParameters);
+        ShooterRightMotor.configure(Configs.ShooterSubsystem.ShooterRightMotorConfig, ResetMode.kResetSafeParameters,
+                PersistMode.kPersistParameters);
+        ShooterLeftMotor.configure(Configs.ShooterSubsystem.ShooterLeftMotorConfig, ResetMode.kResetSafeParameters,
+                PersistMode.kPersistParameters);
 
-    public Shooter(){
-        ShooterKickerMotor.configure(Configs.ShooterSubsystem.ShooterKickerMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
-        ShooterRightMotor.configure(Configs.ShooterSubsystem.ShooterRightMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
-        ShooterLeftMotor.configure(Configs.ShooterSubsystem.ShooterLeftMotorConfig, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
-      
     }
 
-    public void shootFuel(){
-    ShooterKickerMotor.set(ShooterConstants.KICKER_SPEED);
-    // Use the closed-loop controller's setSetpoint so the configured PID slot is used
-    shooterrightController.setSetpoint(ShooterConstants.SHOOTER_SPEED, ControlType.kVelocity);
-    shooterleftController.setSetpoint(ShooterConstants.SHOOTER_SPEED, ControlType.kVelocity);
+    public void shootFuel() {
+        shooterkickerController.setSetpoint(ShooterConstants.KICKER_SPEED, ControlType.kMAXMotionVelocityControl);
+        // Use the closed-loop controller's setSetpoint so the configured PID slot is
+        // used
+        shooterrightController.setSetpoint(ShooterConstants.SHOOTER_SPEED, ControlType.kMAXMotionVelocityControl);
+        shooterleftController.setSetpoint(ShooterConstants.SHOOTER_SPEED, ControlType.kMAXMotionVelocityControl);
     }
-    public void stopShooting(){
-        ShooterKickerMotor.set(0);
-        ShooterRightMotor.set(0);
-        ShooterLeftMotor.set(0);
+
+    public void stopShooting() {
+        shooterkickerController.setSetpoint(ShooterConstants.STOP, ControlType.kMAXMotionVelocityControl);
+        shooterleftController.setSetpoint(ShooterConstants.STOP, ControlType.kMAXMotionVelocityControl);
+        shooterrightController.setSetpoint(ShooterConstants.STOP, ControlType.kMAXMotionVelocityControl);
     }
-    
-    public Command shootFuelCommand(){
+
+    public Command shootFuelCommand() {
         return new RunCommand(() -> shootFuel(), this)
-            .finallyDo(interrupted -> stopShooting());
+                .finallyDo(interrupted -> stopShooting());
+    }
+
+    public Command stopShootingCommand() {
+        return new RunCommand(() -> stopShooting(), this);
     }
 
     @Override
