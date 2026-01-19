@@ -59,8 +59,8 @@ public final class Constants
     public static final int SHOOTER_RIGHT_ID = 9;
     public static final int SHOOTER_LEFT_ID = 17;
 
-    public static final double KICKER_SPEED = 4000;
-    public static final double SHOOTER_SPEED = 4000; // RPM
+    public static final double KICKER_SPEED = 5000;
+    public static final double SHOOTER_SPEED = 5000; // RPM
     public static final double STOP = 0;
 
 

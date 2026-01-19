@@ -65,9 +65,9 @@ public final class Configs
                 
                         static {
 
-                                ShooterKickerMotorConfig.idleMode(IdleMode.kCoast).smartCurrentLimit(50).voltageCompensation(12);
-                                ShooterRightMotorConfig.idleMode(IdleMode.kCoast).smartCurrentLimit(50).voltageCompensation(12);
-                                ShooterLeftMotorConfig.inverted(true).idleMode(IdleMode.kCoast).smartCurrentLimit(50).voltageCompensation(12);
+                                ShooterKickerMotorConfig.idleMode(IdleMode.kCoast).smartCurrentLimit(40).voltageCompensation(12);
+                                ShooterRightMotorConfig.idleMode(IdleMode.kCoast).smartCurrentLimit(40).voltageCompensation(12);
+                                ShooterLeftMotorConfig.inverted(true).idleMode(IdleMode.kCoast).smartCurrentLimit(40).voltageCompensation(12);
                                 
                                 ShooterKickerMotorConfig.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder)
                                 // Set PID values for position control. We don't need to pass a closed
@@ -76,25 +76,42 @@ public final class Configs
                                 .i(0)
                                 .d(0)
                                 .outputRange(-1, 1)
-                                .maxMotion.maxAcceleration(1000);
+                                ;
+
+                                ShooterKickerMotorConfig.closedLoop
+                                .maxMotion.maxAcceleration(12000);
 
                                 ShooterRightMotorConfig.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder)
                                 // Set PID values for position control. We don't need to pass a closed
                                 // loop slot, as it will default to slot 0.
-                                .p(0.4)
+                                .p(0.00025)
                                 .i(0.0)
                                 .d(0.0)
                                 .outputRange(-1, 1)
-                                .maxMotion.maxAcceleration(1000);              
+                                .feedForward
+                                .kS(0.12)
+                                .kV(0.00177)
+                                .kA(0.00017)
+                                ;              
+
+                                ShooterRightMotorConfig.closedLoop
+                                .maxMotion.maxAcceleration(10000);
 
                                 ShooterLeftMotorConfig.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder)
                                 // Set PID values for position control. We don't need to pass a closed
                                 // loop slot, as it will default to slot 0.
-                                .p(0.4)
-                                .i(0)
-                                .d(0)
+                                .p(0.00025)
+                                .i(0.0)
+                                .d(0.0)
                                 .outputRange(-1, 1)
-                                .maxMotion.maxAcceleration(1000);
+                                .feedForward
+                                .kS(0.12)
+                                .kV(0.00177)
+                                .kA(0.00017)
+                                ;
+
+                                ShooterLeftMotorConfig.closedLoop
+                                .maxMotion.maxAcceleration(10000);
                                 
                                 
 
