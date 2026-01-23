@@ -46,16 +46,17 @@ public class Shooter extends SubsystemBase {
 
     public void shootFuel() {
         shooterkickerController.setSetpoint(ShooterConstants.KICKER_SPEED, ControlType.kMAXMotionVelocityControl);
-        // Use the closed-loop controller's setSetpoint so the configured PID slot is
-        // used
         shooterrightController.setSetpoint(ShooterConstants.SHOOTER_SPEED, ControlType.kMAXMotionVelocityControl);
         shooterleftController.setSetpoint(ShooterConstants.SHOOTER_SPEED, ControlType.kMAXMotionVelocityControl);
     }
 
     public void stopShooting() {
-        shooterkickerController.setSetpoint(ShooterConstants.STOP, ControlType.kMAXMotionVelocityControl);
-        shooterleftController.setSetpoint(ShooterConstants.STOP, ControlType.kMAXMotionVelocityControl);
-        shooterrightController.setSetpoint(ShooterConstants.STOP, ControlType.kMAXMotionVelocityControl);
+        ShooterLeftMotor.set(ShooterConstants.IDLE);
+        ShooterRightMotor.set(ShooterConstants.IDLE);
+        ShooterKickerMotor.set(ShooterConstants.STOP);
+        // shooterkickerController.setSetpoint(ShooterConstants.STOP, ControlType.kMAXMotionVelocityControl);
+        // shooterleftController.setSetpoint(ShooterConstants.STOP, ControlType.kMAXMotionVelocityControl);
+        // shooterrightController.setSetpoint(ShooterConstants.STOP, ControlType.kMAXMotionVelocityControl);
     }
 
     public Command shootFuelCommand() {

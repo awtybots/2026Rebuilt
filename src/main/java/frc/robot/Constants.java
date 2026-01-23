@@ -59,16 +59,17 @@ public final class Constants
     public static final int SHOOTER_RIGHT_ID = 9;
     public static final int SHOOTER_LEFT_ID = 17;
 
-    public static final double KICKER_SPEED = 5000;
-    public static final double SHOOTER_SPEED = 5000; // RPM
+    public static final double KICKER_SPEED = 3100;
+    public static final double SHOOTER_SPEED = 3260; // RPM
     public static final double STOP = 0;
+    public static final double IDLE = 0.1; // % voltage -1 --> 1
 
 
   }
   public static class HopperConstants
   {
-    public static final int HOPPER_PUSHDOWN_ID = 100; // Placeholder CAN IDs
-    public static final int HOPPER_TRANSFER_ID = 100; // Placeholder CAN IDs
+    public static final int HOPPER_PUSHDOWN_ID = 19; 
+    public static final int HOPPER_TRANSFER_ID = 15; 
 
     public static final double HOPPER_PUSHDOWN_SPEED = 0.7;
     public static final double HOPPER_TRANSFER_SPEED = 0.7;
