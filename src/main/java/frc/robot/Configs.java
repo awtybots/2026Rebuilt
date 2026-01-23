@@ -84,9 +84,9 @@ public final class Configs
                                 ShooterRightMotorConfig.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder)
                                 // Set PID values for position control. We don't need to pass a closed
                                 // loop slot, as it will default to slot 0.
-                                .p(0.3)
+                                .p(0.0002355)
                                 .i(0.0)
-                                .d(0.0)
+                                .d(0.0003)
                                 .outputRange(-1, 1)
                                 .feedForward
                                 .kS(0.12)
@@ -100,9 +100,9 @@ public final class Configs
                                 ShooterLeftMotorConfig.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder)
                                 // Set PID values for position control. We don't need to pass a closed
                                 // loop slot, as it will default to slot 0.
-                                .p(0.3)
+                                .p(0.0002355)
                                 .i(0.0)
-                                .d(0.0)
+                                .d(0.0003)
                                 .outputRange(-1, 1)
                                 .feedForward
                                 .kS(0.12)
