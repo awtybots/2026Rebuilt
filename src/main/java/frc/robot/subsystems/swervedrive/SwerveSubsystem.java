@@ -223,6 +223,10 @@ public class SwerveSubsystem extends SubsystemBase
                                      );
   }
 
+  public Command driveToPose (Supplier<Pose2d> pose)
+  {
+    return defer(()-> driveToPose(pose.get()));
+  }
   /**
    * Drive with {@link SwerveSetpointGenerator} from 254, implemented by PathPlanner.
    *
