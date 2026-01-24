@@ -50,7 +50,7 @@ public class RobotContainer {
   // Instantiate Subsystems
   private final Intake m_intake = new Intake();
   private final Hopper m_hopper = new Hopper();
-  private final Shooter m_shooter = new Shooter();
+//   private final Shooter m_shooter = new Shooter();
 
   // Establish a Sendable Chooser that will be able to be sent to the
   // SmartDashboard, allowing selection of desired auto
@@ -145,9 +145,9 @@ public class RobotContainer {
 
     // Create the NamedCommands that will be used in PathPlanner
     NamedCommands.registerCommand("test", Commands.print("I EXIST"));
-    NamedCommands.registerCommand("shoot67", m_shooter.shootFuelCommand().withTimeout(6.7));
-    NamedCommands.registerCommand("hoodup67", m_shooter.RotateHoodUpCommand().withTimeout(6.7));
-    NamedCommands.registerCommand("hooddown41", m_shooter.RotateHoodDownCommand().withTimeout(6.7));
+    // NamedCommands.registerCommand("shoot67", m_shooter.shootFuelCommand().withTimeout(6.7));
+    // NamedCommands.registerCommand("hoodup67", m_shooter.RotateHoodUpCommand().withTimeout(6.7));
+    // NamedCommands.registerCommand("hooddown41", m_shooter.RotateHoodDownCommand().withTimeout(6.7));
     NamedCommands.registerCommand("hopper67", m_hopper.runHopperToShooterCommand().withTimeout(6.7));
     NamedCommands.registerCommand("hopper41", m_hopper.runReverseHopperCommand().withTimeout(6.7));
     NamedCommands.registerCommand("intake67", m_intake.runIntakeCommand().withTimeout(6.7));
@@ -190,9 +190,9 @@ public class RobotContainer {
     ReverseHopper.whileTrue(m_hopper.runReverseHopperCommand());
 
     // Shooter Commands
-    shootFuel.whileTrue(m_shooter.shootFuelCommand());
-    RotateHoodUp.whileTrue(m_shooter.RotateHoodUpCommand());
-    RotateHoodDown.whileTrue(m_shooter.RotateHoodDownCommand());
+    // shootFuel.whileTrue(m_shooter.shootFuelCommand());
+    // RotateHoodUp.whileTrue(m_shooter.RotateHoodUpCommand());
+    // RotateHoodDown.whileTrue(m_shooter.RotateHoodDownCommand());
 
 
     // Swerve Drive Commands
