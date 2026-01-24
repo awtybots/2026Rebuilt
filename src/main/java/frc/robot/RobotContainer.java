@@ -10,6 +10,7 @@ import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -142,6 +143,7 @@ public class RobotContainer {
     // Configure the trigger bindings
     configureBindings();
     DriverStation.silenceJoystickConnectionWarning(true);
+    SmartDashboard.putNumber("Heading Bias Deg", 0.0);
 
     // Create the NamedCommands that will be used in PathPlanner
     NamedCommands.registerCommand("test", Commands.print("I EXIST"));
@@ -198,13 +200,16 @@ public class RobotContainer {
     // Swerve Drive Commands
     driverXbox.start().onTrue((Commands.runOnce(drivebase::zeroGyro)));
 
-    Command driveFieldOrientedDirectAngle = drivebase.driveFieldOriented(driveDirectAngle);
-    Command driveFieldOrientedAnglularVelocity = drivebase.driveFieldOriented(driveAngularVelocity);
+    Command driveFieldOrientedDirectAngle = drivebase.driveFieldOriented(() -> applyHeadingBias(driveDirectAngle.get()));
+    Command driveFieldOrientedAnglularVelocity = drivebase.driveFieldOriented(
+        () -> applyHeadingBias(driveAngularVelocity.get()));
     Command driveRobotOrientedAngularVelocity = drivebase.driveFieldOriented(driveRobotOriented);
     Command driveSetpointGen = drivebase.driveWithSetpointGeneratorFieldRelative(
         driveDirectAngle);
-    Command driveFieldOrientedDirectAngleKeyboard = drivebase.driveFieldOriented(driveDirectAngleKeyboard);
-    Command driveFieldOrientedAnglularVelocityKeyboard = drivebase.driveFieldOriented(driveAngularVelocityKeyboard);
+    Command driveFieldOrientedDirectAngleKeyboard = drivebase.driveFieldOriented(
+        () -> applyHeadingBias(driveDirectAngleKeyboard.get()));
+    Command driveFieldOrientedAnglularVelocityKeyboard = drivebase.driveFieldOriented(
+        () -> applyHeadingBias(driveAngularVelocityKeyboard.get()));
     Command driveSetpointGenKeyboard = drivebase.driveWithSetpointGeneratorFieldRelative(
         driveDirectAngleKeyboard);
 
@@ -274,6 +279,16 @@ public class RobotContainer {
 
   public void setMotorBrake(boolean brake) {
     drivebase.setMotorBrake(brake);
+  }
+
+  private ChassisSpeeds applyHeadingBias(ChassisSpeeds speeds) {
+    double biasDeg = SmartDashboard.getNumber("Heading Bias Deg", 0.0);
+    if (biasDeg == 0.0) {
+      return speeds;
+    }
+    Rotation2d bias = Rotation2d.fromDegrees(biasDeg);
+    Translation2d biased = new Translation2d(speeds.vxMetersPerSecond, speeds.vyMetersPerSecond).rotateBy(bias);
+    return new ChassisSpeeds(biased.getX(), biased.getY(), speeds.omegaRadiansPerSecond);
   }
   
 }
