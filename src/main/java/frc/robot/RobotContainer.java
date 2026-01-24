@@ -118,6 +118,8 @@ public class RobotContainer {
 
   // Shooter
   private final Trigger shootFuel = driverXbox.y();
+  private final Trigger RotateHoodUp = driverXbox.rightTrigger();
+  private final Trigger RotateHoodDown = driverXbox.leftTrigger();
 
   // Intake
   private final Trigger runIntake = driverXbox.x();
@@ -144,13 +146,12 @@ public class RobotContainer {
     // Create the NamedCommands that will be used in PathPlanner
     NamedCommands.registerCommand("test", Commands.print("I EXIST"));
     NamedCommands.registerCommand("shoot67", m_shooter.shootFuelCommand().withTimeout(6.7));
+    NamedCommands.registerCommand("hoodup67", m_shooter.RotateHoodUpCommand().withTimeout(6.7));
+    NamedCommands.registerCommand("hooddown41", m_shooter.RotateHoodDownCommand().withTimeout(6.7));
     NamedCommands.registerCommand("hopper67", m_hopper.runHopperToShooterCommand().withTimeout(6.7));
     NamedCommands.registerCommand("hopper41", m_hopper.runReverseHopperCommand().withTimeout(6.7));
     NamedCommands.registerCommand("intake67", m_intake.runIntakeCommand().withTimeout(6.7));
     NamedCommands.registerCommand("intake41", m_intake.runOuttakeCommand().withTimeout(6.7));
-
-
-
 
     // Have the autoChooser pull in all PathPlanner autos as options
     autoChooser = AutoBuilder.buildAutoChooser();
@@ -190,6 +191,9 @@ public class RobotContainer {
 
     // Shooter Commands
     shootFuel.whileTrue(m_shooter.shootFuelCommand());
+    RotateHoodUp.whileTrue(m_shooter.RotateHoodUpCommand());
+    RotateHoodDown.whileTrue(m_shooter.RotateHoodDownCommand());
+
 
     // Swerve Drive Commands
     driverXbox.start().onTrue((Commands.runOnce(drivebase::zeroGyro)));
@@ -271,5 +275,5 @@ public class RobotContainer {
   public void setMotorBrake(boolean brake) {
     drivebase.setMotorBrake(brake);
   }
-
+  
 }
