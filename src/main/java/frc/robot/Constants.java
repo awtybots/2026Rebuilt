@@ -58,12 +58,15 @@ public final class Constants
     public static final int SHOOTER_KICKER_ID = 11;
     public static final int SHOOTER_RIGHT_ID = 9;
     public static final int SHOOTER_LEFT_ID = 17;
+    public static final int HOOD_ID = 18;
 
     public static final double KICKER_SPEED = 3100;
     public static final double SHOOTER_SPEED = 5770; // RPM
     public static final double STOP = 0;
     public static final double IDLE = 0.1; // % voltage -1 --> 1
 
+    public static double HOOD_UP_SPEED = 0.05;
+    public static double HOOD_DOWN_SPEED = -0.05;
 
   }
   public static class HopperConstants
