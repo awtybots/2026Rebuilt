@@ -63,18 +63,14 @@ public class Shooter extends SubsystemBase {
 
     public void RotateHoodUp()
     {
-        HoodMotor.set(ShooterConstants.HOOD_UP_SPEED);
+        HoodController.setSetpoint(ShooterConstants.HOOD_UP_SPEED, ControlType.kMAXMotionPositionControl);
     }
 
     public void RotateHoodDown()
     {
-        HoodMotor.set(ShooterConstants.HOOD_DOWN_SPEED);
+        HoodController.setSetpoint(ShooterConstants.HOOD_DOWN_SPEED, ControlType.kMAXMotionPositionControl);
     }
 
-    public void StopHood()
-    {
-        HoodMotor.set(0);
-    }
 
     public Command shootFuelCommand() {
         return new RunCommand(() -> shootFuel(), this)
@@ -88,13 +84,13 @@ public class Shooter extends SubsystemBase {
     public Command RotateHoodUpCommand()
     {
         return new RunCommand(() -> RotateHoodUp(), this)
-                .finallyDo(interrupted -> StopHood());
+               ;
     }
 
     public Command RotateHoodDownCommand()
     {
         return new RunCommand(() -> RotateHoodDown(), this)
-                .finallyDo(interrupted -> StopHood());
+                ;
     }
 
     @Override

@@ -123,10 +123,7 @@ public final class Configs
                                 .i(0.0)
                                 .d(0.000)
                                 .outputRange(-1, 1)
-                                .feedForward
-                                .kS(0.10)
-                                .kV(0.00177)
-                                .kA(0.00017)
+                              
                                 ;
 
                                 ShooterLeftMotorConfig.closedLoop
