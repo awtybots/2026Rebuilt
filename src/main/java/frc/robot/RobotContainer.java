@@ -25,6 +25,9 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.io.File;
 import swervelib.SwerveInputStream;
+import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Hopper;
@@ -50,7 +53,11 @@ public class RobotContainer {
   // Instantiate Subsystems
   private final Intake m_intake = new Intake();
   private final Hopper m_hopper = new Hopper();
-//   private final Shooter m_shooter = new Shooter();
+  // private final Shooter m_shooter = new Shooter();
+
+  private final PIDController headingHoldPid = new PIDController(4.0, 0.0, 0.25);
+  private double headingHoldSetpointRad = 0.0;
+  private boolean headingHoldLatched = false;
 
   // Establish a Sendable Chooser that will be able to be sent to the
   // SmartDashboard, allowing selection of desired auto
@@ -129,8 +136,6 @@ public class RobotContainer {
   private final Trigger HopperToShooter = driverXbox.rightBumper();
   private final Trigger ReverseHopper = driverXbox.leftBumper();
 
-
-
   // private final Trigger forwardHopper = driverXbox.leftBumper();
   // private final Trigger reverseHopper = driverXbox.rightBumper();
 
@@ -138,16 +143,20 @@ public class RobotContainer {
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
-
+    headingHoldPid.enableContinuousInput(-Math.PI, Math.PI);
+    headingHoldPid.setTolerance(Math.toRadians(1.0)); // ~1 deg
     // Configure the trigger bindings
     configureBindings();
     DriverStation.silenceJoystickConnectionWarning(true);
 
     // Create the NamedCommands that will be used in PathPlanner
     NamedCommands.registerCommand("test", Commands.print("I EXIST"));
-    // NamedCommands.registerCommand("shoot67", m_shooter.shootFuelCommand().withTimeout(6.7));
-    // NamedCommands.registerCommand("hoodup67", m_shooter.RotateHoodUpCommand().withTimeout(6.7));
-    // NamedCommands.registerCommand("hooddown41", m_shooter.RotateHoodDownCommand().withTimeout(6.7));
+    // NamedCommands.registerCommand("shoot67",
+    // m_shooter.shootFuelCommand().withTimeout(6.7));
+    // NamedCommands.registerCommand("hoodup67",
+    // m_shooter.RotateHoodUpCommand().withTimeout(6.7));
+    // NamedCommands.registerCommand("hooddown41",
+    // m_shooter.RotateHoodDownCommand().withTimeout(6.7));
     NamedCommands.registerCommand("hopper67", m_hopper.runHopperToShooterCommand().withTimeout(6.7));
     NamedCommands.registerCommand("hopper41", m_hopper.runReverseHopperCommand().withTimeout(6.7));
     NamedCommands.registerCommand("intake67", m_intake.runIntakeCommand().withTimeout(6.7));
@@ -161,7 +170,8 @@ public class RobotContainer {
 
     // // Add a simple auto option to have the robot drive forward for 1 second then
     // // stop
-    // autoChooser.addOption("Drive Forward", drivebase.driveForward().withTimeout(1));
+    // autoChooser.addOption("Drive Forward",
+    // drivebase.driveForward().withTimeout(1));
 
     // Put the autoChooser on the SmartDashboard
     SmartDashboard.putData("Auto Chooser", autoChooser);
@@ -194,7 +204,6 @@ public class RobotContainer {
     // RotateHoodUp.whileTrue(m_shooter.RotateHoodUpCommand());
     // RotateHoodDown.whileTrue(m_shooter.RotateHoodDownCommand());
 
-
     // Swerve Drive Commands
     driverXbox.start().onTrue((Commands.runOnce(drivebase::zeroGyro, drivebase)));
 
@@ -208,10 +217,45 @@ public class RobotContainer {
     Command driveSetpointGenKeyboard = drivebase.driveWithSetpointGeneratorFieldRelative(
         driveDirectAngleKeyboard);
 
+    double rotDeadband = 0.14;
+    double transDeadband = OperatorConstants.DEADBAND;
+
+    var driveWithHeadingHold = (java.util.function.Supplier<ChassisSpeeds>) () -> {
+      ChassisSpeeds base = driveAngularVelocity.get(); // SwerveInputStream is used as supplier in your code
+
+      double rightX = driverXbox.getRightX();
+      double leftMag = Math.hypot(driverXbox.getLeftX(), driverXbox.getLeftY());
+
+      boolean driverWantsRotate = Math.abs(rightX) > rotDeadband;
+      boolean driverIsTranslating = leftMag > transDeadband;
+
+      double omega = base.omegaRadiansPerSecond;
+
+      if (driverIsTranslating && !driverWantsRotate) {
+        if (!headingHoldLatched) {
+          headingHoldSetpointRad = drivebase.getHeading().getRadians();
+          headingHoldPid.reset();
+          headingHoldLatched = true;
+        }
+        omega = headingHoldPid.calculate(drivebase.getHeading().getRadians(), headingHoldSetpointRad);
+
+        // Clamp to your robot max
+        double maxOmega = drivebase.getSwerveDrive().getMaximumChassisAngularVelocity();
+        omega = MathUtil.clamp(omega, -maxOmega, maxOmega);
+      } else {
+        headingHoldLatched = false;
+      }
+
+      return new ChassisSpeeds(base.vxMetersPerSecond, base.vyMetersPerSecond, omega);
+    };
+
+    Command teleop = drivebase.driveFieldOriented(driveWithHeadingHold);
+
     if (RobotBase.isSimulation()) {
       drivebase.setDefaultCommand(driveFieldOrientedDirectAngleKeyboard);
     } else {
-      drivebase.setDefaultCommand(driveFieldOrientedAnglularVelocity);
+      // drivebase.setDefaultCommand(driveFieldOrientedAnglularVelocity);
+      drivebase.setDefaultCommand(teleop);
     }
 
     if (Robot.isSimulation()) {
@@ -237,27 +281,25 @@ public class RobotContainer {
       // drivebase.driveToPose(
       // new Pose2d(new Translation2d(4, 4), Rotation2d.fromDegrees(0)))
       // );
-     
-    }
-    if (DriverStation.isTest())
-    {
-    drivebase.setDefaultCommand(driveFieldOrientedAnglularVelocity); // Overrides drive command above!
 
-    driverXbox.x().whileTrue(Commands.runOnce(drivebase::lock,
-    drivebase).repeatedly());
-    driverXbox.start().onTrue((Commands.runOnce(drivebase::zeroGyro)));
-    driverXbox.back().whileTrue(drivebase.centerModulesCommand());
-    driverXbox.leftBumper().onTrue(Commands.none());
-    driverXbox.rightBumper().onTrue(Commands.none());
-    } else
-    {
-    driverXbox.a().onTrue((Commands.runOnce(drivebase::zeroGyro)));
-    driverXbox.start().whileTrue(Commands.none());
-    driverXbox.back().whileTrue(Commands.none());
-    driverXbox.leftBumper().whileTrue(Commands.runOnce(drivebase::lock,
-    drivebase).repeatedly());
-    driverXbox.rightBumper().onTrue(Commands.none());
     }
+    // if (DriverStation.isTest()) {
+    //   drivebase.setDefaultCommand(driveFieldOrientedAnglularVelocity); // Overrides drive command above!
+
+    //   driverXbox.x().whileTrue(Commands.runOnce(drivebase::lock,
+    //       drivebase).repeatedly());
+    //   driverXbox.start().onTrue((Commands.runOnce(drivebase::zeroGyro)));
+    //   driverXbox.back().whileTrue(drivebase.centerModulesCommand());
+    //   driverXbox.leftBumper().onTrue(Commands.none());
+    //   driverXbox.rightBumper().onTrue(Commands.none());
+    // } else {
+    //   driverXbox.a().onTrue((Commands.runOnce(drivebase::zeroGyro)));
+    //   driverXbox.start().whileTrue(Commands.none());
+    //   driverXbox.back().whileTrue(Commands.none());
+    //   driverXbox.leftBumper().whileTrue(Commands.runOnce(drivebase::lock,
+    //       drivebase).repeatedly());
+    //   driverXbox.rightBumper().onTrue(Commands.none());
+    // }
 
   }
 
@@ -275,5 +317,5 @@ public class RobotContainer {
   public void setMotorBrake(boolean brake) {
     drivebase.setMotorBrake(brake);
   }
-  
+
 }
