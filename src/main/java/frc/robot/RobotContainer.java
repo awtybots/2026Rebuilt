@@ -196,7 +196,7 @@ public class RobotContainer {
 
 
     // Swerve Drive Commands
-    driverXbox.start().onTrue((Commands.runOnce(drivebase::zeroGyro)));
+    driverXbox.start().onTrue((Commands.runOnce(drivebase::zeroGyro, drivebase)));
 
     Command driveFieldOrientedDirectAngle = drivebase.driveFieldOriented(driveDirectAngle);
     Command driveFieldOrientedAnglularVelocity = drivebase.driveFieldOriented(driveAngularVelocity);
