@@ -21,17 +21,17 @@ public class Shooter extends SubsystemBase {
 
     // Instantiating the hopper to shooter motor
     private SparkFlex ShooterKickerMotor = new SparkFlex(ShooterConstants.SHOOTER_KICKER_ID, MotorType.kBrushless);
-    private SparkClosedLoopController shooterkickerController = ShooterKickerMotor.getClosedLoopController(); // idk
-                                                                                                              // what
-                                                                                                              // this is
+    private SparkClosedLoopController shooterkickerController = ShooterKickerMotor.getClosedLoopController(); 
 
     private SparkFlex ShooterRightMotor = new SparkFlex(ShooterConstants.SHOOTER_RIGHT_ID, MotorType.kBrushless);
-    private SparkClosedLoopController shooterrightController = ShooterRightMotor.getClosedLoopController(); // idk what
-                                                                                                            // this is
+    private SparkClosedLoopController shooterrightController = ShooterRightMotor.getClosedLoopController(); 
 
     private SparkFlex ShooterLeftMotor = new SparkFlex(ShooterConstants.SHOOTER_LEFT_ID, MotorType.kBrushless);
-    private SparkClosedLoopController shooterleftController = ShooterLeftMotor.getClosedLoopController(); // idk what
-                                                                                                          // this is
+    private SparkClosedLoopController shooterleftController = ShooterLeftMotor.getClosedLoopController(); 
+
+    private SparkFlex HoodMotor = new SparkFlex(ShooterConstants.SHOOTER_LEFT_ID, MotorType.kBrushless);
+    private SparkClosedLoopController HoodController = HoodMotor.getClosedLoopController();
+
 
     public Shooter() {
 
@@ -41,21 +41,39 @@ public class Shooter extends SubsystemBase {
                 PersistMode.kPersistParameters);
         ShooterLeftMotor.configure(Configs.ShooterSubsystem.ShooterLeftMotorConfig, ResetMode.kResetSafeParameters,
                 PersistMode.kPersistParameters);
+        HoodMotor.configure(Configs.ShooterSubsystem.HoodMotorConfig, ResetMode.kResetSafeParameters,
+                PersistMode.kPersistParameters);
 
     }
 
     public void shootFuel() {
         shooterkickerController.setSetpoint(ShooterConstants.KICKER_SPEED, ControlType.kMAXMotionVelocityControl);
-        // Use the closed-loop controller's setSetpoint so the configured PID slot is
-        // used
         shooterrightController.setSetpoint(ShooterConstants.SHOOTER_SPEED, ControlType.kMAXMotionVelocityControl);
         shooterleftController.setSetpoint(ShooterConstants.SHOOTER_SPEED, ControlType.kMAXMotionVelocityControl);
     }
 
     public void stopShooting() {
-        shooterkickerController.setSetpoint(ShooterConstants.STOP, ControlType.kMAXMotionVelocityControl);
-        shooterleftController.setSetpoint(ShooterConstants.STOP, ControlType.kMAXMotionVelocityControl);
-        shooterrightController.setSetpoint(ShooterConstants.STOP, ControlType.kMAXMotionVelocityControl);
+        ShooterLeftMotor.set(ShooterConstants.IDLE);
+        ShooterRightMotor.set(ShooterConstants.IDLE);
+        ShooterKickerMotor.set(ShooterConstants.STOP);
+        // shooterkickerController.setSetpoint(ShooterConstants.STOP, ControlType.kMAXMotionVelocityControl);
+        // shooterleftController.setSetpoint(ShooterConstants.STOP, ControlType.kMAXMotionVelocityControl);
+        // shooterrightController.setSetpoint(ShooterConstants.STOP, ControlType.kMAXMotionVelocityControl);
+    }
+
+    public void RotateHoodUp()
+    {
+        HoodMotor.set(ShooterConstants.HOOD_UP_SPEED);
+    }
+
+    public void RotateHoodDown()
+    {
+        HoodMotor.set(ShooterConstants.HOOD_DOWN_SPEED);
+    }
+
+    public void StopHood()
+    {
+        HoodMotor.set(0);
     }
 
     public Command shootFuelCommand() {
@@ -65,6 +83,18 @@ public class Shooter extends SubsystemBase {
 
     public Command stopShootingCommand() {
         return new RunCommand(() -> stopShooting(), this);
+    }
+
+    public Command RotateHoodUpCommand()
+    {
+        return new RunCommand(() -> RotateHoodUp(), this)
+                .finallyDo(interrupted -> StopHood());
+    }
+
+    public Command RotateHoodDownCommand()
+    {
+        return new RunCommand(() -> RotateHoodDown(), this)
+                .finallyDo(interrupted -> StopHood());
     }
 
     @Override
