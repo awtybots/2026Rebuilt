@@ -3,9 +3,12 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
+import edu.wpi.first.units.Units;
 
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkFlex;
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.ResetMode;
 import com.revrobotics.PersistMode;
 import com.revrobotics.spark.ClosedLoopSlot;
@@ -29,9 +32,36 @@ public class Shooter extends SubsystemBase {
     private SparkFlex ShooterLeftMotor = new SparkFlex(ShooterConstants.SHOOTER_LEFT_ID, MotorType.kBrushless);
     private SparkClosedLoopController shooterleftController = ShooterLeftMotor.getClosedLoopController(); 
 
-    private SparkFlex HoodMotor = new SparkFlex(ShooterConstants.SHOOTER_LEFT_ID, MotorType.kBrushless);
+    private SparkFlex HoodMotor = new SparkFlex(ShooterConstants.HOOD_ID, MotorType.kBrushless);
     private SparkClosedLoopController HoodController = HoodMotor.getClosedLoopController();
 
+    private final RelativeEncoder shooterRightEncoder = ShooterRightMotor.getEncoder();
+    private final RelativeEncoder shooterLeftEncoder = ShooterLeftMotor.getEncoder();
+    private final RelativeEncoder kickerEncoder = ShooterKickerMotor.getEncoder();
+
+    private final SysIdRoutine sysIdRoutine = new SysIdRoutine(
+            new SysIdRoutine.Config(),
+            new SysIdRoutine.Mechanism(
+                    voltage -> {
+                        ShooterRightMotor.setVoltage(voltage);
+                        ShooterLeftMotor.setVoltage(voltage);
+                    },
+                    log -> {
+                        double rightRps = shooterRightEncoder.getVelocity() / 60.0;
+                        double leftRps = shooterLeftEncoder.getVelocity() / 60.0;
+                        double rightVolts = ShooterRightMotor.getAppliedOutput() * ShooterRightMotor.getBusVoltage();
+                        double leftVolts = ShooterLeftMotor.getAppliedOutput() * ShooterLeftMotor.getBusVoltage();
+
+                        log.motor("shooter-right")
+                                .voltage(Units.Volts.of(rightVolts))
+                                .angularPosition(Units.Rotations.of(shooterRightEncoder.getPosition()))
+                                .angularVelocity(Units.RotationsPerSecond.of(rightRps));
+                        log.motor("shooter-left")
+                                .voltage(Units.Volts.of(leftVolts))
+                                .angularPosition(Units.Rotations.of(shooterLeftEncoder.getPosition()))
+                                .angularVelocity(Units.RotationsPerSecond.of(leftRps));
+                    },
+                    this));
 
     public Shooter() {
 
@@ -95,6 +125,26 @@ public class Shooter extends SubsystemBase {
     {
         return new RunCommand(() -> RotateHoodDown(), this)
                 .finallyDo(interrupted -> StopHood());
+    }
+
+    public Command sysIdQuasistaticForward()
+    {
+        return sysIdRoutine.quasistatic(SysIdRoutine.Direction.kForward);
+    }
+
+    public Command sysIdQuasistaticReverse()
+    {
+        return sysIdRoutine.quasistatic(SysIdRoutine.Direction.kReverse);
+    }
+
+    public Command sysIdDynamicForward()
+    {
+        return sysIdRoutine.dynamic(SysIdRoutine.Direction.kForward);
+    }
+
+    public Command sysIdDynamicReverse()
+    {
+        return sysIdRoutine.dynamic(SysIdRoutine.Direction.kReverse);
     }
 
     @Override

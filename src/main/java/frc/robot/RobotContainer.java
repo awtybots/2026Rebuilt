@@ -50,7 +50,7 @@ public class RobotContainer {
   // Instantiate Subsystems
   private final Intake m_intake = new Intake();
   private final Hopper m_hopper = new Hopper();
-//   private final Shooter m_shooter = new Shooter();
+  private final Shooter m_shooter = new Shooter();
 
   // Establish a Sendable Chooser that will be able to be sent to the
   // SmartDashboard, allowing selection of desired auto
@@ -165,6 +165,11 @@ public class RobotContainer {
 
     // Put the autoChooser on the SmartDashboard
     SmartDashboard.putData("Auto Chooser", autoChooser);
+
+    SmartDashboard.putData("SysId/Shooter Quasistatic Forward", m_shooter.sysIdQuasistaticForward());
+    SmartDashboard.putData("SysId/Shooter Quasistatic Reverse", m_shooter.sysIdQuasistaticReverse());
+    SmartDashboard.putData("SysId/Shooter Dynamic Forward", m_shooter.sysIdDynamicForward());
+    SmartDashboard.putData("SysId/Shooter Dynamic Reverse", m_shooter.sysIdDynamicReverse());
   }
 
   /**
@@ -193,6 +198,15 @@ public class RobotContainer {
     // shootFuel.whileTrue(m_shooter.shootFuelCommand());
     // RotateHoodUp.whileTrue(m_shooter.RotateHoodUpCommand());
     // RotateHoodDown.whileTrue(m_shooter.RotateHoodDownCommand());
+
+    // SysId: run shooter quasistatic forward.
+    operatorXbox.a().whileTrue(m_shooter.sysIdQuasistaticForward());
+    // SysId: run shooter quasistatic reverse.
+    operatorXbox.b().whileTrue(m_shooter.sysIdQuasistaticReverse());
+    // SysId: run shooter dynamic forward.
+    operatorXbox.x().whileTrue(m_shooter.sysIdDynamicForward());
+    // SysId: run shooter dynamic reverse.
+    operatorXbox.y().whileTrue(m_shooter.sysIdDynamicReverse());
 
 
     // Swerve Drive Commands
