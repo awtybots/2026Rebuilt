@@ -29,7 +29,7 @@ public class Shooter extends SubsystemBase {
     private SparkFlex ShooterLeftMotor = new SparkFlex(ShooterConstants.SHOOTER_LEFT_ID, MotorType.kBrushless);
     private SparkClosedLoopController shooterleftController = ShooterLeftMotor.getClosedLoopController(); 
 
-    private SparkFlex HoodMotor = new SparkFlex(ShooterConstants.SHOOTER_LEFT_ID, MotorType.kBrushless);
+    private SparkFlex HoodMotor = new SparkFlex(ShooterConstants.HOOD_ID, MotorType.kBrushless);
     private SparkClosedLoopController HoodController = HoodMotor.getClosedLoopController();
 
 
