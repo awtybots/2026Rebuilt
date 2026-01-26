@@ -36,7 +36,7 @@ public class Robot extends LoggedRobot
     instance = this;
     Logger.recordMetadata("ProjectName", "2026Rebuilt");
     Logger.recordMetadata("GitSHA", BuildConstants.GIT_SHA);
-    Logger.recordMetadata("GitDirty", Boolean.toString(BuildConstants.DIRTY));
+    Logger.recordMetadata("GitDirty", Boolean.toString(BuildConstants.DIRTY != 0));
     if (isReal())
     {
       Logger.addDataReceiver(new WPILOGWriter());
