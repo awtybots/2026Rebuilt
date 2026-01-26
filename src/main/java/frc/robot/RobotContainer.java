@@ -24,6 +24,8 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.io.File;
+import java.util.function.BooleanSupplier;
+
 import swervelib.SwerveInputStream;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
@@ -59,6 +61,7 @@ public class RobotContainer {
   private double headingHoldSetpointRad = 0.0;
   private boolean headingHoldLatched = false;
 
+
   // Establish a Sendable Chooser that will be able to be sent to the
   // SmartDashboard, allowing selection of desired auto
   private final SendableChooser<Command> autoChooser;
@@ -74,6 +77,17 @@ public class RobotContainer {
       .deadband(OperatorConstants.DEADBAND)
       .scaleTranslation(0.8)
       .allianceRelativeControl(true);
+    
+    SwerveInputStream driveAngularVelocityslower = SwerveInputStream.of(drivebase.getSwerveDrive(),
+      () -> driverXbox.getLeftY() * -1,
+      () -> driverXbox.getLeftX() * -1)
+      .withControllerRotationAxis(driverXbox::getRightX)
+      .deadband(OperatorConstants.DEADBAND)
+      .scaleTranslation(0.3)
+      .allianceRelativeControl(true)
+      .scaleRotation(0.5);
+
+    
 
   /**
    * Clone's the angular velocity input stream and converts it to a fieldRelative
@@ -126,7 +140,7 @@ public class RobotContainer {
   // Shooter
   private final Trigger shootFuel = driverXbox.y();
   private final Trigger RotateHoodUp = driverXbox.rightTrigger();
-  private final Trigger RotateHoodDown = driverXbox.leftTrigger();
+  private final Trigger RotateHoodDown = driverXbox.b();
 
   // Intake
   private final Trigger runIntake = driverXbox.x();
@@ -135,6 +149,8 @@ public class RobotContainer {
   // Hopper
   private final Trigger HopperToShooter = driverXbox.rightBumper();
   private final Trigger ReverseHopper = driverXbox.leftBumper();
+
+  private final Trigger slowTrigger = driverXbox.rightTrigger(0.15);
 
   // private final Trigger forwardHopper = driverXbox.leftBumper();
   // private final Trigger reverseHopper = driverXbox.rightBumper();
@@ -209,6 +225,7 @@ public class RobotContainer {
 
     Command driveFieldOrientedDirectAngle = drivebase.driveFieldOriented(driveDirectAngle);
     Command driveFieldOrientedAnglularVelocity = drivebase.driveFieldOriented(driveAngularVelocity);
+    Command driveFieldOrientedAngularVelocityslower = drivebase.driveFieldOriented(driveAngularVelocityslower);
     Command driveRobotOrientedAngularVelocity = drivebase.driveFieldOriented(driveRobotOriented);
     Command driveSetpointGen = drivebase.driveWithSetpointGeneratorFieldRelative(
         driveDirectAngle);
@@ -254,6 +271,7 @@ public class RobotContainer {
     if (RobotBase.isSimulation()) {
       drivebase.setDefaultCommand(driveFieldOrientedDirectAngleKeyboard);
     } else {
+      
       drivebase.setDefaultCommand(driveFieldOrientedAnglularVelocity);
       // drivebase.setDefaultCommand(teleop);
     }
@@ -300,6 +318,8 @@ public class RobotContainer {
     //       drivebase).repeatedly());
     //   driverXbox.rightBumper().onTrue(Commands.none());
     // }
+
+   slowTrigger.whileTrue(driveFieldOrientedAngularVelocityslower);
 
   }
 
