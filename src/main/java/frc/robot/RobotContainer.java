@@ -25,6 +25,8 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.io.File;
 import swervelib.SwerveInputStream;
+import org.littletonrobotics.junction.Logger;
+import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Hopper;
@@ -55,6 +57,7 @@ public class RobotContainer {
   // Establish a Sendable Chooser that will be able to be sent to the
   // SmartDashboard, allowing selection of desired auto
   private final SendableChooser<Command> autoChooser;
+  private LoggedDashboardChooser<Command> loggedAutoChooser;
 
   /**
    * Converts driver input into a field-relative ChassisSpeeds that is controlled
@@ -165,6 +168,8 @@ public class RobotContainer {
 
     // Put the autoChooser on the SmartDashboard
     SmartDashboard.putData("Auto Chooser", autoChooser);
+
+    loggedAutoChooser = new LoggedDashboardChooser<>("Auto Routine", autoChooser);
 
     SmartDashboard.putData("SysId/Shooter Quasistatic Forward", m_shooter.sysIdQuasistaticForward());
     SmartDashboard.putData("SysId/Shooter Quasistatic Reverse", m_shooter.sysIdQuasistaticReverse());
@@ -283,11 +288,28 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // Pass in the selected auto from the SmartDashboard as our desired autnomous
     // commmand
-    return autoChooser.getSelected();
+    return loggedAutoChooser.get();
   }
 
   public void setMotorBrake(boolean brake) {
     drivebase.setMotorBrake(brake);
+  }
+
+  public void logControllerInputs()
+  {
+    Logger.recordOutput("Input/Driver/LeftX", driverXbox.getLeftX());
+    Logger.recordOutput("Input/Driver/LeftY", driverXbox.getLeftY());
+    Logger.recordOutput("Input/Driver/RightX", driverXbox.getRightX());
+    Logger.recordOutput("Input/Driver/RightY", driverXbox.getRightY());
+    Logger.recordOutput("Input/Driver/LeftTrigger", driverXbox.getLeftTriggerAxis());
+    Logger.recordOutput("Input/Driver/RightTrigger", driverXbox.getRightTriggerAxis());
+
+    Logger.recordOutput("Input/Operator/LeftX", operatorXbox.getLeftX());
+    Logger.recordOutput("Input/Operator/LeftY", operatorXbox.getLeftY());
+    Logger.recordOutput("Input/Operator/RightX", operatorXbox.getRightX());
+    Logger.recordOutput("Input/Operator/RightY", operatorXbox.getRightY());
+    Logger.recordOutput("Input/Operator/LeftTrigger", operatorXbox.getLeftTriggerAxis());
+    Logger.recordOutput("Input/Operator/RightTrigger", operatorXbox.getRightTriggerAxis());
   }
   
 }

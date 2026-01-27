@@ -10,6 +10,9 @@ import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.ResetMode;
+
+import org.littletonrobotics.junction.Logger;
+
 import com.revrobotics.PersistMode;
 import com.revrobotics.spark.ClosedLoopSlot;
 import com.revrobotics.REVLibError;
@@ -38,6 +41,9 @@ public class Shooter extends SubsystemBase {
     private final RelativeEncoder shooterRightEncoder = ShooterRightMotor.getEncoder();
     private final RelativeEncoder shooterLeftEncoder = ShooterLeftMotor.getEncoder();
     private final RelativeEncoder kickerEncoder = ShooterKickerMotor.getEncoder();
+
+        private double targetRPM = 0.0;
+    private double targetKickerRPM = 0.0;
 
     private final SysIdRoutine sysIdRoutine = new SysIdRoutine(
             new SysIdRoutine.Config(),
@@ -77,12 +83,16 @@ public class Shooter extends SubsystemBase {
     }
 
     public void shootFuel() {
+        targetRPM = ShooterConstants.SHOOTER_SPEED;
+        targetKickerRPM = ShooterConstants.KICKER_SPEED;
         shooterkickerController.setSetpoint(ShooterConstants.KICKER_SPEED, ControlType.kMAXMotionVelocityControl);
         shooterrightController.setSetpoint(ShooterConstants.SHOOTER_SPEED, ControlType.kMAXMotionVelocityControl);
         shooterleftController.setSetpoint(ShooterConstants.SHOOTER_SPEED, ControlType.kMAXMotionVelocityControl);
     }
 
     public void stopShooting() {
+         targetRPM = 0.0;
+        targetKickerRPM = 0.0;
         ShooterLeftMotor.set(ShooterConstants.IDLE);
         ShooterRightMotor.set(ShooterConstants.IDLE);
         ShooterKickerMotor.set(ShooterConstants.STOP);
@@ -107,6 +117,7 @@ public class Shooter extends SubsystemBase {
     }
 
     public Command shootFuelCommand() {
+         
         return new RunCommand(() -> shootFuel(), this)
                 .finallyDo(interrupted -> stopShooting());
     }
@@ -147,7 +158,23 @@ public class Shooter extends SubsystemBase {
         return sysIdRoutine.dynamic(SysIdRoutine.Direction.kReverse);
     }
 
+   
     @Override
     public void periodic() {
+        // AdvantageKit Logging
+        double rightRPM = ShooterRightMotor.getEncoder().getVelocity();
+        double leftRPM = ShooterLeftMotor.getEncoder().getVelocity();
+        double kickerRPM = ShooterKickerMotor.getEncoder().getVelocity();
+
+        Logger.recordOutput("Shooter/RightRPM", rightRPM);
+        Logger.recordOutput("Shooter/LeftRPM", leftRPM);
+        Logger.recordOutput("Shooter/KickerRPM", kickerRPM);
+
+        Logger.recordOutput("Shooter/TargetRPM", targetRPM);
+        Logger.recordOutput("Shooter/TargetKickerRPM", targetKickerRPM);
+
+        Logger.recordOutput("Shooter/RightAppliedVolts", ShooterRightMotor.getAppliedOutput() * ShooterRightMotor.getBusVoltage());
+        Logger.recordOutput("Shooter/LeftAppliedVolts", ShooterLeftMotor.getAppliedOutput() * ShooterLeftMotor.getBusVoltage());
+        Logger.recordOutput("Shooter/KickerAppliedVolts", ShooterKickerMotor.getAppliedOutput() * ShooterKickerMotor.getBusVoltage());
     }
 }

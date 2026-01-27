@@ -12,7 +12,12 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 
 import frc.robot.Constants.HopperConstants;
 import frc.robot.Configs;
+import org.littletonrobotics.junction.Logger;
 public class Hopper extends SubsystemBase {
+
+    // AdvantageKit logging
+    private double pushdownDesiredPercent = 0.0;
+    private double transferDesiredPercent = 0.0;
 
     // Instantiates push down and transfer motors
     private SparkFlex HopperPushDownMotor = new SparkFlex(HopperConstants.HOPPER_PUSHDOWN_ID, MotorType.kBrushless);
@@ -27,14 +32,20 @@ public class Hopper extends SubsystemBase {
     }
 
     public void HopperToShooter(){
+        pushdownDesiredPercent = HopperConstants.HOPPER_PUSHDOWN_SPEED;
+        transferDesiredPercent = HopperConstants.HOPPER_TRANSFER_SPEED;
         HopperPushDownMotor.set(HopperConstants.HOPPER_PUSHDOWN_SPEED);
         HopperTransferMotor.set(HopperConstants.HOPPER_TRANSFER_SPEED);
     }
     public void ReverseHopper(){ 
+        pushdownDesiredPercent = HopperConstants.REVERSE_HOPPER_PUSHDOWN_SPEED;
+        transferDesiredPercent = HopperConstants.REVERSE_HOPPER_TRANSFER_SPEED;
         HopperPushDownMotor.set(HopperConstants.REVERSE_HOPPER_PUSHDOWN_SPEED);
         HopperTransferMotor.set(HopperConstants.REVERSE_HOPPER_TRANSFER_SPEED);
     }
     public void stopHopper(){
+        pushdownDesiredPercent = 0.0;
+        transferDesiredPercent = 0.0;
         HopperPushDownMotor.set(0);
         HopperTransferMotor.set(0);
     }
@@ -51,5 +62,10 @@ public class Hopper extends SubsystemBase {
 
     @Override
     public void periodic() {
+        // AdvantageKit Logging
+        Logger.recordOutput("Hopper/PushdownDesiredPercent", pushdownDesiredPercent);
+        Logger.recordOutput("Hopper/TransferDesiredPercent", transferDesiredPercent);
+        Logger.recordOutput("Hopper/PushdownAppliedVolts", HopperPushDownMotor.getAppliedOutput() * HopperPushDownMotor.getBusVoltage());
+        Logger.recordOutput("Hopper/TransferAppliedVolts", HopperTransferMotor.getAppliedOutput() * HopperTransferMotor.getBusVoltage());
     }
 }
