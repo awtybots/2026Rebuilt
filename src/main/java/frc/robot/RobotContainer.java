@@ -26,6 +26,7 @@ import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.io.File;
 import swervelib.SwerveInputStream;
 import org.littletonrobotics.junction.Logger;
+import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Hopper;
@@ -56,6 +57,7 @@ public class RobotContainer {
   // Establish a Sendable Chooser that will be able to be sent to the
   // SmartDashboard, allowing selection of desired auto
   private final SendableChooser<Command> autoChooser;
+  private LoggedDashboardChooser<Command> loggedAutoChooser;
 
   /**
    * Converts driver input into a field-relative ChassisSpeeds that is controlled
@@ -166,6 +168,8 @@ public class RobotContainer {
 
     // Put the autoChooser on the SmartDashboard
     SmartDashboard.putData("Auto Chooser", autoChooser);
+
+    loggedAutoChooser = new LoggedDashboardChooser<>("Auto Routine", autoChooser);
 
     SmartDashboard.putData("SysId/Shooter Quasistatic Forward", m_shooter.sysIdQuasistaticForward());
     SmartDashboard.putData("SysId/Shooter Quasistatic Reverse", m_shooter.sysIdQuasistaticReverse());
@@ -284,7 +288,7 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // Pass in the selected auto from the SmartDashboard as our desired autnomous
     // commmand
-    return autoChooser.getSelected();
+    return loggedAutoChooser.get();
   }
 
   public void setMotorBrake(boolean brake) {
