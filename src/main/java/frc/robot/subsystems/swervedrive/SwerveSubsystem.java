@@ -49,6 +49,7 @@ import swervelib.parser.SwerveDriveConfiguration;
 import swervelib.parser.SwerveParser;
 import swervelib.telemetry.SwerveDriveTelemetry;
 import swervelib.telemetry.SwerveDriveTelemetry.TelemetryVerbosity;
+import org.littletonrobotics.junction.Logger;
 
 public class SwerveSubsystem extends SubsystemBase
 {
@@ -56,6 +57,10 @@ public class SwerveSubsystem extends SubsystemBase
    * Swerve drive object.
    */
   private final SwerveDrive swerveDrive;
+
+  // AdvantageKit: last commanded chassis speeds (used for logging)
+  private volatile ChassisSpeeds lastCommandedRobotVelocity = new ChassisSpeeds();
+  private volatile ChassisSpeeds lastCommandedFieldVelocity = new ChassisSpeeds();
 
   /**
    * Initialize {@link SwerveDrive} with the directory provided.
@@ -72,7 +77,7 @@ public class SwerveSubsystem extends SubsystemBase
                                                                       Meter.of(4)),
                                                     Rotation2d.fromDegrees(180));
     // Configure the Telemetry before creating the SwerveDrive to avoid unnecessary objects being created.
-    SwerveDriveTelemetry.verbosity = TelemetryVerbosity.HIGH;
+    SwerveDriveTelemetry.verbosity = TelemetryVerbosity.LOW;
     try
     {
       swerveDrive = new SwerveParser(directory).createSwerveDrive(Constants.MAX_SPEED, startingPose);
@@ -84,13 +89,14 @@ public class SwerveSubsystem extends SubsystemBase
     }
     swerveDrive.setHeadingCorrection(false); // Heading correction should only be used while controlling the robot via angle.
     swerveDrive.setCosineCompensator(false);//!SwerveDriveTelemetry.isSimulation); // Disables cosine compensation for simulations since it causes discrepancies not seen in real life.
-    swerveDrive.setAngularVelocityCompensation(true,
-                                               true,
-                                               0.1); //Correct for skew that gets worse as angular velocity increases. Start with a coefficient of 0.1.
+    swerveDrive.setAngularVelocityCompensation(false,
+                                               false,
+                                               0.8); //Correct for skew that gets worse as angular velocity increases. Start with a coefficient of 0.1.
     swerveDrive.setModuleEncoderAutoSynchronize(false,
                                                 1); // Enable if you want to resynchronize your absolute encoders and motor encoders periodically when they are not moving.
     // swerveDrive.pushOffsetsToEncoders(); // Set the absolute encoder to be used over the internal encoder and push the offsets onto it. Throws warning if not possible
 
+    swerveDrive.setChassisDiscretization(true, 0.02);
     setupPathPlanner();
   }
 
@@ -112,6 +118,43 @@ public class SwerveSubsystem extends SubsystemBase
   @Override
   public void periodic()
   {
+    // -----------------------
+    // AdvantageKit Logging
+    // -----------------------
+    Pose2d pose = getPose();
+    Logger.recordOutput("Drive/Pose", pose);
+    Logger.recordOutput("Odometry/Robot", pose);
+
+    // Heading values (degrees). Note: in this project getHeading() is derived from odometry pose.
+    Logger.recordOutput("Drive/Heading", getHeading().getDegrees());
+    Logger.recordOutput("Drive/OdometryHeading", pose.getRotation().getDegrees());
+
+    ChassisSpeeds robotVel = getRobotVelocity();
+    ChassisSpeeds fieldVel = getFieldVelocity();
+    Logger.recordOutput("Drive/RobotVelocity", new double[] {
+        robotVel.vxMetersPerSecond,
+        robotVel.vyMetersPerSecond,
+        robotVel.omegaRadiansPerSecond
+    });
+    Logger.recordOutput("Drive/FieldVelocity", new double[] {
+        fieldVel.vxMetersPerSecond,
+        fieldVel.vyMetersPerSecond,
+        fieldVel.omegaRadiansPerSecond
+    });
+
+    Logger.recordOutput("Drive/CommandedRobotVelocity", new double[] {
+        lastCommandedRobotVelocity.vxMetersPerSecond,
+        lastCommandedRobotVelocity.vyMetersPerSecond,
+        lastCommandedRobotVelocity.omegaRadiansPerSecond
+    });
+    Logger.recordOutput("Drive/CommandedFieldVelocity", new double[] {
+        lastCommandedFieldVelocity.vxMetersPerSecond,
+        lastCommandedFieldVelocity.vyMetersPerSecond,
+        lastCommandedFieldVelocity.omegaRadiansPerSecond
+    });
+
+    // Module states
+    Logger.recordOutput("Drive/ModuleStates", swerveDrive.getStates());
   }
 
   @Override
@@ -141,6 +184,13 @@ public class SwerveSubsystem extends SubsystemBase
           this::getRobotVelocity,
           // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
           (speedsRobotRelative, moduleFeedForwards) -> {
+            // AdvantageKit: store commanded speeds from PathPlanner (robot-relative)
+            lastCommandedRobotVelocity = speedsRobotRelative;
+            lastCommandedFieldVelocity = ChassisSpeeds.fromRobotRelativeSpeeds(
+                speedsRobotRelative.vxMetersPerSecond,
+                speedsRobotRelative.vyMetersPerSecond,
+                speedsRobotRelative.omegaRadiansPerSecond,
+                getHeading());
             if (enableFeedforward)
             {
               swerveDrive.drive(
@@ -223,10 +273,6 @@ public class SwerveSubsystem extends SubsystemBase
                                      );
   }
 
-  public Command driveToPose (Supplier<Pose2d> pose)
-  {
-    return defer(()-> driveToPose(pose.get()));
-  }
   /**
    * Drive with {@link SwerveSetpointGenerator} from 254, implemented by PathPlanner.
    *
@@ -436,7 +482,14 @@ public class SwerveSubsystem extends SubsystemBase
   public Command driveFieldOriented(Supplier<ChassisSpeeds> velocity)
   {
     return run(() -> {
-      swerveDrive.driveFieldOriented(velocity.get());
+      ChassisSpeeds field = velocity.get();
+      lastCommandedFieldVelocity = field;
+      lastCommandedRobotVelocity = ChassisSpeeds.fromFieldRelativeSpeeds(
+          field.vxMetersPerSecond,
+          field.vyMetersPerSecond,
+          field.omegaRadiansPerSecond,
+          getHeading());
+      swerveDrive.driveFieldOriented(field);
     });
   }
 
@@ -447,6 +500,12 @@ public class SwerveSubsystem extends SubsystemBase
    */
   public void drive(ChassisSpeeds velocity)
   {
+    lastCommandedRobotVelocity = velocity;
+    lastCommandedFieldVelocity = ChassisSpeeds.fromRobotRelativeSpeeds(
+        velocity.vxMetersPerSecond,
+        velocity.vyMetersPerSecond,
+        velocity.omegaRadiansPerSecond,
+        getHeading());
     swerveDrive.drive(velocity);
   }
 
