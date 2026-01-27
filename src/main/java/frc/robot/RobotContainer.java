@@ -49,9 +49,9 @@ public class RobotContainer {
       "swerve"));
 
   // Instantiate Subsystems
-  private final Intake m_intake = new Intake();
-  private final Hopper m_hopper = new Hopper();
-  private final Shooter m_shooter = new Shooter();
+  // private final Intake m_intake = new Intake();
+  // private final Hopper m_hopper = new Hopper();
+  // private final Shooter m_shooter = new Shooter();
 
   // Establish a Sendable Chooser that will be able to be sent to the
   // SmartDashboard, allowing selection of desired auto
@@ -144,16 +144,18 @@ public class RobotContainer {
     configureBindings();
     DriverStation.silenceJoystickConnectionWarning(true);
     SmartDashboard.putNumber("Heading Bias Deg", 0.0);
+    // Tunable gain: radians of bias -> radians/sec of angular velocity
+    SmartDashboard.putNumber("Heading Bias Gain", 0.5);
 
     // Create the NamedCommands that will be used in PathPlanner
     NamedCommands.registerCommand("test", Commands.print("I EXIST"));
-    NamedCommands.registerCommand("shoot67", m_shooter.shootFuelCommand().withTimeout(6.7));
-    NamedCommands.registerCommand("hoodup67", m_shooter.RotateHoodUpCommand().withTimeout(6.7));
-    NamedCommands.registerCommand("hooddown41", m_shooter.RotateHoodDownCommand().withTimeout(6.7));
-    NamedCommands.registerCommand("hopper67", m_hopper.runHopperToShooterCommand().withTimeout(6.7));
-    NamedCommands.registerCommand("hopper41", m_hopper.runReverseHopperCommand().withTimeout(6.7));
-    NamedCommands.registerCommand("intake67", m_intake.runIntakeCommand().withTimeout(6.7));
-    NamedCommands.registerCommand("intake41", m_intake.runOuttakeCommand().withTimeout(6.7));
+    // NamedCommands.registerCommand("shoot67", m_shooter.shootFuelCommand().withTimeout(6.7));
+    // NamedCommands.registerCommand("hoodup67", m_shooter.RotateHoodUpCommand().withTimeout(6.7));
+    // NamedCommands.registerCommand("hooddown41", m_shooter.RotateHoodDownCommand().withTimeout(6.7));
+    // NamedCommands.registerCommand("hopper67", m_hopper.runHopperToShooterCommand().withTimeout(6.7));
+    // NamedCommands.registerCommand("hopper41", m_hopper.runReverseHopperCommand().withTimeout(6.7));
+    // NamedCommands.registerCommand("intake67", m_intake.runIntakeCommand().withTimeout(6.7));
+    // NamedCommands.registerCommand("intake41", m_intake.runOuttakeCommand().withTimeout(6.7));
 
     // Have the autoChooser pull in all PathPlanner autos as options
     autoChooser = AutoBuilder.buildAutoChooser();
@@ -184,17 +186,17 @@ public class RobotContainer {
    */
   private void configureBindings() {
     // Intake Commands
-    runIntake.whileTrue(m_intake.runIntakeCommand());
-    runOuttake.whileTrue(m_intake.runOuttakeCommand());
+    // runIntake.whileTrue(m_intake.runIntakeCommand());
+    // runOuttake.whileTrue(m_intake.runOuttakeCommand());
 
-    // Hopper Commands
-    HopperToShooter.whileTrue(m_hopper.runHopperToShooterCommand());
-    ReverseHopper.whileTrue(m_hopper.runReverseHopperCommand());
+    // // Hopper Commands
+    // HopperToShooter.whileTrue(m_hopper.runHopperToShooterCommand());
+    // ReverseHopper.whileTrue(m_hopper.runReverseHopperCommand());
 
-    // Shooter Commands
-    shootFuel.whileTrue(m_shooter.shootFuelCommand());
-    RotateHoodUp.whileTrue(m_shooter.RotateHoodUpCommand());
-    RotateHoodDown.whileTrue(m_shooter.RotateHoodDownCommand());
+    // // Shooter Commands
+    // shootFuel.whileTrue(m_shooter.shootFuelCommand());
+    // RotateHoodUp.whileTrue(m_shooter.RotateHoodUpCommand());
+    // RotateHoodDown.whileTrue(m_shooter.RotateHoodDownCommand());
 
 
     // Swerve Drive Commands
@@ -282,13 +284,20 @@ public class RobotContainer {
   }
 
   private ChassisSpeeds applyHeadingBias(ChassisSpeeds speeds) {
-    double biasDeg = SmartDashboard.getNumber("Heading Bias Deg", 0.0);
-    if (biasDeg == 0.0) {
-      return speeds;
-    }
-    Rotation2d bias = Rotation2d.fromDegrees(biasDeg);
-    Translation2d biased = new Translation2d(speeds.vxMetersPerSecond, speeds.vyMetersPerSecond).rotateBy(bias);
-    return new ChassisSpeeds(biased.getX(), biased.getY(), speeds.omegaRadiansPerSecond);
+        double biasDeg = SmartDashboard.getNumber("Heading Bias Deg", 0.0);
+        if (biasDeg == 0.0) {
+            return speeds;
+        }
+        // Read a tunable gain (radians of bias -> radians/sec of angular velocity)
+        double gain = SmartDashboard.getNumber("Heading Bias Gain", 0.5);
+        // Convert requested bias (degrees) to radians and compute an angular velocity to add
+        double biasRad = Units.degreesToRadians(biasDeg);
+        double additionalOmega = gain * biasRad;
+
+        // Do NOT rotate the translation vector anymore (that caused drifting). Instead
+        // leave vx/vy alone and add an angular velocity component in the bias direction.
+        return new ChassisSpeeds(speeds.vxMetersPerSecond, speeds.vyMetersPerSecond,
+                speeds.omegaRadiansPerSecond + additionalOmega);
   }
   
 }
