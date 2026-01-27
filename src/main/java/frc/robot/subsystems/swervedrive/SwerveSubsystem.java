@@ -128,6 +128,7 @@ public class SwerveSubsystem extends SubsystemBase
     // Heading values as structs for AdvantageScope.
     Logger.recordOutput("Drive/Heading", getHeading());
     Logger.recordOutput("Drive/OdometryHeading", pose.getRotation());
+    Logger.recordOutput("Drive/GyroYaw", swerveDrive.getYaw());
 
     ChassisSpeeds robotVel = getRobotVelocity();
     ChassisSpeeds fieldVel = getFieldVelocity();
