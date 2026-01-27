@@ -125,33 +125,17 @@ public class SwerveSubsystem extends SubsystemBase
     Logger.recordOutput("Drive/Pose", pose);
     Logger.recordOutput("Odometry/Robot", pose);
 
-    // Heading values (degrees). Note: in this project getHeading() is derived from odometry pose.
-    Logger.recordOutput("Drive/Heading", getHeading().getDegrees());
-    Logger.recordOutput("Drive/OdometryHeading", pose.getRotation().getDegrees());
+    // Heading values as structs for AdvantageScope.
+    Logger.recordOutput("Drive/Heading", getHeading());
+    Logger.recordOutput("Drive/OdometryHeading", pose.getRotation());
 
     ChassisSpeeds robotVel = getRobotVelocity();
     ChassisSpeeds fieldVel = getFieldVelocity();
-    Logger.recordOutput("Drive/RobotVelocity", new double[] {
-        robotVel.vxMetersPerSecond,
-        robotVel.vyMetersPerSecond,
-        robotVel.omegaRadiansPerSecond
-    });
-    Logger.recordOutput("Drive/FieldVelocity", new double[] {
-        fieldVel.vxMetersPerSecond,
-        fieldVel.vyMetersPerSecond,
-        fieldVel.omegaRadiansPerSecond
-    });
+    Logger.recordOutput("Drive/RobotVelocity", robotVel);
+    Logger.recordOutput("Drive/FieldVelocity", fieldVel);
 
-    Logger.recordOutput("Drive/CommandedRobotVelocity", new double[] {
-        lastCommandedRobotVelocity.vxMetersPerSecond,
-        lastCommandedRobotVelocity.vyMetersPerSecond,
-        lastCommandedRobotVelocity.omegaRadiansPerSecond
-    });
-    Logger.recordOutput("Drive/CommandedFieldVelocity", new double[] {
-        lastCommandedFieldVelocity.vxMetersPerSecond,
-        lastCommandedFieldVelocity.vyMetersPerSecond,
-        lastCommandedFieldVelocity.omegaRadiansPerSecond
-    });
+    Logger.recordOutput("Drive/CommandedRobotVelocity", lastCommandedRobotVelocity);
+    Logger.recordOutput("Drive/CommandedFieldVelocity", lastCommandedFieldVelocity);
 
     // Module states
     Logger.recordOutput("Drive/ModuleStates", swerveDrive.getStates());
