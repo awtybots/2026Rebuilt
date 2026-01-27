@@ -175,10 +175,10 @@ public class RobotContainer {
 
     loggedAutoChooser = new LoggedDashboardChooser<>("Auto Routine", autoChooser);
 
-    SmartDashboard.putData("SysId/Shooter Quasistatic Forward", m_shooter.sysIdQuasistaticForward());
-    SmartDashboard.putData("SysId/Shooter Quasistatic Reverse", m_shooter.sysIdQuasistaticReverse());
-    SmartDashboard.putData("SysId/Shooter Dynamic Forward", m_shooter.sysIdDynamicForward());
-    SmartDashboard.putData("SysId/Shooter Dynamic Reverse", m_shooter.sysIdDynamicReverse());
+    // SmartDashboard.putData("SysId/Shooter Quasistatic Forward", m_shooter.sysIdQuasistaticForward());
+    // SmartDashboard.putData("SysId/Shooter Quasistatic Reverse", m_shooter.sysIdQuasistaticReverse());
+    // SmartDashboard.putData("SysId/Shooter Dynamic Forward", m_shooter.sysIdDynamicForward());
+    // SmartDashboard.putData("SysId/Shooter Dynamic Reverse", m_shooter.sysIdDynamicReverse());
   }
 
   /**
