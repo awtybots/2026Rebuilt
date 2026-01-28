@@ -61,6 +61,9 @@ public class SwerveSubsystem extends SubsystemBase
   // AdvantageKit: last commanded chassis speeds (used for logging)
   private volatile ChassisSpeeds lastCommandedRobotVelocity = new ChassisSpeeds();
   private volatile ChassisSpeeds lastCommandedFieldVelocity = new ChassisSpeeds();
+  // Track yaw over time to estimate yaw rate for logs.
+  private double lastYawRadians = 0.0;
+  private double lastYawTimeSec = 0.0;
 
   /**
    * Initialize {@link SwerveDrive} with the directory provided.
@@ -87,7 +90,8 @@ public class SwerveSubsystem extends SubsystemBase
     {
       throw new RuntimeException(e);
     }
-    swerveDrive.setHeadingCorrection(false); // Heading correction should only be used while controlling the robot via angle.
+    // Enable heading correction to reduce drift when rotation input is near zero.
+    swerveDrive.setHeadingCorrection(true);
     swerveDrive.setCosineCompensator(false);//!SwerveDriveTelemetry.isSimulation); // Disables cosine compensation for simulations since it causes discrepancies not seen in real life.
     swerveDrive.setAngularVelocityCompensation(false,
                                                false,
@@ -113,6 +117,8 @@ public class SwerveSubsystem extends SubsystemBase
                                   Constants.MAX_SPEED,
                                   new Pose2d(new Translation2d(Meter.of(2), Meter.of(0)),
                                              Rotation2d.fromDegrees(0)));
+    // Keep behavior consistent in the alternate constructor.
+    swerveDrive.setHeadingCorrection(true);
   }
 
   @Override
@@ -122,24 +128,64 @@ public class SwerveSubsystem extends SubsystemBase
     // AdvantageKit Logging
     // -----------------------
     Pose2d pose = getPose();
+    // Robot pose in field coordinates (x/y meters, yaw degrees).
     Logger.recordOutput("Drive/Pose", pose);
+    // Duplicate pose for compatibility with older dashboards.
     Logger.recordOutput("Odometry/Robot", pose);
 
     // Heading values as structs for AdvantageScope.
+    // Estimated heading from pose estimator (preferred for field-relative).
     Logger.recordOutput("Drive/Heading", getHeading());
+    // Raw odometry rotation (same as Drive/Heading).
     Logger.recordOutput("Drive/OdometryHeading", pose.getRotation());
+    // IMU yaw in degrees; should stay constant when driving straight.
     Logger.recordOutput("Drive/GyroYaw", swerveDrive.getYaw());
+    // IMU pitch in degrees; should change on ramps/tilt, not straight drive.
+    Logger.recordOutput("Drive/GyroPitch", swerveDrive.getPitch());
+    // IMU roll in degrees; should change on side tilt, not straight drive.
+    Logger.recordOutput("Drive/GyroRoll", swerveDrive.getRoll());
+    // Full IMU rotation (roll/pitch/yaw) as a Rotation3d.
+    Logger.recordOutput("Drive/GyroRotation3d", swerveDrive.getGyroRotation3d());
+
+    // Yaw rate estimate (deg/sec); near zero when driving straight.
+    double now = Timer.getFPGATimestamp();
+    double yawRad = swerveDrive.getYaw().getRadians();
+    double dt = now - lastYawTimeSec;
+    double yawRateDegPerSec = 0.0;
+    if (dt > 1e-3)
+    {
+      yawRateDegPerSec = Units.radiansToDegrees((yawRad - lastYawRadians) / dt);
+      lastYawRadians = yawRad;
+      lastYawTimeSec = now;
+    } else if (lastYawTimeSec == 0.0)
+    {
+      // Initialize on first loop.
+      lastYawRadians = yawRad;
+      lastYawTimeSec = now;
+    }
+    Logger.recordOutput("Drive/YawRateDegPerSec", yawRateDegPerSec);
 
     ChassisSpeeds robotVel = getRobotVelocity();
     ChassisSpeeds fieldVel = getFieldVelocity();
+    // Measured chassis velocity in robot frame (vx/vy/omega).
     Logger.recordOutput("Drive/RobotVelocity", robotVel);
+    // Measured chassis velocity in field frame (vx/vy/omega).
     Logger.recordOutput("Drive/FieldVelocity", fieldVel);
 
+    // Commanded chassis velocity in robot frame (vx/vy/omega).
     Logger.recordOutput("Drive/CommandedRobotVelocity", lastCommandedRobotVelocity);
+    // Commanded chassis velocity in field frame (vx/vy/omega).
     Logger.recordOutput("Drive/CommandedFieldVelocity", lastCommandedFieldVelocity);
+    // Commanded rotational rate (rad/sec); should be ~0 when no turn input.
+    Logger.recordOutput("Drive/CommandedOmega", lastCommandedRobotVelocity.omegaRadiansPerSecond);
+    // Measured rotational rate (rad/sec); should match commanded omega.
+    Logger.recordOutput("Drive/ActualOmega", robotVel.omegaRadiansPerSecond);
 
     // Module states
+    // Desired module states (speed + angle) from kinematics.
     Logger.recordOutput("Drive/ModuleStates", swerveDrive.getStates());
+    // Measured module positions (drive distance + angle).
+    Logger.recordOutput("Drive/ModulePositions", swerveDrive.getModulePositions());
   }
 
   @Override

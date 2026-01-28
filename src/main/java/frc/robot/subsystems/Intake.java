@@ -58,7 +58,9 @@ public class Intake extends SubsystemBase {
     @Override
     public void periodic() {
         // AdvantageKit Logging
+        // Commanded intake motor percent output.
         Logger.recordOutput("Intake/DesiredPercent", desiredPercent);
+        // Applied voltage to intake motor.
         Logger.recordOutput("Intake/AppliedVolts", intakeMotor.getAppliedOutput() * intakeMotor.getBusVoltage());
     }
 }

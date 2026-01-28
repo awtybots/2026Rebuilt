@@ -295,36 +295,55 @@ public class RobotContainer {
 
   public void logControllerInputs()
   {
+    // Driver left stick X (-1..1).
     Logger.recordOutput("Input/Driver/LeftX", driverXbox.getLeftX());
+    // Driver left stick Y (-1..1).
     Logger.recordOutput("Input/Driver/LeftY", driverXbox.getLeftY());
+    // Driver right stick X (-1..1).
     Logger.recordOutput("Input/Driver/RightX", driverXbox.getRightX());
+    // Driver right stick Y (-1..1).
     Logger.recordOutput("Input/Driver/RightY", driverXbox.getRightY());
+    // Driver left trigger (0..1).
     Logger.recordOutput("Input/Driver/LeftTrigger", driverXbox.getLeftTriggerAxis());
+    // Driver right trigger (0..1).
     Logger.recordOutput("Input/Driver/RightTrigger", driverXbox.getRightTriggerAxis());
 
+    // Operator left stick X (-1..1).
     Logger.recordOutput("Input/Operator/LeftX", operatorXbox.getLeftX());
+    // Operator left stick Y (-1..1).
     Logger.recordOutput("Input/Operator/LeftY", operatorXbox.getLeftY());
+    // Operator right stick X (-1..1).
     Logger.recordOutput("Input/Operator/RightX", operatorXbox.getRightX());
+    // Operator right stick Y (-1..1).
     Logger.recordOutput("Input/Operator/RightY", operatorXbox.getRightY());
+    // Operator left trigger (0..1).
     Logger.recordOutput("Input/Operator/LeftTrigger", operatorXbox.getLeftTriggerAxis());
+    // Operator right trigger (0..1).
     Logger.recordOutput("Input/Operator/RightTrigger", operatorXbox.getRightTriggerAxis());
   }
 
   private ChassisSpeeds applyHeadingBias(ChassisSpeeds speeds) {
-        double biasDeg = SmartDashboard.getNumber("Heading Bias Deg", 0.0);
-        if (biasDeg == 0.0) {
+        // Toggle to enable heading bias; false means pass-through.
+        boolean headingBiasEnabled = SmartDashboard.getBoolean("headingBiasEnabled", false);
+        if (!headingBiasEnabled) {
             return speeds;
         }
-        // Read a tunable gain (radians of bias -> radians/sec of angular velocity)
-        double gain = SmartDashboard.getNumber("Heading Bias Gain", 0.5);
-        // Convert requested bias (degrees) to radians and compute an angular velocity to add
-        double biasRad = Units.degreesToRadians(biasDeg);
-        double additionalOmega = gain * biasRad;
+        // Requested heading bias in degrees; 0 means disabled.
+        double biasDeg = SmartDashboard.getNumber("Heading Bias Deg", 0.0);
+        // Gain mapping bias radians -> added omega (rad/sec).
+        double gain = SmartDashboard.getNumber("Heading Bias Gain", 0.0);
 
-        // Do NOT rotate the translation vector anymore (that caused drifting). Instead
-        // leave vx/vy alone and add an angular velocity component in the bias direction.
-        return new ChassisSpeeds(speeds.vxMetersPerSecond, speeds.vyMetersPerSecond,
-                speeds.omegaRadiansPerSecond + additionalOmega);
+        // Default to normal driving (no bias).
+        double omega = speeds.omegaRadiansPerSecond;
+        if (biasDeg != 0.0 && gain != 0.0) {
+            // Convert degrees to radians, then scale into an omega offset.
+            double biasRad = Units.degreesToRadians(biasDeg);
+            double additionalOmega = gain * biasRad;
+            // Leave vx/vy alone; only add a small angular velocity component.
+            omega += additionalOmega;
+        }
+
+        return new ChassisSpeeds(speeds.vxMetersPerSecond, speeds.vyMetersPerSecond, omega);
   }
   
 }

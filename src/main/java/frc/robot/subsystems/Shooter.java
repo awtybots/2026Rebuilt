@@ -166,15 +166,23 @@ public class Shooter extends SubsystemBase {
         double leftRPM = ShooterLeftMotor.getEncoder().getVelocity();
         double kickerRPM = ShooterKickerMotor.getEncoder().getVelocity();
 
+        // Shooter right wheel speed (RPM).
         Logger.recordOutput("Shooter/RightRPM", rightRPM);
+        // Shooter left wheel speed (RPM).
         Logger.recordOutput("Shooter/LeftRPM", leftRPM);
+        // Kicker wheel speed (RPM).
         Logger.recordOutput("Shooter/KickerRPM", kickerRPM);
 
+        // Desired shooter wheel RPM setpoint.
         Logger.recordOutput("Shooter/TargetRPM", targetRPM);
+        // Desired kicker RPM setpoint.
         Logger.recordOutput("Shooter/TargetKickerRPM", targetKickerRPM);
 
+        // Applied voltage to right shooter motor.
         Logger.recordOutput("Shooter/RightAppliedVolts", ShooterRightMotor.getAppliedOutput() * ShooterRightMotor.getBusVoltage());
+        // Applied voltage to left shooter motor.
         Logger.recordOutput("Shooter/LeftAppliedVolts", ShooterLeftMotor.getAppliedOutput() * ShooterLeftMotor.getBusVoltage());
+        // Applied voltage to kicker motor.
         Logger.recordOutput("Shooter/KickerAppliedVolts", ShooterKickerMotor.getAppliedOutput() * ShooterKickerMotor.getBusVoltage());
     }
 }

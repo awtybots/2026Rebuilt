@@ -63,9 +63,13 @@ public class Hopper extends SubsystemBase {
     @Override
     public void periodic() {
         // AdvantageKit Logging
+        // Commanded pushdown motor percent output.
         Logger.recordOutput("Hopper/PushdownDesiredPercent", pushdownDesiredPercent);
+        // Commanded transfer motor percent output.
         Logger.recordOutput("Hopper/TransferDesiredPercent", transferDesiredPercent);
+        // Applied voltage to pushdown motor.
         Logger.recordOutput("Hopper/PushdownAppliedVolts", HopperPushDownMotor.getAppliedOutput() * HopperPushDownMotor.getBusVoltage());
+        // Applied voltage to transfer motor.
         Logger.recordOutput("Hopper/TransferAppliedVolts", HopperTransferMotor.getAppliedOutput() * HopperTransferMotor.getBusVoltage());
     }
 }
