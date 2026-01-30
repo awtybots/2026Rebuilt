@@ -32,6 +32,7 @@ import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Hopper;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Climber;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -51,9 +52,10 @@ public class RobotContainer {
       "swerve"));
 
   // Instantiate Subsystems
-  // private final Intake m_intake = new Intake();
-  // private final Hopper m_hopper = new Hopper();
-  // private final Shooter m_shooter = new Shooter();
+  private final Intake m_intake = new Intake();
+  private final Hopper m_hopper = new Hopper();
+  private final Shooter m_shooter = new Shooter();
+  private final Climber m_climber = new Shooter();
 
   // Establish a Sendable Chooser that will be able to be sent to the
   // SmartDashboard, allowing selection of desired auto
@@ -116,9 +118,6 @@ public class RobotContainer {
       .translationHeadingOffset(Rotation2d.fromDegrees(
           0));
 
-  // Triggers For Controller
-  // private final Trigger runIntake = driverXbox.rightTrigger(0.5);
-  // private final Trigger runOuttake = driverXbox.leftTrigger(0.5);
 
   // Shooter
   private final Trigger shootFuel = driverXbox.y();
@@ -133,10 +132,11 @@ public class RobotContainer {
   private final Trigger HopperToShooter = driverXbox.rightBumper();
   private final Trigger ReverseHopper = driverXbox.leftBumper();
 
+  // Climber
+  private final Trigger Climb = driverXbox.povUp();
+  private final Trigger ClimbDown = driverXbox.povDown();
 
 
-  // private final Trigger forwardHopper = driverXbox.leftBumper();
-  // private final Trigger reverseHopper = driverXbox.rightBumper();
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -152,13 +152,16 @@ public class RobotContainer {
 
     // Create the NamedCommands that will be used in PathPlanner
     NamedCommands.registerCommand("test", Commands.print("I EXIST"));
-    // NamedCommands.registerCommand("shoot67", m_shooter.shootFuelCommand().withTimeout(6.7));
-    // NamedCommands.registerCommand("hoodup67", m_shooter.RotateHoodUpCommand().withTimeout(6.7));
-    // NamedCommands.registerCommand("hooddown41", m_shooter.RotateHoodDownCommand().withTimeout(6.7));
-    // NamedCommands.registerCommand("hopper67", m_hopper.runHopperToShooterCommand().withTimeout(6.7));
-    // NamedCommands.registerCommand("hopper41", m_hopper.runReverseHopperCommand().withTimeout(6.7));
-    // NamedCommands.registerCommand("intake67", m_intake.runIntakeCommand().withTimeout(6.7));
-    // NamedCommands.registerCommand("intake41", m_intake.runOuttakeCommand().withTimeout(6.7));
+    NamedCommands.registerCommand("shoot67", m_shooter.shootFuelCommand().withTimeout(6.7));
+    NamedCommands.registerCommand("hoodup67", m_shooter.RotateHoodUpCommand().withTimeout(6.7));
+    NamedCommands.registerCommand("hooddown41", m_shooter.RotateHoodDownCommand().withTimeout(6.7));
+    NamedCommands.registerCommand("hopper67", m_hopper.runHopperToShooterCommand().withTimeout(6.7));
+    NamedCommands.registerCommand("hopper41", m_hopper.runReverseHopperCommand().withTimeout(6.7));
+    NamedCommands.registerCommand("intake67", m_intake.runIntakeCommand().withTimeout(6.7));
+    NamedCommands.registerCommand("intake41", m_intake.runOuttakeCommand().withTimeout(6.7));
+    NamedCommands.registerCommand("climb67", m_climber.runClimbCommand().withTimeout(6.7));
+    NamedCommands.registerCommand("climb41", m_climber.runClimberDownCommand().withTimeout(6.7));
+
 
     // Have the autoChooser pull in all PathPlanner autos as options
     autoChooser = AutoBuilder.buildAutoChooser();
@@ -196,17 +199,22 @@ public class RobotContainer {
    */
   private void configureBindings() {
     // Intake Commands
-    // runIntake.whileTrue(m_intake.runIntakeCommand());
-    // runOuttake.whileTrue(m_intake.runOuttakeCommand());
+    runIntake.whileTrue(m_intake.runIntakeCommand());
+    runOuttake.whileTrue(m_intake.runOuttakeCommand());
 
-    // // Hopper Commands
-    // HopperToShooter.whileTrue(m_hopper.runHopperToShooterCommand());
-    // ReverseHopper.whileTrue(m_hopper.runReverseHopperCommand());
+    // Hopper Commands
+    HopperToShooter.whileTrue(m_hopper.runHopperToShooterCommand());
+    ReverseHopper.whileTrue(m_hopper.runReverseHopperCommand());
 
-    // // Shooter Commands
-    // shootFuel.whileTrue(m_shooter.shootFuelCommand());
-    // RotateHoodUp.whileTrue(m_shooter.RotateHoodUpCommand());
-    // RotateHoodDown.whileTrue(m_shooter.RotateHoodDownCommand());
+    // Shooter Commands
+    shootFuel.whileTrue(m_shooter.shootFuelCommand());
+    RotateHoodUp.whileTrue(m_shooter.RotateHoodUpCommand());
+    RotateHoodDown.whileTrue(m_shooter.RotateHoodDownCommand());
+
+    // Climber Commands
+    Climb.whileTrue(m_climber.runClimbCommand());
+    ClimbDown.whileTrue(m_climber.runClimberDownCommand());
+
 
 
     // Swerve Drive Commands
@@ -260,8 +268,7 @@ public class RobotContainer {
     {
     drivebase.setDefaultCommand(driveFieldOrientedAnglularVelocity); // Overrides drive command above!
 
-    driverXbox.x().whileTrue(Commands.runOnce(drivebase::lock,
-    drivebase).repeatedly());
+    driverXbox.x().whileTrue(Commands.runOnce(drivebase::lock, drivebase).repeatedly());
     driverXbox.start().onTrue((Commands.runOnce(drivebase::zeroGyro)));
     driverXbox.back().whileTrue(drivebase.centerModulesCommand());
     driverXbox.leftBumper().onTrue(Commands.none());
@@ -271,8 +278,7 @@ public class RobotContainer {
     driverXbox.a().onTrue((Commands.runOnce(drivebase::zeroGyro)));
     driverXbox.start().whileTrue(Commands.none());
     driverXbox.back().whileTrue(Commands.none());
-    driverXbox.leftBumper().whileTrue(Commands.runOnce(drivebase::lock,
-    drivebase).repeatedly());
+    driverXbox.leftBumper().whileTrue(Commands.runOnce(drivebase::lock, drivebase).repeatedly());
     driverXbox.rightBumper().onTrue(Commands.none());
     }
 

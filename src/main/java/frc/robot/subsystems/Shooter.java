@@ -29,43 +29,73 @@ public class Shooter extends SubsystemBase {
     private SparkFlex ShooterKickerMotor = new SparkFlex(ShooterConstants.SHOOTER_KICKER_ID, MotorType.kBrushless);
     private SparkClosedLoopController shooterkickerController = ShooterKickerMotor.getClosedLoopController(); 
 
-    private SparkFlex ShooterRightMotor = new SparkFlex(ShooterConstants.SHOOTER_RIGHT_ID, MotorType.kBrushless);
-    private SparkClosedLoopController shooterrightController = ShooterRightMotor.getClosedLoopController(); 
-
-    private SparkFlex ShooterLeftMotor = new SparkFlex(ShooterConstants.SHOOTER_LEFT_ID, MotorType.kBrushless);
-    private SparkClosedLoopController shooterleftController = ShooterLeftMotor.getClosedLoopController(); 
-
     private SparkFlex HoodMotor = new SparkFlex(ShooterConstants.HOOD_ID, MotorType.kBrushless);
     private SparkClosedLoopController HoodController = HoodMotor.getClosedLoopController();
 
-    private final RelativeEncoder shooterRightEncoder = ShooterRightMotor.getEncoder();
-    private final RelativeEncoder shooterLeftEncoder = ShooterLeftMotor.getEncoder();
+    private SparkFlex ShooterRight1Motor = new SparkFlex(ShooterConstants.SHOOTER_R1_ID, MotorType.kBrushless);
+    private SparkFlex ShooterRight2Motor = new SparkFlex(ShooterConstants.SHOOTER_R2_ID, MotorType.kBrushless);
+    private SparkClosedLoopController shooterright1Controller = ShooterRight1Motor.getClosedLoopController(); 
+    private SparkClosedLoopController shooterright2Controller = ShooterRight2Motor.getClosedLoopController(); 
+
+    private SparkFlex ShooterLeft1Motor = new SparkFlex(ShooterConstants.SHOOTER_L1_ID, MotorType.kBrushless);
+    private SparkFlex ShooterLeft2Motor = new SparkFlex(ShooterConstants.SHOOTER_L2_ID, MotorType.kBrushless);
+    private SparkClosedLoopController shooterleft1Controller = ShooterLeft1Motor.getClosedLoopController(); 
+    private SparkClosedLoopController shooterleft2Controller = ShooterLeft2Motor.getClosedLoopController(); 
+
+
+    private final RelativeEncoder shooterRight1Encoder = ShooterRight1Motor.getEncoder();
+    private final RelativeEncoder shooterRight2Encoder = ShooterRight2Motor.getEncoder();
+
+    private final RelativeEncoder shooterLeft1Encoder = ShooterRight1Motor.getEncoder();
+    private final RelativeEncoder shooterLeft2Encoder = ShooterRight2Motor.getEncoder();
+
+    private final RelativeEncoder shooterLeftEncoder = ShooterLeft1Motor.getEncoder();
     private final RelativeEncoder kickerEncoder = ShooterKickerMotor.getEncoder();
 
-        private double targetRPM = 0.0;
+    private double targetRPM = 0.0;
     private double targetKickerRPM = 0.0;
 
     private final SysIdRoutine sysIdRoutine = new SysIdRoutine(
             new SysIdRoutine.Config(),
             new SysIdRoutine.Mechanism(
                     voltage -> {
-                        ShooterRightMotor.setVoltage(voltage);
-                        ShooterLeftMotor.setVoltage(voltage);
+                        ShooterRight1Motor.setVoltage(voltage);
+                        ShooterRight2Motor.setVoltage(voltage);
+                        ShooterLeft1Motor.setVoltage(voltage);
+                        ShooterLeft2Motor.setVoltage(voltage);
                     },
                     log -> {
-                        double rightRps = shooterRightEncoder.getVelocity() / 60.0;
-                        double leftRps = shooterLeftEncoder.getVelocity() / 60.0;
-                        double rightVolts = ShooterRightMotor.getAppliedOutput() * ShooterRightMotor.getBusVoltage();
-                        double leftVolts = ShooterLeftMotor.getAppliedOutput() * ShooterLeftMotor.getBusVoltage();
+                        double right1Rps = shooterRight1Encoder.getVelocity() / 60.0;
+                        double right2Rps = shooterRight2Encoder.getVelocity() / 60.0;
 
-                        log.motor("shooter-right")
-                                .voltage(Units.Volts.of(rightVolts))
-                                .angularPosition(Units.Rotations.of(shooterRightEncoder.getPosition()))
-                                .angularVelocity(Units.RotationsPerSecond.of(rightRps));
-                        log.motor("shooter-left")
-                                .voltage(Units.Volts.of(leftVolts))
+                        double left1Rps = shooterLeft1Encoder.getVelocity() / 60.0;
+                        double left2Rps = shooterLeft2Encoder.getVelocity() / 60.0;
+
+                        double right1Volts = ShooterRight1Motor.getAppliedOutput() * ShooterRight1Motor.getBusVoltage();
+                        double right2Volts = ShooterRight2Motor.getAppliedOutput() * ShooterRight2Motor.getBusVoltage();
+
+                        double left1Volts = ShooterLeft1Motor.getAppliedOutput() * ShooterLeft1Motor.getBusVoltage();
+                        double left2Volts = ShooterLeft2Motor.getAppliedOutput() * ShooterLeft2Motor.getBusVoltage();
+
+                        log.motor("shooter-right-1")
+                                .voltage(Units.Volts.of(right1Volts))
+                                .angularPosition(Units.Rotations.of(shooterRight1Encoder.getPosition()))
+                                .angularVelocity(Units.RotationsPerSecond.of(right1Rps));
+
+                        log.motor("shooter-right-2")
+                                .voltage(Units.Volts.of(right2Volts))
+                                .angularPosition(Units.Rotations.of(shooterRight2Encoder.getPosition()))
+                                .angularVelocity(Units.RotationsPerSecond.of(right2Rps));
+
+                        log.motor("shooter-left-1")
+                                .voltage(Units.Volts.of(left1Volts))
                                 .angularPosition(Units.Rotations.of(shooterLeftEncoder.getPosition()))
-                                .angularVelocity(Units.RotationsPerSecond.of(leftRps));
+                                .angularVelocity(Units.RotationsPerSecond.of(left1Rps));
+
+                        log.motor("shooter-left-2")
+                                .voltage(Units.Volts.of(left2Volts))
+                                .angularPosition(Units.Rotations.of(shooterLeft2Encoder.getPosition()))
+                                .angularVelocity(Units.RotationsPerSecond.of(left2Rps));
                     },
                     this));
 
@@ -73,12 +103,19 @@ public class Shooter extends SubsystemBase {
 
         ShooterKickerMotor.configure(Configs.ShooterSubsystem.ShooterKickerMotorConfig, ResetMode.kResetSafeParameters,
                 PersistMode.kPersistParameters);
-        ShooterRightMotor.configure(Configs.ShooterSubsystem.ShooterRightMotorConfig, ResetMode.kResetSafeParameters,
-                PersistMode.kPersistParameters);
-        ShooterLeftMotor.configure(Configs.ShooterSubsystem.ShooterLeftMotorConfig, ResetMode.kResetSafeParameters,
-                PersistMode.kPersistParameters);
         HoodMotor.configure(Configs.ShooterSubsystem.HoodMotorConfig, ResetMode.kResetSafeParameters,
                 PersistMode.kPersistParameters);
+
+        ShooterRight1Motor.configure(Configs.ShooterSubsystem.ShooterRightMotor1Config, ResetMode.kResetSafeParameters,
+                PersistMode.kPersistParameters);
+        ShooterRight2Motor.configure(Configs.ShooterSubsystem.ShooterLeftMotor1Config, ResetMode.kResetSafeParameters,
+                PersistMode.kPersistParameters);
+
+        ShooterLeft1Motor.configure(Configs.ShooterSubsystem.ShooterRightMotor1Config, ResetMode.kResetSafeParameters,
+                PersistMode.kPersistParameters);
+        ShooterLeft2Motor.configure(Configs.ShooterSubsystem.ShooterLeftMotor1Config, ResetMode.kResetSafeParameters,
+                PersistMode.kPersistParameters);
+
 
     }
 
@@ -86,15 +123,20 @@ public class Shooter extends SubsystemBase {
         targetRPM = ShooterConstants.SHOOTER_SPEED;
         targetKickerRPM = ShooterConstants.KICKER_SPEED;
         shooterkickerController.setSetpoint(ShooterConstants.KICKER_SPEED, ControlType.kMAXMotionVelocityControl);
-        shooterrightController.setSetpoint(ShooterConstants.SHOOTER_SPEED, ControlType.kMAXMotionVelocityControl);
-        shooterleftController.setSetpoint(ShooterConstants.SHOOTER_SPEED, ControlType.kMAXMotionVelocityControl);
+        shooterright1Controller.setSetpoint(ShooterConstants.SHOOTER_SPEED, ControlType.kMAXMotionVelocityControl);
+        shooterright2Controller.setSetpoint(ShooterConstants.SHOOTER_SPEED, ControlType.kMAXMotionVelocityControl);
+        shooterleft1Controller.setSetpoint(ShooterConstants.SHOOTER_SPEED, ControlType.kMAXMotionVelocityControl);
+        shooterleft2Controller.setSetpoint(ShooterConstants.SHOOTER_SPEED, ControlType.kMAXMotionVelocityControl);
+
     }
 
     public void stopShooting() {
          targetRPM = 0.0;
         targetKickerRPM = 0.0;
-        ShooterLeftMotor.set(ShooterConstants.IDLE);
-        ShooterRightMotor.set(ShooterConstants.IDLE);
+        ShooterRight1Motor.set(ShooterConstants.IDLE);
+        ShooterRight2Motor.set(ShooterConstants.IDLE);
+        ShooterLeft1Motor.set(ShooterConstants.IDLE);
+        ShooterLeft2Motor.set(ShooterConstants.IDLE);
         ShooterKickerMotor.set(ShooterConstants.STOP);
         // shooterkickerController.setSetpoint(ShooterConstants.STOP, ControlType.kMAXMotionVelocityControl);
         // shooterleftController.setSetpoint(ShooterConstants.STOP, ControlType.kMAXMotionVelocityControl);
@@ -162,14 +204,22 @@ public class Shooter extends SubsystemBase {
     @Override
     public void periodic() {
         // AdvantageKit Logging
-        double rightRPM = ShooterRightMotor.getEncoder().getVelocity();
-        double leftRPM = ShooterLeftMotor.getEncoder().getVelocity();
+        double right1RPM = ShooterRight1Motor.getEncoder().getVelocity();
+        double right2RPM = ShooterRight2Motor.getEncoder().getVelocity();
+
+        double left1RPM = ShooterLeft1Motor.getEncoder().getVelocity();
+        double left2RPM = ShooterLeft2Motor.getEncoder().getVelocity();
+
         double kickerRPM = ShooterKickerMotor.getEncoder().getVelocity();
 
         // Shooter right wheel speed (RPM).
-        Logger.recordOutput("Shooter/RightRPM", rightRPM);
+        Logger.recordOutput("Shooter/Right1RPM", right1RPM);
+        Logger.recordOutput("Shooter/Right2RPM", right2RPM);
+
         // Shooter left wheel speed (RPM).
-        Logger.recordOutput("Shooter/LeftRPM", leftRPM);
+        Logger.recordOutput("Shooter/Left1RPM", left1RPM);
+        Logger.recordOutput("Shooter/Left2RPM", left2RPM);
+
         // Kicker wheel speed (RPM).
         Logger.recordOutput("Shooter/KickerRPM", kickerRPM);
 
@@ -179,9 +229,13 @@ public class Shooter extends SubsystemBase {
         Logger.recordOutput("Shooter/TargetKickerRPM", targetKickerRPM);
 
         // Applied voltage to right shooter motor.
-        Logger.recordOutput("Shooter/RightAppliedVolts", ShooterRightMotor.getAppliedOutput() * ShooterRightMotor.getBusVoltage());
+        Logger.recordOutput("Shooter/Right1AppliedVolts", ShooterRight1Motor.getAppliedOutput() * ShooterRight1Motor.getBusVoltage());
+        Logger.recordOutput("Shooter/Right2AppliedVolts", ShooterRight2Motor.getAppliedOutput() * ShooterRight2Motor.getBusVoltage());
+
         // Applied voltage to left shooter motor.
-        Logger.recordOutput("Shooter/LeftAppliedVolts", ShooterLeftMotor.getAppliedOutput() * ShooterLeftMotor.getBusVoltage());
+        Logger.recordOutput("Shooter/Left1AppliedVolts", ShooterLeft1Motor.getAppliedOutput() * ShooterLeft1Motor.getBusVoltage());
+        Logger.recordOutput("Shooter/Left2AppliedVolts", ShooterLeft2Motor.getAppliedOutput() * ShooterLeft2Motor.getBusVoltage());
+
         // Applied voltage to kicker motor.
         Logger.recordOutput("Shooter/KickerAppliedVolts", ShooterKickerMotor.getAppliedOutput() * ShooterKickerMotor.getBusVoltage());
     }

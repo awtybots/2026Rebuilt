@@ -18,7 +18,6 @@ public final class Constants
   public static final double ROBOT_MASS = (148 - 20.3) * 0.453592; // 32lbs * kg per pound
   public static final Matter CHASSIS    = new Matter(new Translation3d(0, 0, Units.inchesToMeters(8)), ROBOT_MASS);
   public static final double LOOP_TIME  = 0.13; //s, 20ms + 110ms sprk max velocity lag
-  public static final boolean SIM_REPLAY_MODE = false;
 //used
   public static final double MAX_SPEED  = Units.feetToMeters(14.5);
   // Maximum speed of the robot in meters per second, used to limit acceleration.
@@ -57,9 +56,12 @@ public final class Constants
   public static class ShooterConstants
   {
     public static final int SHOOTER_KICKER_ID = 11;
-    public static final int SHOOTER_RIGHT_ID = 9;
-    public static final int SHOOTER_LEFT_ID = 17;
     public static final int HOOD_ID = 18;
+    public static final int SHOOTER_R1_ID = 9;
+    public static final int SHOOTER_R2_ID = 17;
+    public static final int SHOOTER_L1_ID = 9;
+    public static final int SHOOTER_L2_ID = 17; // ?
+    
 
     public static final double KICKER_SPEED = 3100;
     public static final double SHOOTER_SPEED = 5770; // RPM
@@ -80,6 +82,19 @@ public final class Constants
 
     public static final double REVERSE_HOPPER_PUSHDOWN_SPEED = -0.7;
     public static final double REVERSE_HOPPER_TRANSFER_SPEED = -0.7;
+
+    public static final int six_seven = 67;
+
+  }
+
+  public static class ClimberConstants
+  {
+    public static final int CLIMBER_LEFT_ID = 0; // placeholder
+    public static final int CLIMBER_RIGHT_ID = 0; // placeholder
+
+    public static final double CLIMBER_SPEED = 0.5; // placeholder
+
+    public static final double CLIMBER_DOWN_SPEED = -0.5; // placeholder
 
     public static final int six_seven = 67;
 
