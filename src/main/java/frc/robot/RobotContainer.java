@@ -29,6 +29,8 @@ import swervelib.SwerveInputStream;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Hopper;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Climber;
+
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -51,6 +53,7 @@ public class RobotContainer {
   private final Intake m_intake = new Intake();
   private final Hopper m_hopper = new Hopper();
   private final Shooter m_shooter = new Shooter();
+  private final Climber m_climber = new Climber();
 
   // Establish a Sendable Chooser that will be able to be sent to the
   // SmartDashboard, allowing selection of desired auto
@@ -120,6 +123,10 @@ public class RobotContainer {
   private final Trigger shootFuel = driverXbox.y();
   private final Trigger RotateHoodUp = driverXbox.rightTrigger();
   private final Trigger RotateHoodDown = driverXbox.leftTrigger();
+  private final Trigger ClimbUp = driverXbox.b();
+  // private final Trigger ClimbDown = driverXbox.b(); not done yet
+
+ 
 
   // Intake
   private final Trigger runIntake = driverXbox.x();
@@ -152,6 +159,10 @@ public class RobotContainer {
     NamedCommands.registerCommand("hopper41", m_hopper.runReverseHopperCommand().withTimeout(6.7));
     NamedCommands.registerCommand("intake67", m_intake.runIntakeCommand().withTimeout(6.7));
     NamedCommands.registerCommand("intake41", m_intake.runOuttakeCommand().withTimeout(6.7));
+    NamedCommands.registerCommand("climb67", m_climber.runClimbCommand().withTimeout(6.7));
+    // NamedCommands.registerCommand("climb41", m_climber.runClimbDownCommand().withTimeout(6.7));
+
+
 
     // Have the autoChooser pull in all PathPlanner autos as options
     autoChooser = AutoBuilder.buildAutoChooser();
@@ -193,6 +204,11 @@ public class RobotContainer {
     // Hopper Commands
     HopperToShooter.whileTrue(m_hopper.runHopperToShooterCommand());
     ReverseHopper.whileTrue(m_hopper.runReverseHopperCommand());
+
+    // Climber Commands
+    ClimbUp.whileTrue(m_climber.runClimbCommand());
+
+
 
     // Shooter Commands
     // shootFuel.whileTrue(m_shooter.shootFuelCommand());

@@ -83,4 +83,17 @@ public final class Constants
     public static final int six_seven = 67;
 
   }
+
+  public static class ClimberConstants
+  {
+    public static final int CLIMBER_LEFT_ID = 0; // placeholder
+    public static final int CLIMBER_RIGHT_ID = 0; // placeholder
+
+    public static final double CLIMBER_SPEED = 0.5; // placeholder
+
+    public static final double CLIMBER_DOWN_SPEED = -0.5; // placeholder
+
+    public static final int six_seven = 67;
+
+  }
 }
