@@ -14,6 +14,7 @@ import swervelib.math.Matter;
  */
 public final class Constants
 {
+  public static final boolean USE_SHOOTER_ONLY = false;
   public static final boolean SIM_REPLAY_MODE = false;
 //not used
   public static final double ROBOT_MASS = (148 - 20.3) * 0.453592; // 32lbs * kg per pound
