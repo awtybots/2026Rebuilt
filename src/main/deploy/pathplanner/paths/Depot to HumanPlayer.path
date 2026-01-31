@@ -3,29 +3,45 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.5551312346916566,
-        "y": 4.043056129102964
+        "x": 0.46798858773181085,
+        "y": 5.995206847360914
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.8048608914532003,
-        "y": 4.031432939619801
+        "x": 1.3532333837381976,
+        "y": 5.585505483512129
+      },
+      "isLocked": false,
+      "linkedName": "Depot"
+    },
+    {
+      "anchor": {
+        "x": 2.628744650499286,
+        "y": 3.82151212553495
+      },
+      "prevControl": {
+        "x": 2.5177612734247146,
+        "y": 5.224060387377465
+      },
+      "nextControl": {
+        "x": 2.7902262667092197,
+        "y": 1.7807942621509327
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 3.5551312346916566,
-        "y": 4.043056129102964
+        "x": 0.4291726105563479,
+        "y": 0.6515406562054205
       },
       "prevControl": {
-        "x": 3.2753971926076857,
-        "y": 4.055594674121763
+        "x": 0.49029623601886674,
+        "y": 0.8939533258625936
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Human Player"
     }
   ],
   "rotationTargets": [],
@@ -42,13 +58,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": 0.0
   },
   "reversed": false,
-  "folder": "Test",
+  "folder": "Week 3 Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 180.0
   },
   "useDefaultConstraints": true
 }

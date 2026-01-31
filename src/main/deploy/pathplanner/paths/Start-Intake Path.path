@@ -3,29 +3,45 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.5551312346916566,
-        "y": 4.043056129102964
+        "x": 3.5473894436519258,
+        "y": 7.405520684736091
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.8048608914532003,
-        "y": 4.031432939619801
+        "x": 4.687846326356416,
+        "y": 7.456057308496663
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 3.5551312346916566,
-        "y": 4.043056129102964
+        "x": 5.216476462196862,
+        "y": 7.4572753209700435
       },
       "prevControl": {
-        "x": 3.2753971926076857,
-        "y": 4.055594674121763
+        "x": 4.8278634812529235,
+        "y": 7.521554293585298
+      },
+      "nextControl": {
+        "x": 5.677767458781851,
+        "y": 7.380974958421352
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 7.713637660485022,
+        "y": 6.7974037089871615
+      },
+      "prevControl": {
+        "x": 6.829970076464884,
+        "y": 7.0284393124161975
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Start Path"
     }
   ],
   "rotationTargets": [],
@@ -42,10 +58,10 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": -90.0
   },
   "reversed": false,
-  "folder": "Test",
+  "folder": "Week 3 Paths",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 0.0

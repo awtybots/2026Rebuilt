@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.5551312346916566,
-        "y": 4.043056129102964
+        "x": 3.560328102710413,
+        "y": 5.982268188302426
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.8048608914532003,
-        "y": 4.031432939619801
+        "x": 2.6744315692329783,
+        "y": 6.016540052290667
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Depot Start"
     },
     {
       "anchor": {
-        "x": 3.5551312346916566,
-        "y": 4.043056129102964
+        "x": 0.46798858773181085,
+        "y": 5.995206847360914
       },
       "prevControl": {
-        "x": 3.2753971926076857,
-        "y": 4.055594674121763
+        "x": 1.395810693112716,
+        "y": 5.969697174394596
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Depot"
     }
   ],
   "rotationTargets": [],
@@ -45,10 +45,10 @@
     "rotation": 180.0
   },
   "reversed": false,
-  "folder": "Test",
+  "folder": "Week 3 Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 179.36340642403647
   },
   "useDefaultConstraints": true
 }

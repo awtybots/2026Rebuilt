@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.1462910128388017,
-        "y": 3.39453637660485
+        "x": 2.4605420827389435,
+        "y": 4.85660485021398
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.3675693033915106,
-        "y": 3.510880341339042
+        "x": 1.67376448216439,
+        "y": 4.09727036292122
       },
       "isLocked": false,
-      "linkedName": "Face Hub"
+      "linkedName": "Shoot End 1"
     },
     {
       "anchor": {
-        "x": 4.0,
-        "y": 6.0
+        "x": 1.5548359486447931,
+        "y": 3.937960057061342
       },
       "prevControl": {
-        "x": 3.7655651301316633,
-        "y": 5.9131651464571044
+        "x": 2.215177585661917,
+        "y": 4.588085936630021
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Climb End 1"
     }
   ],
   "rotationTargets": [],
@@ -33,7 +33,7 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 3.0,
+    "maxVelocity": 5.0,
     "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 180.0
   },
   "reversed": false,
-  "folder": null,
+  "folder": "Week 3 Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 160.0
   },
   "useDefaultConstraints": true
 }

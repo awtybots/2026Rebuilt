@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.5551312346916566,
-        "y": 4.043056129102964
+        "x": 0.4938659058487813,
+        "y": 5.982268188295019
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.8048608914532003,
-        "y": 4.031432939619801
+        "x": 1.4938659058487813,
+        "y": 5.982268188295019
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Extra Intake 1 End"
     },
     {
       "anchor": {
-        "x": 3.5551312346916566,
-        "y": 4.043056129102964
+        "x": 1.5548359486447931,
+        "y": 3.937960057061342
       },
       "prevControl": {
-        "x": 3.2753971926076857,
-        "y": 4.055594674121763
+        "x": 1.6454065620542082,
+        "y": 5.3353352353780314
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Climb End 1"
     }
   ],
   "rotationTargets": [],
@@ -45,10 +45,10 @@
     "rotation": 180.0
   },
   "reversed": false,
-  "folder": "Test",
+  "folder": "Week 3 Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 180.0
   },
   "useDefaultConstraints": true
 }

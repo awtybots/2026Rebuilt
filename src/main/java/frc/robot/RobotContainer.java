@@ -120,6 +120,8 @@ public class RobotContainer {
 
 
   // Shooter
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
   private final Trigger shootFuel = driverXbox.y();
   private final Trigger RotateHoodUp = driverXbox.rightTrigger();
   private final Trigger RotateHoodDown = driverXbox.leftTrigger();
@@ -132,11 +134,10 @@ public class RobotContainer {
   private final Trigger HopperToShooter = driverXbox.rightBumper();
   private final Trigger ReverseHopper = driverXbox.leftBumper();
 
-  // Climber
-  private final Trigger Climb = driverXbox.povUp();
-  private final Trigger ClimbDown = driverXbox.povDown();
 
 
+  // private final Trigger forwardHopper = driverXbox.leftBumper();
+  // private final Trigger reverseHopper = driverXbox.rightBumper();
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -152,17 +153,13 @@ public class RobotContainer {
 
     // Create the NamedCommands that will be used in PathPlanner
     NamedCommands.registerCommand("test", Commands.print("I EXIST"));
-    NamedCommands.registerCommand("shoot", m_shooter.shootFuelCommand().withTimeout(8));
-    NamedCommands.registerCommand("speed-up-shooter", m_shooter.SpeedUpShooterCommand().withTimeout(15));
-    NamedCommands.registerCommand("hood up", m_shooter.RotateHoodUpCommand().withTimeout(6.7));
-    NamedCommands.registerCommand("hood down", m_shooter.RotateHoodDownCommand().withTimeout(6.7));
-    NamedCommands.registerCommand("transfer", m_hopper.runHopperToShooterCommand().withTimeout(6.7));
-    NamedCommands.registerCommand("reverse hopper", m_hopper.runReverseHopperCommand().withTimeout(6.7));
-    NamedCommands.registerCommand("intake", m_intake.runIntakeCommand().withTimeout(4));
-    NamedCommands.registerCommand("outtake", m_intake.runOuttakeCommand().withTimeout(6.7));
-    NamedCommands.registerCommand("climb up", m_climber.runClimbCommand().withTimeout(6.7));
-    NamedCommands.registerCommand("climb down", m_climber.runClimberDownCommand().withTimeout(6.7));
-
+    // NamedCommands.registerCommand("shoot67", m_shooter.shootFuelCommand().withTimeout(6.7));
+    // NamedCommands.registerCommand("hoodup67", m_shooter.RotateHoodUpCommand().withTimeout(6.7));
+    // NamedCommands.registerCommand("hooddown41", m_shooter.RotateHoodDownCommand().withTimeout(6.7));
+    // NamedCommands.registerCommand("hopper67", m_hopper.runHopperToShooterCommand().withTimeout(6.7));
+    // NamedCommands.registerCommand("hopper41", m_hopper.runReverseHopperCommand().withTimeout(6.7));
+    // NamedCommands.registerCommand("intake67", m_intake.runIntakeCommand().withTimeout(6.7));
+    // NamedCommands.registerCommand("intake41", m_intake.runOuttakeCommand().withTimeout(6.7));
 
     // Have the autoChooser pull in all PathPlanner autos as options
     autoChooser = AutoBuilder.buildAutoChooser();
