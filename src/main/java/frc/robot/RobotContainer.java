@@ -122,9 +122,15 @@ public class RobotContainer {
 
   // Shooter
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   private final Trigger shootFuel = driverXbox.y();
   private final Trigger RotateHoodUp = driverXbox.rightTrigger();
   private final Trigger RotateHoodDown = driverXbox.leftTrigger();
+=======
+  // private final Trigger shootFuel = driverXbox.y();
+  // private final Trigger RotateHoodUp = driverXbox.rightTrigger();
+  // private final Trigger RotateHoodDown = driverXbox.b();
+>>>>>>> Stashed changes
 =======
   // private final Trigger shootFuel = driverXbox.y();
   // private final Trigger RotateHoodUp = driverXbox.rightTrigger();
@@ -134,11 +140,18 @@ public class RobotContainer {
   // // Intake
   // private final Trigger runIntake = driverXbox.x();
   // private final Trigger runOuttake = driverXbox.a();
+<<<<<<< Updated upstream
 
   // // Hopper
   // private final Trigger HopperToShooter = driverXbox.rightBumper();
   // private final Trigger ReverseHopper = driverXbox.leftBumper();
 
+=======
+
+  // // Hopper
+  // private final Trigger HopperToShooter = driverXbox.rightBumper();
+  // private final Trigger ReverseHopper = driverXbox.leftBumper();
+>>>>>>> Stashed changes
 
 
   // private final Trigger forwardHopper = driverXbox.leftBumper();
@@ -169,6 +182,9 @@ public class RobotContainer {
     // m_shooter.RotateHoodUpCommand().withTimeout(6.7));
     // NamedCommands.registerCommand("hooddown41",
     // m_shooter.RotateHoodDownCommand().withTimeout(6.7));
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
     // NamedCommands.registerCommand("hopper67", m_hopper.runHopperToShooterCommand().withTimeout(6.7));
     // NamedCommands.registerCommand("hopper41", m_hopper.runReverseHopperCommand().withTimeout(6.7));

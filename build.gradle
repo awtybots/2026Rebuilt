@@ -90,6 +90,7 @@ dependencies {
     exclude group: "com.ctre.phoenix6", module: "phoenix6-replay"
 }
 
+<<<<<<< Updated upstream
 }
 
 task(replayWatch, type: JavaExec) {
@@ -127,6 +128,8 @@ task(eventDeploy) {
             println "Not running deploy task, skipping commit"
         }
     }
+=======
+>>>>>>> Stashed changes
 }
 
 test {
