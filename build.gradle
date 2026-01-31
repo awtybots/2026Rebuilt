@@ -87,11 +87,8 @@ dependencies {
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     
     configurations.all {
-    exclude group: "com.ctre.phoenix6", module: "phoenix6-replay"
-}
-
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
+        exclude group: "com.ctre.phoenix6", module: "phoenix6-replay"
+    }
 }
 
 task(replayWatch, type: JavaExec) {
@@ -129,10 +126,6 @@ task(eventDeploy) {
             println "Not running deploy task, skipping commit"
         }
     }
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
 }
 
 test {
