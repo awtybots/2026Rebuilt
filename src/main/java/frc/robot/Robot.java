@@ -37,7 +37,8 @@ public class Robot extends LoggedRobot
   {
     instance = this;
 
-    DataLogManager.start();
+    // Log WPILib DataLog (SysId, etc.) to the same USB location as AKit logs.
+    DataLogManager.start("/U/logs");
 
     Logger.recordMetadata("ProjectName", "2026Rebuilt");
     Logger.recordMetadata("GitSHA", BuildConstants.GIT_SHA);
