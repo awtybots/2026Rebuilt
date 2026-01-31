@@ -182,8 +182,9 @@ public class SwerveSubsystem extends SubsystemBase
     Logger.recordOutput("Drive/ActualOmega", robotVel.omegaRadiansPerSecond);
 
     // Module states
-    // Desired module states (speed + angle) from kinematics.
-    Logger.recordOutput("Drive/ModuleStates", swerveDrive.getStates());
+    Logger.recordOutput("Drive/CurrentModuleStates", swerveDrive.getStates());
+    Logger.recordOutput("Drive/DesiredModuleStates",
+        swerveDrive.kinematics.toSwerveModuleStates(lastCommandedRobotVelocity));
     // Measured module positions (drive distance + angle).
     Logger.recordOutput("Drive/ModulePositions", swerveDrive.getModulePositions());
   }
