@@ -3,29 +3,45 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.6120827389443653,
-        "y": 6.0081455064194005
+        "x": 3.560328102710413,
+        "y": 7.340827389443652
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.8414969915883503,
-        "y": 5.817949900028113
+        "x": 2.101878689387724,
+        "y": 6.451211120054899
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 3.1462910128388017,
-        "y": 3.39453637660485
+        "x": 1.3607560627674744,
+        "y": 5.943452211126964
       },
       "prevControl": {
-        "x": 2.953248066660346,
-        "y": 3.5543196543021836
+        "x": 1.6099532243671126,
+        "y": 5.923432854227109
+      },
+      "nextControl": {
+        "x": 0.2086295827144773,
+        "y": 6.036008767750234
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 0.46798858773181085,
+        "y": 5.995206847360914
+      },
+      "prevControl": {
+        "x": 1.3699927427499894,
+        "y": 5.95603014162552
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Face Hub"
+      "linkedName": "Depot"
     }
   ],
   "rotationTargets": [],
@@ -33,7 +49,7 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 3.0,
+    "maxVelocity": 5.0,
     "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
@@ -42,13 +58,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 180.0
   },
   "reversed": false,
-  "folder": null,
+  "folder": "Week 3 Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 180.0
   },
   "useDefaultConstraints": true
 }

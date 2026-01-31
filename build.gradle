@@ -85,6 +85,11 @@ dependencies {
 
     testImplementation 'org.junit.jupiter:junit-jupiter:5.10.1'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    
+    configurations.all {
+    exclude group: "com.ctre.phoenix6", module: "phoenix6-replay"
+}
+
 }
 
 task(replayWatch, type: JavaExec) {
