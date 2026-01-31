@@ -281,7 +281,8 @@ public class RobotContainer {
      drivebase.setDefaultCommand(driveFieldOrientedDirectAngleKeyboard);
    } else {
      if (Constants.USE_ROBOT_RELATIVE) {
-       drivebase.setDefaultCommand(drivebase.drive(() -> driveRobotOriented.get()));
+       drivebase.setDefaultCommand(
+           drivebase.run(() -> drivebase.drive(driveRobotOriented.get())));
      } else {
        drivebase.setDefaultCommand(driveFieldOrientedAnglularVelocity);
      }
@@ -317,7 +318,8 @@ public class RobotContainer {
    if (DriverStation.isTest())
    {
    if (Constants.USE_ROBOT_RELATIVE) {
-     drivebase.setDefaultCommand(drivebase.drive(() -> driveRobotOriented.get()));
+     drivebase.setDefaultCommand(
+         drivebase.run(() -> drivebase.drive(driveRobotOriented.get())));
    } else {
      drivebase.setDefaultCommand(driveFieldOrientedAnglularVelocity); // Overrides drive command above!
    }
