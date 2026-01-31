@@ -46,8 +46,8 @@ public class Shooter extends SubsystemBase {
     private final RelativeEncoder shooterRight1Encoder = ShooterRight1Motor.getEncoder();
     private final RelativeEncoder shooterRight2Encoder = ShooterRight2Motor.getEncoder();
 
-    private final RelativeEncoder shooterLeft1Encoder = ShooterRight1Motor.getEncoder();
-    private final RelativeEncoder shooterLeft2Encoder = ShooterRight2Motor.getEncoder();
+    private final RelativeEncoder shooterLeft1Encoder = ShooterLeft1Motor.getEncoder();
+    private final RelativeEncoder shooterLeft2Encoder = ShooterLeft2Motor.getEncoder();
 
     private final RelativeEncoder shooterLeftEncoder = ShooterLeft1Motor.getEncoder();
     private final RelativeEncoder kickerEncoder = ShooterKickerMotor.getEncoder();

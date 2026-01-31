@@ -7,6 +7,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import frc.robot.BuildConstants;
+import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import org.littletonrobotics.junction.LogFileUtil;
@@ -34,6 +35,9 @@ public class Robot extends LoggedRobot
   public Robot()
   {
     instance = this;
+
+    DataLogManager.start();
+
     Logger.recordMetadata("ProjectName", "2026Rebuilt");
     Logger.recordMetadata("GitSHA", BuildConstants.GIT_SHA);
     Logger.recordMetadata("GitDirty", Boolean.toString(BuildConstants.DIRTY != 0));
