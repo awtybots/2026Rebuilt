@@ -122,7 +122,6 @@ public class Shooter extends SubsystemBase {
     // shoot fuel call that, as well as the kicker motor so we reduce extra code
     public void shootFuel() {
         SpeedUpShooter();
-        targetKickerRPM = ShooterConstants.KICKER_SPEED;
         shooterkickerController.setSetpoint(ShooterConstants.KICKER_SPEED, ControlType.kMAXMotionVelocityControl);
 
     }
@@ -140,7 +139,6 @@ public class Shooter extends SubsystemBase {
     // Speeds up shooter (runs all motors except kicker) so it's faster
     public void SpeedUpShooter()
     {
-        targetRPM = ShooterConstants.SHOOTER_SPEED;
         shooterright1Controller.setSetpoint(ShooterConstants.SHOOTER_SPEED, ControlType.kMAXMotionVelocityControl);
         shooterright2Controller.setSetpoint(ShooterConstants.SHOOTER_SPEED, ControlType.kMAXMotionVelocityControl);
         shooterleft1Controller.setSetpoint(ShooterConstants.SHOOTER_SPEED, ControlType.kMAXMotionVelocityControl);
