@@ -1,20 +1,20 @@
 System,Motor Type,Motor Name,CAN ID,Type,Notes
-Swerve Drive,Drive Motor,Front Left Drive,7,SparkFlex Vortex,
-Swerve Drive,Drive Motor,Front Right Drive,8,SparkFlex Vortex,
-Swerve Drive,Drive Motor,Back Left Drive,6,SparkFlex Vortex,
-Swerve Drive,Drive Motor,Back Right Drive,5,SparkFlex Vortex,
-Swerve Drive,Steering Motor,Front Left Angle,1,SparkMax Neo550,
-Swerve Drive,Steering Motor,Front Right Angle,4,SparkMax Neo550,
-Swerve Drive,Steering Motor,Back Left Angle,2,SparkMax Neo550,
-Swerve Drive,Steering Motor,Back Right Angle,3,SparkMax Neo550,
-Shooter,Primary Motor,Shooter Right Motor 1,9,SparkFlex,
-Shooter,Primary Motor,Shooter Right Motor 2,17,SparkFlex,
-Shooter,Primary Motor,Shooter Left Motor 1,9,SparkFlex,Duplicate ID - CONFLICT!
-Shooter,Primary Motor,Shooter Left Motor 2,17,SparkFlex,Duplicate ID - CONFLICT!
-Shooter,Secondary Motor,Shooter Kicker,11,SparkFlex,
-Shooter,Secondary Motor,Hood,18,SparkFlex,
-Intake,Drive Motor,Intake,16,SparkFlex,
-Hopper,Drive Motor,Hopper Pushdown,19,SparkFlex,
-Hopper,Drive Motor,Hopper Transfer,15,SparkFlex,
-Climber,Drive Motor,Climber Left,0,SparkFlex,Placeholder
-Climber,Drive Motor,Climber Right,0,SparkFlex,Placeholder
+Swerve Drive,Drive Motor,Front Left Drive,7,SparkFlex Vortex,1
+Swerve Drive,Drive Motor,Front Right Drive,8,SparkFlex Vortex,3
+Swerve Drive,Drive Motor,Back Left Drive,6,SparkFlex Vortex,5
+Swerve Drive,Drive Motor,Back Right Drive,5,SparkFlex Vortex,7
+Swerve Drive,Steering Motor,Front Left Angle,1,SparkMax Neo550,2
+Swerve Drive,Steering Motor,Front Right Angle,4,SparkMax Neo550,4
+Swerve Drive,Steering Motor,Back Left Angle,2,SparkMax Neo550,6
+Swerve Drive,Steering Motor,Back Right Angle,3,SparkMax Neo550,8
+Shooter,Primary Motor,Shooter Right Motor 1,20,SparkFlex,9
+Shooter,Primary Motor,Shooter Right Motor 2,17,SparkFlex,10
+Shooter,Primary Motor,Shooter Left Motor 1,9,SparkFlex,11
+Shooter,Primary Motor,Shooter Left Motor 2,21,SparkFlex,12
+Shooter,Secondary Motor,Shooter Kicker,11,SparkFlex,13
+Shooter,Secondary Motor,Hood,18,SparkFlex,14
+Intake,Drive Motor,Intake,16,SparkFlex,15
+Hopper,Drive Motor,Hopper Pushdown,19,SparkFlex,16
+Hopper,Drive Motor,Hopper Transfer,15,SparkFlex,17
+Climber,Drive Motor,Climber Left,0,SparkFlex,18
+Climber,Drive Motor,Climber Right,0,SparkFlex,19
