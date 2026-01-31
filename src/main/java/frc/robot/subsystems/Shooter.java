@@ -118,29 +118,33 @@ public class Shooter extends SubsystemBase {
 
 
     }
-
+    // Alright so essentially we made a method to make the motor speed up (a few methods below this) and decided to make 
+    // shoot fuel call that, as well as the kicker motor so we reduce extra code
     public void shootFuel() {
-        targetRPM = ShooterConstants.SHOOTER_SPEED;
+        SpeedUpShooter();
         targetKickerRPM = ShooterConstants.KICKER_SPEED;
         shooterkickerController.setSetpoint(ShooterConstants.KICKER_SPEED, ControlType.kMAXMotionVelocityControl);
-        shooterright1Controller.setSetpoint(ShooterConstants.SHOOTER_SPEED, ControlType.kMAXMotionVelocityControl);
-        shooterright2Controller.setSetpoint(ShooterConstants.SHOOTER_SPEED, ControlType.kMAXMotionVelocityControl);
-        shooterleft1Controller.setSetpoint(ShooterConstants.SHOOTER_SPEED, ControlType.kMAXMotionVelocityControl);
-        shooterleft2Controller.setSetpoint(ShooterConstants.SHOOTER_SPEED, ControlType.kMAXMotionVelocityControl);
 
     }
 
     public void stopShooting() {
-         targetRPM = 0.0;
+        targetRPM = 0.0;
         targetKickerRPM = 0.0;
         ShooterRight1Motor.set(ShooterConstants.IDLE);
         ShooterRight2Motor.set(ShooterConstants.IDLE);
         ShooterLeft1Motor.set(ShooterConstants.IDLE);
         ShooterLeft2Motor.set(ShooterConstants.IDLE);
         ShooterKickerMotor.set(ShooterConstants.STOP);
-        // shooterkickerController.setSetpoint(ShooterConstants.STOP, ControlType.kMAXMotionVelocityControl);
-        // shooterleftController.setSetpoint(ShooterConstants.STOP, ControlType.kMAXMotionVelocityControl);
-        // shooterrightController.setSetpoint(ShooterConstants.STOP, ControlType.kMAXMotionVelocityControl);
+    }
+
+    // Speeds up shooter (runs all motors except kicker) so it's faster
+    public void SpeedUpShooter()
+    {
+        targetRPM = ShooterConstants.SHOOTER_SPEED;
+        shooterright1Controller.setSetpoint(ShooterConstants.SHOOTER_SPEED, ControlType.kMAXMotionVelocityControl);
+        shooterright2Controller.setSetpoint(ShooterConstants.SHOOTER_SPEED, ControlType.kMAXMotionVelocityControl);
+        shooterleft1Controller.setSetpoint(ShooterConstants.SHOOTER_SPEED, ControlType.kMAXMotionVelocityControl);
+        shooterleft2Controller.setSetpoint(ShooterConstants.SHOOTER_SPEED, ControlType.kMAXMotionVelocityControl);
     }
 
     public void RotateHoodUp()
@@ -166,6 +170,10 @@ public class Shooter extends SubsystemBase {
 
     public Command stopShootingCommand() {
         return new RunCommand(() -> stopShooting(), this);
+    }
+
+    public Command SpeedUpShooterCommand() {
+        return new RunCommand(() -> SpeedUpShooter(), this);
     }
 
     public Command RotateHoodUpCommand()
