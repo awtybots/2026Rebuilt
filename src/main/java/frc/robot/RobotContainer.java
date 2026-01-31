@@ -248,7 +248,14 @@ public class RobotContainer {
    Climb.whileTrue(m_climber.runClimbCommand());
    ClimbDown.whileTrue(m_climber.runClimberDownCommand());
 
-
+    // SysId: run shooter quasistatic forward.
+    operatorXbox.a().whileTrue(m_shooter.sysIdQuasistaticForward());
+    // SysId: run shooter quasistatic reverse.
+    operatorXbox.b().whileTrue(m_shooter.sysIdQuasistaticReverse());
+    // SysId: run shooter dynamic forward.
+    operatorXbox.x().whileTrue(m_shooter.sysIdDynamicForward());
+    // SysId: run shooter dynamic reverse.
+    operatorXbox.y().whileTrue(m_shooter.sysIdDynamicReverse());
 
 
 
