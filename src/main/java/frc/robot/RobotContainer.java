@@ -48,7 +48,6 @@ import frc.robot.subsystems.Climber;
 */
 public class RobotContainer {
 
-
  // Replace with CommandPS4Controller or CommandJoystick if needed
  final CommandXboxController driverXbox = new CommandXboxController(0);
  final CommandXboxController operatorXbox = new CommandXboxController(1);
@@ -281,7 +280,11 @@ public class RobotContainer {
    if (RobotBase.isSimulation()) {
      drivebase.setDefaultCommand(driveFieldOrientedDirectAngleKeyboard);
    } else {
-     drivebase.setDefaultCommand(driveFieldOrientedAnglularVelocity);
+     if (Constants.USE_ROBOT_RELATIVE) {
+       drivebase.setDefaultCommand(drivebase.drive(() -> driveRobotOriented.get()));
+     } else {
+       drivebase.setDefaultCommand(driveFieldOrientedAnglularVelocity);
+     }
    }
 
 
@@ -313,7 +316,11 @@ public class RobotContainer {
    }
    if (DriverStation.isTest())
    {
-   drivebase.setDefaultCommand(driveFieldOrientedAnglularVelocity); // Overrides drive command above!
+   if (Constants.USE_ROBOT_RELATIVE) {
+     drivebase.setDefaultCommand(drivebase.drive(() -> driveRobotOriented.get()));
+   } else {
+     drivebase.setDefaultCommand(driveFieldOrientedAnglularVelocity); // Overrides drive command above!
+   }
 
 
    driverXbox.x().whileTrue(Commands.runOnce(drivebase::lock, drivebase).repeatedly());

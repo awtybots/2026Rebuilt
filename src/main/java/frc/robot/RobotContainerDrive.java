@@ -49,8 +49,13 @@ public class RobotContainerDrive {
   }
 
   private void setDefaultDriveCommand() {
-    Supplier<ChassisSpeeds> fieldOriented = () -> applyHeadingBias(driveAngularVelocity.get());
-    drivebase.setDefaultCommand(drivebase.driveFieldOriented(fieldOriented));
+    if (Constants.USE_ROBOT_RELATIVE) {
+      drivebase.setDefaultCommand(
+          drivebase.run(() -> drivebase.drive(driveAngularVelocity.get())));
+    } else {
+      Supplier<ChassisSpeeds> fieldOriented = () -> applyHeadingBias(driveAngularVelocity.get());
+      drivebase.setDefaultCommand(drivebase.driveFieldOriented(fieldOriented));
+    }
   }
 
   public Command getAutonomousCommand() {
