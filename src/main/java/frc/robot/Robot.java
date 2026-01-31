@@ -30,6 +30,7 @@ public class Robot extends LoggedRobot
 
   private RobotContainer m_robotContainer;
   private RobotContainerShooter m_robotContainerShooter;
+  private RobotContainerDrive m_robotContainerDrive;
 
   private Timer disabledTimer;
 
@@ -76,9 +77,11 @@ public class Robot extends LoggedRobot
   @Override
   public void robotInit()
   {
-    // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
-    // autonomous chooser on the dashboard.
-    if (Constants.USE_SHOOTER_ONLY)
+    // Instantiate the selected container. This will perform all button bindings.
+    if (Constants.USE_DRIVE_ONLY)
+    {
+      m_robotContainerDrive = new RobotContainerDrive();
+    } else if (Constants.USE_SHOOTER_ONLY)
     {
       m_robotContainerShooter = new RobotContainerShooter();
     } else
@@ -111,7 +114,10 @@ public class Robot extends LoggedRobot
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
-    if (Constants.USE_SHOOTER_ONLY)
+    if (Constants.USE_DRIVE_ONLY)
+    {
+      m_robotContainerDrive.logControllerInputs();
+    } else if (Constants.USE_SHOOTER_ONLY)
     {
       m_robotContainerShooter.logControllerInputs();
     } else
@@ -127,7 +133,10 @@ public class Robot extends LoggedRobot
   @Override
   public void disabledInit()
   {
-    if (!Constants.USE_SHOOTER_ONLY)
+    if (Constants.USE_DRIVE_ONLY)
+    {
+      m_robotContainerDrive.setMotorBrake(true);
+    } else if (!Constants.USE_SHOOTER_ONLY)
     {
       m_robotContainer.setMotorBrake(true);
     }
@@ -140,7 +149,10 @@ public class Robot extends LoggedRobot
   {
     if (disabledTimer.hasElapsed(Constants.DrivebaseConstants.WHEEL_LOCK_TIME))
     {
-      if (!Constants.USE_SHOOTER_ONLY)
+      if (Constants.USE_DRIVE_ONLY)
+      {
+        m_robotContainerDrive.setMotorBrake(false);
+      } else if (!Constants.USE_SHOOTER_ONLY)
       {
         m_robotContainer.setMotorBrake(false);
       }
@@ -155,13 +167,17 @@ public class Robot extends LoggedRobot
   @Override
   public void autonomousInit()
   {
-    if (!Constants.USE_SHOOTER_ONLY)
+    if (Constants.USE_DRIVE_ONLY)
+    {
+      m_robotContainerDrive.setMotorBrake(true);
+      m_autonomousCommand = m_robotContainerDrive.getAutonomousCommand();
+    } else if (Constants.USE_SHOOTER_ONLY)
+    {
+      m_autonomousCommand = m_robotContainerShooter.getAutonomousCommand();
+    } else
     {
       m_robotContainer.setMotorBrake(true);
       m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-    } else
-    {
-      m_autonomousCommand = m_robotContainerShooter.getAutonomousCommand();
     }
 
     //Print the selected autonomous command upon autonomous init

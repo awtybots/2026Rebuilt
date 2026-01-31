@@ -14,6 +14,7 @@ import swervelib.math.Matter;
  */
 public final class Constants
 {
+  public static final boolean USE_DRIVE_ONLY = false;
   public static final boolean USE_SHOOTER_ONLY = true;
   public static final boolean SIM_REPLAY_MODE = false;
 //not used
