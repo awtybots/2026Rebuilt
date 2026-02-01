@@ -15,7 +15,7 @@ import swervelib.math.Matter;
 public final class Constants
 {
   public static final boolean USE_ROBOT_RELATIVE = false;
-  public static final boolean USE_DRIVE_ONLY = true;
+  public static final boolean USE_DRIVE_ONLY = false;
   public static final boolean USE_SHOOTER_ONLY = false;
   public static final boolean SIM_REPLAY_MODE = false;
 //not used
@@ -93,8 +93,8 @@ public final class Constants
 
   public static class ClimberConstants
   {
-    public static final int CLIMBER_LEFT_ID = 0; // placeholder
-    public static final int CLIMBER_RIGHT_ID = 0; // placeholder
+    public static final int CLIMBER_LEFT_ID = 24; // placeholder
+    public static final int CLIMBER_RIGHT_ID = 25; // placeholder
 
     public static final double CLIMBER_SPEED = 0.5; // placeholder
 
