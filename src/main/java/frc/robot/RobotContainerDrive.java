@@ -39,7 +39,7 @@ public class RobotContainerDrive {
   public RobotContainerDrive() {
     SmartDashboard.putNumber("Heading Bias Deg", 0.0);
     // Tunable gain: radians of bias -> radians/sec of angular velocity
-    SmartDashboard.putNumber("Heading Bias Gain", 0.5);
+    SmartDashboard.putNumber("Heading Bias Gain", 0.0);
     configureBindings();
     setDefaultDriveCommand();
   }
