@@ -31,10 +31,11 @@ public class RobotContainerDrive {
       drivebase.getSwerveDrive(),
       () -> driverXbox.getLeftY() * -1,
       () -> driverXbox.getLeftX() * -1)
-      .withControllerRotationAxis(driverXbox::getRightX)
+      .withControllerRotationAxis(() -> driverXbox.getRightX() * -1)
       .deadband(OperatorConstants.DEADBAND)
       .scaleTranslation(0.8)
-      .allianceRelativeControl(true);
+      .allianceRelativeControl(true)
+      ;
 
   public RobotContainerDrive() {
     SmartDashboard.putNumber("Heading Bias Deg", 0.0);
