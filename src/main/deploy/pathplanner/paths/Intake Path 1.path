@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.713691039184308,
-        "y": 5.620220509846062
+        "x": 7.761752781147313,
+        "y": 5.767013856413125
       },
       "isLocked": false,
       "linkedName": "Start Path"
@@ -20,8 +20,8 @@
         "y": 5.115378031383738
       },
       "prevControl": {
-        "x": 7.701259789612011,
-        "y": 5.365377896402417
+        "x": 7.627260514562046,
+        "y": 5.354255590579544
       },
       "nextControl": null,
       "isLocked": false,
@@ -33,22 +33,22 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 3.0,
+    "maxVelocity": 5.0,
     "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
-    "unlimited": true
+    "unlimited": false
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -90.0
+    "rotation": 90.0
   },
   "reversed": false,
   "folder": "Week 3 Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -90.0
+    "rotation": 90.0
   },
-  "useDefaultConstraints": false
+  "useDefaultConstraints": true
 }

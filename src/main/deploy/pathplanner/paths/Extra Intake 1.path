@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.398337046959094,
-        "y": 5.447406550718577
+        "x": 1.4198473849305426,
+        "y": 5.470892424457649
       },
       "isLocked": false,
       "linkedName": "Shoot End 1"
@@ -20,8 +20,8 @@
         "y": 5.982268188295019
       },
       "prevControl": {
-        "x": 1.5607884774935863,
-        "y": 5.3807542587237585
+        "x": 1.564458636066364,
+        "y": 5.374098150945122
       },
       "nextControl": null,
       "isLocked": false,
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": 0.0
   },
   "reversed": false,
   "folder": "Week 3 Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 160.0
+    "rotation": -20.782658854713944
   },
   "useDefaultConstraints": true
 }
