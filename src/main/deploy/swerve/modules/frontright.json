@@ -23,5 +23,5 @@
     "id": 0,
     "canbus": null
   },
-  "absoluteEncoderInverted": true
+  "absoluteEncoderInverted": false
 }
