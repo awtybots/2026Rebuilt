@@ -101,6 +101,8 @@ public class SwerveSubsystem extends SubsystemBase
     // swerveDrive.pushOffsetsToEncoders(); // Set the absolute encoder to be used over the internal encoder and push the offsets onto it. Throws warning if not possible
 
     swerveDrive.setChassisDiscretization(false, 0.02);
+    // The SwerveDrive API in this build does not provide a setChassisVelocityCorrection(...) method,
+    // so do not attempt to call it here; rely on the default behavior or other available APIs.
     setupPathPlanner();
   }
 
