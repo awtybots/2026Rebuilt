@@ -85,7 +85,7 @@ public class RobotContainerDrive {
   }
 
   public Command getAutonomousCommand() {
-     return loggedAutoChooser.get();;
+     return loggedAutoChooser.get();
   }
 
   public void setMotorBrake(boolean brake) {
