@@ -319,7 +319,7 @@ public class RobotContainer {
     //   driverXbox.rightBumper().onTrue(Commands.none());
     // }
 
-   slowTrigger.whileTrue(driveFieldOrientedAngularVelocityslower);
+   slowTrigger.whileTrue(driveFieldOrientedAngularVelocityslower).toggleOnFalse(driveFieldOrientedAnglularVelocity);
 
   }
 
