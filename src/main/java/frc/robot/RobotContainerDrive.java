@@ -40,11 +40,25 @@ public class RobotContainerDrive {
       () -> driverXbox.getLeftX() * -1)
       .withControllerRotationAxis(() -> driverXbox.getRightX()*-1)
       .deadband(OperatorConstants.DEADBAND)
-      .scaleTranslation(0.8)
+      .scaleTranslation(1.2)
+      .scaleRotation(1.2)
+      .allianceRelativeControl(true)
+      ;
+
+   private final SwerveInputStream driveSlowerAngularVelocity = SwerveInputStream.of(
+      drivebase.getSwerveDrive(),
+      () -> driverXbox.getLeftY() * -1,
+      () -> driverXbox.getLeftX() * -1)
+      .withControllerRotationAxis(() -> driverXbox.getRightX()*-1)
+      .deadband(OperatorConstants.DEADBAND)
+      .scaleTranslation(0.4)
+      .scaleRotation(0.4)
       .allianceRelativeControl(true)
       ;
 
   public RobotContainerDrive() {
+ 
+
     SmartDashboard.putNumber("Heading Bias Deg", 0.0);
     // Tunable gain: radians of bias -> radians/sec of angular velocity
     SmartDashboard.putNumber("Heading Bias Gain", 0.0);
@@ -71,7 +85,14 @@ public class RobotContainerDrive {
   }
 
   private void configureBindings() {
+
+       Command driveFieldOrientedAnglularVelocity = drivebase.driveFieldOriented(
+       () -> applyHeadingBias(driveAngularVelocity.get()));
+
+    Command driveSlowerFieldOrientedAnglularVelocity = drivebase.driveFieldOriented(
+       () -> applyHeadingBias(driveSlowerAngularVelocity.get()));
     driverXbox.start().onTrue(Commands.runOnce(drivebase::zeroGyro));
+    driverXbox.rightTrigger(0.5).whileTrue(driveSlowerFieldOrientedAnglularVelocity).toggleOnFalse(driveFieldOrientedAnglularVelocity);
   }
 
   private void setDefaultDriveCommand() {
@@ -83,6 +104,7 @@ public class RobotContainerDrive {
       drivebase.setDefaultCommand(drivebase.driveFieldOriented(fieldOriented));
     }
   }
+
 
   public Command getAutonomousCommand() {
      return loggedAutoChooser.get();
