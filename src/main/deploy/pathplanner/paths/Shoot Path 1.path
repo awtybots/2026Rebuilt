@@ -16,16 +16,16 @@
     },
     {
       "anchor": {
-        "x": 5.2811697574893,
-        "y": 7.392582025677603
+        "x": 5.035335235378032,
+        "y": 7.41845934379458
       },
       "prevControl": {
-        "x": 6.183095675215135,
-        "y": 7.168990133691116
+        "x": 6.368017118402281,
+        "y": 7.3278887303851645
       },
       "nextControl": {
-        "x": 4.74982595995922,
-        "y": 7.52430477878863
+        "x": 3.369239070421786,
+        "y": 7.531689180247917
       },
       "isLocked": false,
       "linkedName": null
@@ -86,13 +86,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -20.065704897423398
+    "rotation": 159.934
   },
   "reversed": false,
   "folder": "Week 3 Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 90.0
+    "rotation": -90.0
   },
   "useDefaultConstraints": true
 }
