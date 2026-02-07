@@ -133,8 +133,7 @@ public class RobotContainer {
 
  // Shooter
  private final Trigger shootFuel = driverXbox.y();
- private final Trigger RotateHoodUp = driverXbox.rightTrigger();
- private final Trigger RotateHoodDown = driverXbox.leftTrigger();
+ private final Trigger unjam = driverXbox.rightTrigger();
 
 
  // Intake
@@ -174,8 +173,6 @@ public class RobotContainer {
    NamedCommands.registerCommand("test", Commands.print("I EXIST"));
    NamedCommands.registerCommand("shoot", m_shooter.shootFuelCommand().withTimeout(8));
    NamedCommands.registerCommand("speed-up-shooter", m_shooter.SpeedUpShooterCommand().withTimeout(15));
-   NamedCommands.registerCommand("hood up", m_shooter.RotateHoodUpCommand().withTimeout(6.7));
-   NamedCommands.registerCommand("hood down", m_shooter.RotateHoodDownCommand().withTimeout(6.7));
    NamedCommands.registerCommand("transfer", m_hopper.runHopperToShooterCommand().withTimeout(6.7));
    NamedCommands.registerCommand("reverse hopper", m_hopper.runReverseHopperCommand().withTimeout(6.7));
    NamedCommands.registerCommand("intake", m_intake.runIntakeCommand().withTimeout(4));
@@ -239,8 +236,6 @@ public class RobotContainer {
 
    // Shooter Commands
    shootFuel.whileTrue(m_shooter.shootFuelCommand());
-   RotateHoodUp.whileTrue(m_shooter.RotateHoodUpCommand());
-   RotateHoodDown.whileTrue(m_shooter.RotateHoodDownCommand());
 
 
    // Climber Commands

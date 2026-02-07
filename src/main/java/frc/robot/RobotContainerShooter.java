@@ -29,8 +29,6 @@ public class RobotContainerShooter {
     // Shooter commands
     driverXbox.y().whileTrue(m_shooter.shootFuelCommand());
     driverXbox.x().whileTrue(m_shooter.SpeedUpShooterCommand());
-    driverXbox.a().whileTrue(m_shooter.RotateHoodDownCommand());
-    driverXbox.b().whileTrue(m_shooter.RotateHoodUpCommand());
 
     // SysId on operator controller
     operatorXbox.a().whileTrue(m_shooter.sysIdQuasistaticForward());

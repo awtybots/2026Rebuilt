@@ -60,8 +60,9 @@ public final class Configs
 
         public static final class ShooterSubsystem {
 
-                public static final SparkFlexConfig ShooterKickerMotorConfig = new SparkFlexConfig();
-                public static final SparkFlexConfig HoodMotorConfig = new SparkFlexConfig();
+                public static final SparkFlexConfig kickerLeftMotorConfig = new SparkFlexConfig();
+                public static final SparkFlexConfig kickerRightMotorConfig = new SparkFlexConfig();
+                public static final SparkFlexConfig kickerTransferMotorConfig = new SparkFlexConfig();
 
                 public static final SparkFlexConfig ShooterRightMotor1Config = new SparkFlexConfig(); 
                 public static final SparkFlexConfig ShooterRightMotor2Config = new SparkFlexConfig(); 
@@ -71,28 +72,16 @@ public final class Configs
                 
                         static {
 
-                                ShooterKickerMotorConfig.idleMode(IdleMode.kCoast).smartCurrentLimit(40).voltageCompensation(12);
-                                
-                                HoodMotorConfig.idleMode(IdleMode.kBrake).smartCurrentLimit(40).voltageCompensation(12);
-                               
+                                kickerLeftMotorConfig.idleMode(IdleMode.kCoast).smartCurrentLimit(40).voltageCompensation(12);
+                                kickerRightMotorConfig.idleMode(IdleMode.kCoast).smartCurrentLimit(40).voltageCompensation(12);
+                                kickerTransferMotorConfig.idleMode(IdleMode.kCoast).smartCurrentLimit(40).voltageCompensation(12);
+
                                 ShooterRightMotor1Config.idleMode(IdleMode.kCoast).smartCurrentLimit(40).voltageCompensation(12);
                                 ShooterRightMotor2Config.inverted(true).idleMode(IdleMode.kCoast).smartCurrentLimit(40).voltageCompensation(12);
                                 
                                 ShooterLeftMotor1Config.idleMode(IdleMode.kCoast).smartCurrentLimit(40).voltageCompensation(12);
                                 ShooterLeftMotor2Config.inverted(true).idleMode(IdleMode.kCoast).smartCurrentLimit(40).voltageCompensation(12);
                                 
-                                
-                                ShooterKickerMotorConfig.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder)
-                                // Set PID values for position control. We don't need to pass a closed
-                                // loop slot, as it will default to slot 0.
-                                .p(0.2)
-                                .i(0)
-                                .d(0)
-                                .outputRange(-1, 1)
-                                ;
-
-                                ShooterKickerMotorConfig.closedLoop
-                                .maxMotion.maxAcceleration(12000);
 
                                 ShooterRightMotor1Config.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder)
                                 // Set PID values for position control. We don't need to pass a closed
@@ -157,27 +146,6 @@ public final class Configs
 
                                 ShooterLeftMotor2Config.closedLoop
                                 .maxMotion.maxAcceleration(10000);
-
-
-
-
-                                HoodMotorConfig.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder)
-                                // Set PID values for position control. We don't need to pass a closed
-                                // loop slot, as it will default to slot 0.
-                                .p(0.0002355)
-                                .i(0.0)
-                                .d(0.000)
-                                .outputRange(-1, 1)
-                                .feedForward
-                                .kS(0.10)
-                                .kV(0.00177)
-                                .kA(0.00017)
-                                ;
-
-                                HoodMotorConfig.closedLoop
-                                .maxMotion.maxAcceleration(10000);
-                                
-                                
 
                 }
 
