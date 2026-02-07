@@ -15,7 +15,7 @@ public final class Configs
             public static final SparkFlexConfig IntakeRightMotorConfig = new SparkFlexConfig();
 
             public static final SparkFlexConfig PushoutLeftMotorConfig = new SparkFlexConfig();
-            public static final SparkFlexConfig PushoutRightMotorConfig = new SparkFlexConfig()
+            public static final SparkFlexConfig PushoutRightMotorConfig = new SparkFlexConfig();
 
 
                 static {
@@ -23,8 +23,35 @@ public final class Configs
                         IntakeLeftMotorConfig.idleMode(IdleMode.kBrake).smartCurrentLimit(40).voltageCompensation(12);
                         IntakeRightMotorConfig.idleMode(IdleMode.kBrake).smartCurrentLimit(40).voltageCompensation(12);
 
-                        PushoutLeftMotorConfig.idleMode(IdleMode.kBrake).smartCurrentLimit(40).voltageCompensation(12);
-                        PushoutRightMotorConfig.idleMode(IdleMode.kBrake).smartCurrentLimit(40).voltageCompensation(12);
+                        PushoutLeftMotorConfig
+                        .inverted(false)
+                        .idleMode(IdleMode.kBrake)
+                        .smartCurrentLimit(40)
+                        .voltageCompensation(12);
+
+                        PushoutRightMotorConfig
+                        .inverted(true) // likely opposite side of 4-bar
+                        .idleMode(IdleMode.kBrake)
+                        .smartCurrentLimit(40)
+                        .voltageCompensation(12);
+
+                        PushoutLeftMotorConfig.closedLoop
+                        .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
+                        .p(0.6)
+                        .i(0.0)
+                        .d(0.05)
+                        .outputRange(-1.0, 1.0)
+                        .maxMotion
+                                .maxAcceleration(3000); // smooth extension
+
+                        PushoutRightMotorConfig.closedLoop
+                        .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
+                        .p(0.6)
+                        .i(0.0)
+                        .d(0.05)
+                        .outputRange(-1.0, 1.0)
+                        .maxMotion
+                                .maxAcceleration(3000);
 
 
                         IntakeLeftMotorConfig.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder)
