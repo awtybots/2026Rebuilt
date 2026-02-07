@@ -77,7 +77,6 @@ public final class Constants
     public static final int KICKER_RIGHT_ID = 17; 
     public static final int KICKER_TRANSFER_ID = 16; 
 
-    public static final int six_seven = 67;
 
     public static final double KICKER_SPEED = 3100;
     public static final double KICKER_REVERSE_SPEED = 3100;
@@ -88,16 +87,17 @@ public final class Constants
   }
   public static class HopperConstants
   {
-    public static final int HOPPER_PUSHDOWN_ID = 19; 
-    public static final int HOPPER_TRANSFER_ID = 15; 
+    
+    public static final int TWINDEXER_RIGHT_ID = 19; 
+    public static final int TWINDEXER_LEFT_ID = 15; 
 
-    public static final double HOPPER_PUSHDOWN_SPEED = 0.7;
-    public static final double HOPPER_TRANSFER_SPEED = 0.7;
+    public static final double TWINDEXER_RIGHT_SPEED = 0.7;
+    public static final double TWINDEXER_LEFT_SPEED = -0.7;
 
-    public static final double REVERSE_HOPPER_PUSHDOWN_SPEED = -0.7;
-    public static final double REVERSE_HOPPER_TRANSFER_SPEED = -0.7;
+    public static final double REVERSE_TWINDEXER_RIGHT_SPEED = -0.7;
+    public static final double REVERSE_TWINDEXER_LEFT_SPEED = 0.7;
 
-    public static final int six_seven = 67;
+    public static final int six_seven = 67; // <---------- HISTORICAL MONUMENT
 
   }
 
@@ -109,9 +109,6 @@ public final class Constants
     public static final double CLIMBER_SPEED = 0.5; // placeholder
 
     public static final double CLIMBER_DOWN_SPEED = -0.5; // placeholder
-
-    public static final int six_seven = 67;
-
   }
 
 }

@@ -175,15 +175,15 @@ public final class Configs
 
         public static final class HopperSubsystem {
                 
-            public static final SparkFlexConfig HopperPushDownMotorConfig = new SparkFlexConfig();
-            public static final SparkFlexConfig HopperTransferMotorConfig = new SparkFlexConfig();
+            public static final SparkFlexConfig TwindexerRightControllerConfig = new SparkFlexConfig();
+            public static final SparkFlexConfig TwindexerLeftControllerConfig = new SparkFlexConfig();
 
                 static {
 
-                        HopperPushDownMotorConfig.inverted(true).idleMode(IdleMode.kBrake).smartCurrentLimit(40).voltageCompensation(12);
-                        HopperTransferMotorConfig.idleMode(IdleMode.kBrake).smartCurrentLimit(40).voltageCompensation(12);
+                        TwindexerRightControllerConfig.inverted(true).idleMode(IdleMode.kBrake).smartCurrentLimit(40).voltageCompensation(12);
+                        TwindexerLeftControllerConfig.idleMode(IdleMode.kBrake).smartCurrentLimit(40).voltageCompensation(12);
 
-                        HopperPushDownMotorConfig.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder)
+                        TwindexerRightControllerConfig.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder)
                             // Set PID values for position control. We don't need to pass a closed
                             // loop slot, as it will default to slot 0.
                             .p(0.4)
@@ -200,7 +200,7 @@ public final class Configs
                         //     .kV(12.0 / 5767, ClosedLoopSlot.kSlot1);
                         
 
-                            HopperTransferMotorConfig.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder)
+                            TwindexerLeftControllerConfig.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder)
                             // Set PID values for position control. We don't need to pass a closed
                             // loop slot, as it will default to slot 0.
                             .p(0.4)
