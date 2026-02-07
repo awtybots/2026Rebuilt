@@ -28,14 +28,11 @@ public class Kicker extends SubsystemBase {
     // Instantiating the hopper to shooter motor
     private SparkFlex KickerLeftMotor = new SparkFlex(KickerConstants.KICKER_LEFT_ID, MotorType.kBrushless);
     private SparkFlex KickerRightMotor = new SparkFlex(KickerConstants.KICKER_RIGHT_ID, MotorType.kBrushless);
-    private SparkFlex KickerTransferMotor = new SparkFlex(KickerConstants.KICKER_TRANSFER_ID, MotorType.kBrushless);
     private SparkClosedLoopController kickerLeftController = KickerLeftMotor.getClosedLoopController(); 
     private SparkClosedLoopController kickerRightController = KickerRightMotor.getClosedLoopController(); 
-    private SparkClosedLoopController kickerTransferController = KickerTransferMotor.getClosedLoopController(); 
 
     private final RelativeEncoder kickerLeftEncoder = KickerLeftMotor.getEncoder();
     private final RelativeEncoder kickerRightEncoder = KickerRightMotor.getEncoder();
-    private final RelativeEncoder kickerTransferEncoder = KickerTransferMotor.getEncoder();
 
     private double targetRPM = 0.0;
     private double targetKickerRPM = 0.0;
@@ -50,27 +47,20 @@ public class Kicker extends SubsystemBase {
                     log -> {
                         double kickerLRps = kickerLeftEncoder.getVelocity() / 60.0;
                         double kickerRRps = kickerRightEncoder.getVelocity() / 60.0;
-                        double kickerTRps = kickerTransferEncoder.getVelocity() / 60.0;
 
 
                         double kickerLVolts = KickerLeftMotor.getAppliedOutput() * KickerLeftMotor.getBusVoltage();
                         double kickerRVolts = KickerRightMotor.getAppliedOutput() * KickerRightMotor.getBusVoltage();
-                        double kickerTVolts = KickerTransferMotor.getAppliedOutput() * KickerTransferMotor.getBusVoltage();
 
-                        log.motor("kicker-left-1")
+                        log.motor("kicker-left")
                                 .voltage(Units.Volts.of(kickerLVolts))
                                 .angularPosition(Units.Rotations.of(kickerLeftEncoder.getPosition()))
                                 .angularVelocity(Units.RotationsPerSecond.of(kickerLRps));
 
-                        log.motor("kicker-right-1")
+                        log.motor("kicker-right")
                                 .voltage(Units.Volts.of(kickerRVolts))
                                 .angularPosition(Units.Rotations.of(kickerRightEncoder.getPosition()))
                                 .angularVelocity(Units.RotationsPerSecond.of(kickerRRps));
-
-                        log.motor("kicker-transfer-1")
-                                .voltage(Units.Volts.of(kickerTVolts))
-                                .angularPosition(Units.Rotations.of(kickerTransferEncoder.getPosition()))
-                                .angularVelocity(Units.RotationsPerSecond.of(kickerTRps));
                     },
                     this));
 
@@ -79,8 +69,6 @@ public class Kicker extends SubsystemBase {
                 PersistMode.kPersistParameters);
         KickerRightMotor.configure(Configs.KickerSubsystem.kickerRightMotorConfig, ResetMode.kResetSafeParameters,
                 PersistMode.kPersistParameters);
-        KickerTransferMotor.configure(Configs.KickerSubsystem.kickerTransferMotorConfig, ResetMode.kResetSafeParameters,
-                PersistMode.kPersistParameters);
     }
 
     // Alright so essentially we made a method to make the motor speed up (a few methods below this) and decided to make 
@@ -88,13 +76,11 @@ public class Kicker extends SubsystemBase {
     public void Kick() {
         kickerLeftController.setSetpoint(KickerConstants.KICKER_SPEED, ControlType.kMAXMotionVelocityControl);
         kickerRightController.setSetpoint(KickerConstants.KICKER_SPEED, ControlType.kMAXMotionVelocityControl);
-        kickerTransferController.setSetpoint(KickerConstants.KICKER_SPEED, ControlType.kMAXMotionVelocityControl);
     }
 
     public void KickBackwards() {
         kickerLeftController.setSetpoint(KickerConstants.KICKER_REVERSE_SPEED, ControlType.kMAXMotionVelocityControl);
         kickerRightController.setSetpoint(KickerConstants.KICKER_REVERSE_SPEED, ControlType.kMAXMotionVelocityControl);
-        kickerTransferController.setSetpoint(KickerConstants.KICKER_REVERSE_SPEED, ControlType.kMAXMotionVelocityControl);
     }
 
 
@@ -148,12 +134,10 @@ public class Kicker extends SubsystemBase {
         // AdvantageKit Logging
         double kickerLeftRPM = KickerLeftMotor.getEncoder().getVelocity();
         double kickerRightRPM = KickerRightMotor.getEncoder().getVelocity();
-        double kickerTransferRPM = KickerTransferMotor.getEncoder().getVelocity();
 
         // Kicker wheels speed (RPM).
         Logger.recordOutput("Shooter/KickerLeftRPM", kickerLeftRPM);
         Logger.recordOutput("Shooter/KickerRightRPM", kickerRightRPM);
-        Logger.recordOutput("Shooter/KickerTransferRPM", kickerTransferRPM);
 
         // Desired kicker RPM setpoint.
         Logger.recordOutput("Shooter/TargetKickerRPM", targetKickerRPM);
@@ -161,6 +145,5 @@ public class Kicker extends SubsystemBase {
         // Applied voltage to kicker motors
         Logger.recordOutput("Shooter/KickerLeftAppliedVolts", KickerLeftMotor.getAppliedOutput() * KickerLeftMotor.getBusVoltage());
         Logger.recordOutput("Shooter/KickerRightAppliedVolts", KickerRightMotor.getAppliedOutput() * KickerRightMotor.getBusVoltage());
-        Logger.recordOutput("Shooter/KickerTransferAppliedVolts", KickerTransferMotor.getAppliedOutput() * KickerTransferMotor.getBusVoltage());
     }
 }

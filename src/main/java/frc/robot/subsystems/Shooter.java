@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import edu.wpi.first.units.Units;
 
+
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.RelativeEncoder;
@@ -17,6 +18,9 @@ import com.revrobotics.PersistMode;
 import com.revrobotics.spark.ClosedLoopSlot;
 import com.revrobotics.REVLibError;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
+
+import au.grapplerobotics.LaserCan;
+
 import com.revrobotics.spark.SparkBase.ControlType;
 import frc.robot.Constants.ShooterConstants;
 import yams.motorcontrollers.SmartMotorControllerConfig.ControlMode;
@@ -103,6 +107,20 @@ public class Shooter extends SubsystemBase {
                 PersistMode.kPersistParameters);
         
     }
+
+    public boolean isShooterFast() {
+        double right1RPM = ShooterRight1Motor.getEncoder().getVelocity();
+        double right2RPM = ShooterRight2Motor.getEncoder().getVelocity();
+
+        double left1RPM = ShooterLeft1Motor.getEncoder().getVelocity();
+        double left2RPM = ShooterLeft2Motor.getEncoder().getVelocity();
+        double avgShooterRPM = (right1RPM + right2RPM + left1RPM + left2RPM) / 4.0;
+
+        // Return true when average shooter RPM is within ERROR_MARGIN of the target speed.
+        // Use java.lang.Math (capital M), and compare absolute difference against the error margin.
+        return Math.abs(avgShooterRPM - ShooterConstants.SHOOTER_SPEED) <= ShooterConstants.ERROR_MARGIN;
+    }
+
 
     // Alright so essentially we made a method to make the motor speed up (a few methods below this) and decided to make 
     // shoot fuel call that, as well as the kicker motor so we reduce extra code

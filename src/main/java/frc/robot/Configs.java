@@ -81,12 +81,10 @@ public final class Configs
         public static final class KickerSubsystem {
                 public static final SparkFlexConfig kickerLeftMotorConfig = new SparkFlexConfig();
                 public static final SparkFlexConfig kickerRightMotorConfig = new SparkFlexConfig();
-                public static final SparkFlexConfig kickerTransferMotorConfig = new SparkFlexConfig();
 
                         static {
                                 kickerLeftMotorConfig.idleMode(IdleMode.kCoast).smartCurrentLimit(40).voltageCompensation(12);
                                 kickerRightMotorConfig.idleMode(IdleMode.kCoast).smartCurrentLimit(40).voltageCompensation(12);
-                                kickerTransferMotorConfig.idleMode(IdleMode.kCoast).smartCurrentLimit(40).voltageCompensation(12);
 
                         }
 

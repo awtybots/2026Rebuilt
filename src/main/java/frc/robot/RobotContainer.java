@@ -24,6 +24,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.Configs.ShooterSubsystem;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.io.File;
@@ -136,7 +137,7 @@ public class RobotContainer {
 
  // Shooter
  private final Trigger shootFuel = driverXbox.y();
-
+ private final Trigger speedUpShooter = driverXbox.rightTrigger();
 
  // Kicker
  private final Trigger kick = driverXbox.b();
@@ -232,10 +233,15 @@ public class RobotContainer {
   * Flight joysticks}.
   */
  private void configureBindings() {
+
+   // Parallel commands
+   kick.whileTrue(Commands.parallel(m_kicker.kickCommand(), m_shooter.shootFuelCommand()).onlyIf(m_shooter::isShooterFast));
+
+
    // Intake Commands
    runIntake.whileTrue(m_intake.runIntakeCommand());
    runOuttake.whileTrue(m_intake.runOuttakeCommand());
-
+   
 
    // Hopper Commands
    HopperToShooter.whileTrue(m_hopper.runHopperToShooterCommand());
@@ -244,7 +250,7 @@ public class RobotContainer {
 
    // Shooter Commands
    shootFuel.whileTrue(m_shooter.shootFuelCommand());
-
+   speedUpShooter.whileTrue(m_shooter.SpeedUpShooterCommand());
 
    // Climber Commands
    Climb.whileTrue(m_climber.runClimbCommand());
