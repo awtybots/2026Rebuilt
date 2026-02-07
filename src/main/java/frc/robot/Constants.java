@@ -52,7 +52,11 @@ public final class Constants
 
   public static class IntakeConstants
   {
-    public static final int INTAKE_ID = 16;
+    public static final int INTAKE_LEFT_ID = 0; // unknown
+    public static final int INTAKE_RIGHT_ID = 0; // unknown
+
+    public static final int PUSHOUT_RIGHT_ID = 0; // unknown
+    public static final int PUSHOUT_LEFT_ID = 0; // unknown
     public static final double INTAKE_SPEED = 0.7;
     public static final double OUTTAKE_SPEED = -0.7;
   }
