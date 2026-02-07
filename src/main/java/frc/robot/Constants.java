@@ -1,7 +1,16 @@
 package frc.robot;
 
+import java.util.Optional;
+
+import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
+
+import edu.wpi.first.units.measure.Angle;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import swervelib.math.Matter;
 
 /**
@@ -35,6 +44,43 @@ public final class Constants
 
   public static final class DrivebaseConstants
   {
+
+
+     public static final Pose3d redHubPose = new Pose3d(Units.inchesToMeters(468.56), Units.inchesToMeters(158.32),
+        Units.inchesToMeters(72.0), new Rotation3d());
+    public static final Pose3d blueHubPose = new Pose3d(Units.inchesToMeters(152.56), Units.inchesToMeters(158.32),
+        Units.inchesToMeters(72.0), new Rotation3d());
+
+    public static final Pose3d redFerryPoseDepot = new Pose3d(14.3, 6, 0, Rotation3d.kZero);
+    public static final Pose3d redFerryPoseOutpost = new Pose3d(14.3, 2, 0, Rotation3d.kZero);
+    public static final Pose3d blueFerryPoseDepot = new Pose3d(2.1, 2, 0, Rotation3d.kZero);
+    public static final Pose3d blueFerryPoseOutpost = new Pose3d(2.1, 6, 0, Rotation3d.kZero);
+
+    // public static final Angle epsilonAngleToGoal = Degrees.of(1.0);
+
+    public static final Pose3d getHubPose() {
+      Pose3d pose = DriverStation.getAlliance().equals(Optional.of(Alliance.Red)) ? redHubPose : blueHubPose;
+
+      return pose;
+    }
+
+    public static final Pose3d getFerryPose(Translation2d robotPose) {
+      if (DriverStation.getAlliance().equals(Optional.of(Alliance.Red))) {
+        if (robotPose.getDistance(redFerryPoseDepot.getTranslation().toTranslation2d()) > robotPose
+            .getDistance(redFerryPoseOutpost.getTranslation().toTranslation2d())) {
+          return redFerryPoseOutpost;
+        } else {
+          return redFerryPoseDepot;
+        }
+      } else {
+        if (robotPose.getDistance(blueFerryPoseDepot.getTranslation().toTranslation2d()) > robotPose
+            .getDistance(blueFerryPoseOutpost.getTranslation().toTranslation2d())) {
+          return blueFerryPoseOutpost;
+        } else {
+          return blueFerryPoseDepot;
+        }
+      }
+    }
 
     // Hold time on motor brakes when disabled
     public static final double WHEEL_LOCK_TIME = 10; // seconds
