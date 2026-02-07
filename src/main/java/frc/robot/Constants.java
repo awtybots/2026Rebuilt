@@ -72,19 +72,26 @@ public final class Constants
 
     public static final int SHOOTER_L1_ID = 17;
     public static final int SHOOTER_L2_ID = 20; // ?
+    
+    public static final double SHOOTER_SPEED = 5770; // RPM
+    public static final double STOP = 0;
+    public static final double IDLE = 0; // % voltage -1 --> 1
 
+  }
+  public static class KickerConstants
+  {
     public static final int KICKER_LEFT_ID = 21; 
     public static final int KICKER_RIGHT_ID = 17; 
     public static final int KICKER_TRANSFER_ID = 16; 
 
 
     public static final double KICKER_SPEED = 3100;
-    public static final double KICKER_REVERSE_SPEED = 3100;
+    public static final double KICKER_REVERSE_SPEED = -3100;
 
-    public static final double SHOOTER_SPEED = 5770; // RPM
     public static final double STOP = 0;
     public static final double IDLE = 0; // % voltage -1 --> 1
   }
+
   public static class HopperConstants
   {
     

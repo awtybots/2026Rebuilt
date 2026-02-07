@@ -78,13 +78,20 @@ public final class Configs
                 }
 
         };
-
-        public static final class ShooterSubsystem {
-
+        public static final class KickerSubsystem {
                 public static final SparkFlexConfig kickerLeftMotorConfig = new SparkFlexConfig();
                 public static final SparkFlexConfig kickerRightMotorConfig = new SparkFlexConfig();
                 public static final SparkFlexConfig kickerTransferMotorConfig = new SparkFlexConfig();
 
+                        static {
+                                kickerLeftMotorConfig.idleMode(IdleMode.kCoast).smartCurrentLimit(40).voltageCompensation(12);
+                                kickerRightMotorConfig.idleMode(IdleMode.kCoast).smartCurrentLimit(40).voltageCompensation(12);
+                                kickerTransferMotorConfig.idleMode(IdleMode.kCoast).smartCurrentLimit(40).voltageCompensation(12);
+
+                        }
+
+        }
+        public static final class ShooterSubsystem {
                 public static final SparkFlexConfig ShooterRightMotor1Config = new SparkFlexConfig(); 
                 public static final SparkFlexConfig ShooterRightMotor2Config = new SparkFlexConfig(); 
 
@@ -93,9 +100,6 @@ public final class Configs
                 
                         static {
 
-                                kickerLeftMotorConfig.idleMode(IdleMode.kCoast).smartCurrentLimit(40).voltageCompensation(12);
-                                kickerRightMotorConfig.idleMode(IdleMode.kCoast).smartCurrentLimit(40).voltageCompensation(12);
-                                kickerTransferMotorConfig.idleMode(IdleMode.kCoast).smartCurrentLimit(40).voltageCompensation(12);
 
                                 ShooterRightMotor1Config.idleMode(IdleMode.kCoast).smartCurrentLimit(40).voltageCompensation(12);
                                 ShooterRightMotor2Config.inverted(true).idleMode(IdleMode.kCoast).smartCurrentLimit(40).voltageCompensation(12);

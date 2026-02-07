@@ -33,6 +33,7 @@ import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Kicker;
 import frc.robot.subsystems.Hopper;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Climber;
@@ -61,6 +62,8 @@ public class RobotContainer {
  private final Hopper m_hopper = new Hopper();
  private final Shooter m_shooter = new Shooter();
  private final Climber m_climber = new Climber();
+ private final Kicker m_kicker = new Kicker();
+
 
 
  // Establish a Sendable Chooser that will be able to be sent to the
@@ -133,7 +136,10 @@ public class RobotContainer {
 
  // Shooter
  private final Trigger shootFuel = driverXbox.y();
- private final Trigger unjam = driverXbox.rightTrigger();
+
+
+ // Kicker
+ private final Trigger kick = driverXbox.b();
 
 
  // Intake
@@ -171,6 +177,8 @@ public class RobotContainer {
 
    // Create the NamedCommands that will be used in PathPlanner
    NamedCommands.registerCommand("test", Commands.print("I EXIST"));
+   NamedCommands.registerCommand("kick", m_kicker.kickCommand().withTimeout(8));
+   NamedCommands.registerCommand("kick-backwards", m_kicker.kickBackwardsCommand().withTimeout(8));
    NamedCommands.registerCommand("shoot", m_shooter.shootFuelCommand().withTimeout(8));
    NamedCommands.registerCommand("speed-up-shooter", m_shooter.SpeedUpShooterCommand().withTimeout(15));
    NamedCommands.registerCommand("transfer", m_hopper.runHopperToShooterCommand().withTimeout(6.7));
