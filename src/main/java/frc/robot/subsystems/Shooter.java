@@ -4,6 +4,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
+import edu.wpi.first.math.controller.BangBangController;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.units.Units;
 
 
@@ -25,6 +27,7 @@ import com.revrobotics.spark.SparkBase.ControlType;
 import frc.robot.Constants.ShooterConstants;
 import yams.motorcontrollers.SmartMotorControllerConfig.ControlMode;
 import frc.robot.Configs;
+import frc.robot.Configs.ShooterSubsystem;
 
 public class Shooter extends SubsystemBase {
 
@@ -32,13 +35,13 @@ public class Shooter extends SubsystemBase {
 
     private SparkFlex ShooterRight1Motor = new SparkFlex(ShooterConstants.SHOOTER_R1_ID, MotorType.kBrushless);
     private SparkFlex ShooterRight2Motor = new SparkFlex(ShooterConstants.SHOOTER_R2_ID, MotorType.kBrushless);
-    private SparkClosedLoopController shooterright1Controller = ShooterRight1Motor.getClosedLoopController(); 
-    private SparkClosedLoopController shooterright2Controller = ShooterRight2Motor.getClosedLoopController(); 
+    private BangBangController shooterright1Controller = new BangBangController(); 
+    private BangBangController shooterright2Controller = new BangBangController(); 
 
     private SparkFlex ShooterLeft1Motor = new SparkFlex(ShooterConstants.SHOOTER_L1_ID, MotorType.kBrushless);
     private SparkFlex ShooterLeft2Motor = new SparkFlex(ShooterConstants.SHOOTER_L2_ID, MotorType.kBrushless);
-    private SparkClosedLoopController shooterleft1Controller = ShooterLeft1Motor.getClosedLoopController(); 
-    private SparkClosedLoopController shooterleft2Controller = ShooterLeft2Motor.getClosedLoopController(); 
+    private BangBangController shooterleft1Controller = new BangBangController(); 
+    private BangBangController shooterleft2Controller = new BangBangController(); 
 
 
     private final RelativeEncoder shooterRight1Encoder = ShooterRight1Motor.getEncoder();
@@ -46,9 +49,8 @@ public class Shooter extends SubsystemBase {
 
     private final RelativeEncoder shooterLeft1Encoder = ShooterLeft1Motor.getEncoder();
     private final RelativeEncoder shooterLeft2Encoder = ShooterLeft2Motor.getEncoder();
-
     private double targetRPM = 0.0;
-    private double targetKickerRPM = 0.0;
+    private final SimpleMotorFeedforward shooterFeedforward = new SimpleMotorFeedforward(0, 0);
 
     private final SysIdRoutine sysIdRoutine = new SysIdRoutine(
             new SysIdRoutine.Config(),
@@ -130,22 +132,20 @@ public class Shooter extends SubsystemBase {
 
     public void stopShooting() {
         targetRPM = 0.0;
-        targetKickerRPM = 0.0;
         ShooterRight1Motor.set(ShooterConstants.IDLE);
         ShooterRight2Motor.set(ShooterConstants.IDLE);
         ShooterLeft1Motor.set(ShooterConstants.IDLE);
         ShooterLeft2Motor.set(ShooterConstants.IDLE);
     }
-
-    // Speeds up shooter (runs all motors except kicker) so it's faster
     public void SpeedUpShooter()
     {
-        shooterright1Controller.setSetpoint(ShooterConstants.SHOOTER_SPEED, ControlType.kMAXMotionVelocityControl);
-        shooterright2Controller.setSetpoint(ShooterConstants.SHOOTER_SPEED, ControlType.kMAXMotionVelocityControl);
-        shooterleft1Controller.setSetpoint(ShooterConstants.SHOOTER_SPEED, ControlType.kMAXMotionVelocityControl);
-        shooterleft2Controller.setSetpoint(ShooterConstants.SHOOTER_SPEED, ControlType.kMAXMotionVelocityControl);
+        double ff = shooterFeedforward.calculate(ShooterConstants.SHOOTER_SPEED);
+        ShooterRight1Motor.setVoltage(shooterright1Controller.calculate(ShooterRight1Motor.getEncoder().getVelocity(), ShooterConstants.SHOOTER_SPEED) * 12 + 0.9 * ff);
+        ShooterRight2Motor.setVoltage(shooterright2Controller.calculate(ShooterRight2Motor.getEncoder().getVelocity(), ShooterConstants.SHOOTER_SPEED) * 12 + 0.9 * ff);
+        ShooterLeft1Motor.setVoltage(shooterleft1Controller.calculate(ShooterLeft1Motor.getEncoder().getVelocity(), ShooterConstants.SHOOTER_SPEED) * 12 + 0.9 * ff);
+        ShooterLeft2Motor.setVoltage(shooterleft2Controller.calculate(ShooterLeft2Motor.getEncoder().getVelocity(), ShooterConstants.SHOOTER_SPEED) * 12 + 0.9 * ff);
     }
-
+    
     public Command shootFuelCommand() {
          
         return new RunCommand(() -> shootFuel(), this)
@@ -202,7 +202,6 @@ public class Shooter extends SubsystemBase {
         // Desired shooter wheel RPM setpoint.
         Logger.recordOutput("Shooter/TargetRPM", targetRPM);
         // Desired kicker RPM setpoint.
-        Logger.recordOutput("Shooter/TargetKickerRPM", targetKickerRPM);
 
         // Applied voltage to right shooter motor.
         Logger.recordOutput("Shooter/Right1AppliedVolts", ShooterRight1Motor.getAppliedOutput() * ShooterRight1Motor.getBusVoltage());
