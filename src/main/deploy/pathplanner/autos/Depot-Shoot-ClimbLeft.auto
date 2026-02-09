@@ -75,7 +75,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Climb Path 1"
+            "pathName": "Left Climb From Shoot"
           }
         },
         {
@@ -88,6 +88,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "Week 3 Autos",
+  "folder": "McAllen Autos",
   "choreoAuto": false
 }

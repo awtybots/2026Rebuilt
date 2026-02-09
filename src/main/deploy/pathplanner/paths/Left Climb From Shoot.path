@@ -1,0 +1,54 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 2.4605420827389435,
+        "y": 4.85660485021398
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 1.7288060468205804,
+        "y": 4.851585121793804
+      },
+      "isLocked": false,
+      "linkedName": "Shoot End 1"
+    },
+    {
+      "anchor": {
+        "x": 0.9596576319543504,
+        "y": 4.817788873038516
+      },
+      "prevControl": {
+        "x": 1.712173366158968,
+        "y": 4.86544891999854
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "Climb End 1"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 5.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 0.0
+  },
+  "reversed": false,
+  "folder": "Week 3 Paths",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": -20.783000000000015
+  },
+  "useDefaultConstraints": true
+}

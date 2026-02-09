@@ -5,9 +5,96 @@
     "data": {
       "commands": [
         {
+          "type": "path",
+          "data": {
+            "pathName": "Start-Intake Path"
+          }
+        },
+        {
           "type": "parallel",
           "data": {
             "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Intake Path 1"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "extend intake"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "intake"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Shoot Path 1"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "retract intake"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "speed-up-shooter"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "transfer"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "kick"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "shoot"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Extra Intake 1"
+                }
+              },
               {
                 "type": "named",
                 "data": {
@@ -23,13 +110,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "speed up shooter"
-                }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Depot Start"
+                  "name": "speed-up-shooter"
                 }
               }
             ]
@@ -39,18 +120,6 @@
           "type": "parallel",
           "data": {
             "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Depot to HumanPlayer"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "speed up shooter"
-                }
-              },
               {
                 "type": "named",
                 "data": {
@@ -58,22 +127,9 @@
                 }
               },
               {
-                "type": "wait",
-                "data": {
-                  "waitTime": 2.0
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
                 "type": "path",
                 "data": {
-                  "pathName": "Human Player to Shoot"
+                  "pathName": "Shoot Depot Fuel"
                 }
               },
               {
@@ -100,7 +156,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Left Climb From Shoot"
+            "pathName": "Right Climb From Shoot"
           }
         },
         {

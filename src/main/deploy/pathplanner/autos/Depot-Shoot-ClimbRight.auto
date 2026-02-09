@@ -9,6 +9,12 @@
           "data": {
             "commands": [
               {
+                "type": "path",
+                "data": {
+                  "pathName": "Depot Start"
+                }
+              },
+              {
                 "type": "named",
                 "data": {
                   "name": "extend intake"
@@ -23,57 +29,26 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "speed up shooter"
-                }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Depot Start"
+                  "name": "speed-up-shooter"
                 }
               }
             ]
           }
         },
         {
+          "type": "path",
+          "data": {
+            "pathName": "Shoot Depot Fuel"
+          }
+        },
+        {
           "type": "parallel",
           "data": {
             "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Depot to HumanPlayer"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "speed up shooter"
-                }
-              },
               {
                 "type": "named",
                 "data": {
                   "name": "retract intake"
-                }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 2.0
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Human Player to Shoot"
                 }
               },
               {
@@ -100,7 +75,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Left Climb From Shoot"
+            "pathName": "Right Climb From Shoot"
           }
         },
         {
