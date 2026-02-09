@@ -103,7 +103,6 @@ public final class Constants
 
   public static class HopperConstants
   {
-    
     public static final int TWINDEXER_RIGHT_ID = 19; 
     public static final int TWINDEXER_LEFT_ID = 15; 
 
