@@ -38,6 +38,10 @@ public class Pushout extends SubsystemBase {
     private double PushoutLeftExtended = PushoutConstants.PUSHOUT_EXTENDED_POS;
     private double PushoutRightRetracted = PushoutConstants.PUSHOUT_RETRACTED_POS;
     private double PushoutLeftRetracted = PushoutConstants.PUSHOUT_RETRACTED_POS;
+    // We will compute setpoints relative to the current encoder reading when
+    // the command is issued (currentPosition + configured offset). Do not
+    // capture a startup 'home' and do not reset the encoders here; that can
+    // cause a later setpoint of 0 to drive to the power-up pose.
 
 
 
@@ -47,18 +51,25 @@ public class Pushout extends SubsystemBase {
         PushoutRightMotor.configure(Configs.PushoutSubsystem.PushoutRightMotorConfig, ResetMode.kResetSafeParameters,
                 PersistMode.kPersistParameters);
 
-        pushoutLeftEncoder.setPosition(0.0);
-        pushoutRightEncoder.setPosition(0.0);
+        // Do not reset or capture encoder positions here. We'll use the
+        // encoder readings at the moment a command runs to compute relative
+        // setpoints.
     }
 
     public void PushIntake() {
-        PushoutLeftController.setSetpoint(PushoutLeftExtended, ControlType.kMAXMotionPositionControl);
-        PushoutRightController.setSetpoint(PushoutRightExtended, ControlType.kMAXMotionPositionControl);
+        // Compute the setpoint relative to the current encoder positions so
+        // the mechanism moves by the configured offsets from where it is now.
+        double leftNow = pushoutLeftEncoder.getPosition();
+        double rightNow = pushoutRightEncoder.getPosition();
+        PushoutLeftController.setSetpoint(leftNow + PushoutLeftExtended, ControlType.kMAXMotionPositionControl);
+        PushoutRightController.setSetpoint(rightNow + PushoutRightExtended, ControlType.kMAXMotionPositionControl);
 
     }
     public void RetractIntake() {
-        PushoutLeftController.setSetpoint(PushoutLeftRetracted, ControlType.kMAXMotionPositionControl);
-        PushoutRightController.setSetpoint(PushoutRightRetracted, ControlType.kMAXMotionPositionControl);
+        double leftNow = pushoutLeftEncoder.getPosition();
+        double rightNow = pushoutRightEncoder.getPosition();
+        PushoutLeftController.setSetpoint(leftNow + PushoutLeftRetracted, ControlType.kMAXMotionPositionControl);
+        PushoutRightController.setSetpoint(rightNow + PushoutRightRetracted, ControlType.kMAXMotionPositionControl);
     }
 
     // public void StopPushing() {
