@@ -8,20 +8,20 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.67376448216439,
-        "y": 4.09727036292122
+        "x": 1.8080403240980152,
+        "y": 4.396434016461001
       },
       "isLocked": false,
       "linkedName": "Shoot End 1"
     },
     {
       "anchor": {
-        "x": 1.5548359486447931,
-        "y": 3.937960057061342
+        "x": 1.1796148359486442,
+        "y": 4.662524964336662
       },
       "prevControl": {
-        "x": 2.215177585661917,
-        "y": 4.588085936630021
+        "x": 1.422644579215742,
+        "y": 4.721147007012848
       },
       "nextControl": null,
       "isLocked": false,
@@ -42,7 +42,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 90.0
   },
   "reversed": false,
   "folder": "Week 3 Paths",

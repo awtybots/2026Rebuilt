@@ -23,6 +23,12 @@
               {
                 "type": "named",
                 "data": {
+                  "name": "extend intake"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
                   "name": "intake"
                 }
               }
@@ -42,6 +48,12 @@
               {
                 "type": "named",
                 "data": {
+                  "name": "retract intake"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
                   "name": "speed-up-shooter"
                 }
               }
@@ -56,6 +68,12 @@
                 "type": "named",
                 "data": {
                   "name": "transfer"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "kick"
                 }
               },
               {
@@ -80,6 +98,12 @@
               {
                 "type": "named",
                 "data": {
+                  "name": "extend intake"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
                   "name": "intake"
                 }
               },
@@ -97,6 +121,12 @@
           "data": {
             "commands": [
               {
+                "type": "named",
+                "data": {
+                  "name": "retract intake"
+                }
+              },
+              {
                 "type": "path",
                 "data": {
                   "pathName": "Shoot Depot Fuel"
@@ -106,6 +136,12 @@
                 "type": "named",
                 "data": {
                   "name": "transfer"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "kick"
                 }
               },
               {

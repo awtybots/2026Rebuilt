@@ -23,6 +23,12 @@
               {
                 "type": "named",
                 "data": {
+                  "name": "extend intake"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
                   "name": "intake"
                 }
               }
@@ -42,6 +48,12 @@
               {
                 "type": "named",
                 "data": {
+                  "name": "retract intake"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
                   "name": "speed-up-shooter"
                 }
               }
@@ -52,6 +64,12 @@
           "type": "parallel",
           "data": {
             "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "kick"
+                }
+              },
               {
                 "type": "named",
                 "data": {

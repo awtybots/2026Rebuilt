@@ -9,6 +9,18 @@
           "data": {
             "commands": [
               {
+                "type": "path",
+                "data": {
+                  "pathName": "Depot Start"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "extend intake"
+                }
+              },
+              {
                 "type": "named",
                 "data": {
                   "name": "intake"
@@ -18,12 +30,6 @@
                 "type": "named",
                 "data": {
                   "name": "speed-up-shooter"
-                }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Depot Start"
                 }
               }
             ]
@@ -36,9 +42,34 @@
           }
         },
         {
-          "type": "named",
+          "type": "parallel",
           "data": {
-            "name": "shoot"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "retract intake"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "transfer"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "kick"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "shoot"
+                }
+              }
+            ]
           }
         },
         {

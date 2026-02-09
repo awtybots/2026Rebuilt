@@ -32,12 +32,12 @@
     },
     {
       "anchor": {
-        "x": 0.46798858773181085,
-        "y": 5.995206847360914
+        "x": 0.7397004279600568,
+        "y": 5.943452211126962
       },
       "prevControl": {
-        "x": 1.1789885877318107,
-        "y": 5.995206847360914
+        "x": 1.4507004279600566,
+        "y": 5.943452211126962
       },
       "nextControl": null,
       "isLocked": false,
@@ -64,7 +64,7 @@
   "folder": "Week 3 Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": 0.0
   },
   "useDefaultConstraints": true
 }
