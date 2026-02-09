@@ -152,16 +152,11 @@ private final Pushout m_pushout = new Pushout();
 
  // Pushout
  private final Trigger extendIntake = operatorXbox.y();
- private final Trigger retractIntake = operatorXbox.b();
-
+ private final Trigger agitate = operatorXbox.a();
 
  // Climber
  private final Trigger Climb = driverXbox.povUp();
  private final Trigger ClimbDown = driverXbox.povDown();
-
-
-
-
 
 
  /**
@@ -245,7 +240,7 @@ private final Pushout m_pushout = new Pushout();
 
    // Pushout Commands
    extendIntake.whileTrue(m_pushout.PushCommand());
-   retractIntake.whileTrue(m_pushout.RetractCommand());
+   agitate.whileTrue(m_pushout.AgitateCommand());
 
    // Intake Commands
    runIntake.whileTrue(m_intake.runIntakeCommand());

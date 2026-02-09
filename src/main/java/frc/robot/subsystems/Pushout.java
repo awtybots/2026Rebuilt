@@ -17,6 +17,7 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 
 import frc.robot.Constants.PushoutConstants;
 import frc.robot.Configs;
+import edu.wpi.first.wpilibj.Timer;
 import org.littletonrobotics.junction.Logger;
 
 
@@ -38,8 +39,10 @@ public class Pushout extends SubsystemBase {
     private double PushoutLeftExtended = PushoutConstants.PUSHOUT_EXTENDED_POS;
     private double PushoutRightRetracted = PushoutConstants.PUSHOUT_RETRACTED_POS;
     private double PushoutLeftRetracted = PushoutConstants.PUSHOUT_RETRACTED_POS;
-
-
+    private double PushoutRightExtendedAgitate = PushoutConstants.PUSHOUT_EXTENDED_AGITATE_POS;
+    private double PushoutLeftExtendedAgitate = PushoutConstants.PUSHOUT_EXTENDED_AGITATE_POS;
+    private double PushoutRightRetractedAgitate = PushoutConstants.PUSHOUT_RETRACTED_AGITATE_POS;
+    private double PushoutLeftRetractedAgitate = PushoutConstants.PUSHOUT_RETRACTED_AGITATE_POS;
 
     public Pushout() {
         PushoutLeftMotor.configure(Configs.PushoutSubsystem.PushoutLeftMotorConfig, ResetMode.kResetSafeParameters,
@@ -63,9 +66,34 @@ public class Pushout extends SubsystemBase {
         PushoutRightController.setSetpoint(rightNow + PushoutRightRetracted, ControlType.kMAXMotionPositionControl);
     }
 
+    public void SmallPush() 
+    {
+        double leftNow = pushoutLeftEncoder.getPosition();
+        double rightNow = pushoutRightEncoder.getPosition();
+        PushoutLeftController.setSetpoint(leftNow + PushoutLeftExtendedAgitate, ControlType.kMAXMotionPositionControl);
+        PushoutRightController.setSetpoint(rightNow + PushoutRightExtendedAgitate, ControlType.kMAXMotionPositionControl);
+    }
+
+    public void SmallRetract() 
+    {
+        double leftNow = pushoutLeftEncoder.getPosition();
+        double rightNow = pushoutRightEncoder.getPosition();
+        PushoutLeftController.setSetpoint(leftNow + PushoutLeftRetractedAgitate, ControlType.kMAXMotionPositionControl);
+        PushoutRightController.setSetpoint(rightNow + PushoutRightRetractedAgitate, ControlType.kMAXMotionPositionControl);
+    }
+
     public void StopPushing() {
         PushoutLeftController.setSetpoint(0, ControlType.kMAXMotionPositionControl);
         PushoutRightController.setSetpoint(0, ControlType.kMAXMotionPositionControl);
+    }
+
+    public void Agitate()
+    {
+        while (true) {
+            SmallPush();
+            Timer.delay(0.5);
+            SmallRetract();
+        }
     }
 
 
@@ -76,6 +104,11 @@ public class Pushout extends SubsystemBase {
 
     public Command RetractCommand() {
         return new RunCommand(() -> RetractIntake(), this)
+                .finallyDo(interrupted -> RetractIntake());
+    }
+
+    public Command AgitateCommand() {
+        return new RunCommand(() -> Agitate(), this)
                 .finallyDo(interrupted -> RetractIntake());
     }
 
