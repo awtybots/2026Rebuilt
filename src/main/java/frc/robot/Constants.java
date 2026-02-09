@@ -52,8 +52,8 @@ public final class Constants
 
   public static class IntakeConstants
   {
-    public static final int INTAKE_LEFT_ID = 0; // unknown
-    public static final int INTAKE_RIGHT_ID = 0; // unknown
+    public static final int INTAKE_LEFT_ID = 15; // unknown
+    public static final int INTAKE_RIGHT_ID = 16; // unknown
 
 
     public static final double INTAKE_SPEED = 0.7;
@@ -63,8 +63,8 @@ public final class Constants
 
   public static class PushoutConstants
   {
-    public static final int PUSHOUT_LEFT_ID = 0; // unknown
-    public static final int PUSHOUT_RIGHT_ID = 0; // unknown
+    // public static final int PUSHOUT_LEFT_ID = 0; 
+    public static final int PUSHOUT_RIGHT_ID = 19; 
 
     public static final double PUSHOUT_RETRACTED_POS = 0.0;     
     public static final double PUSHOUT_EXTENDED_POS  = 11.8;    // TUNE THIS!!!
@@ -76,10 +76,10 @@ public final class Constants
   public static class ShooterConstants
   {
     public static final int SHOOTER_R1_ID = 9;
-    public static final int SHOOTER_R2_ID = 21;
+    public static final int SHOOTER_R2_ID = 10;
 
-    public static final int SHOOTER_L1_ID = 17;
-    public static final int SHOOTER_L2_ID = 20; // ?
+    public static final int SHOOTER_L1_ID = 11;
+    public static final int SHOOTER_L2_ID = 12; 
     
     public static final double SHOOTER_SPEED = 5770; // RPM
     public static final double ERROR_MARGIN = 100; // RPM
@@ -89,10 +89,8 @@ public final class Constants
   }
   public static class KickerConstants
   {
-    public static final int KICKER_LEFT_ID = 21; 
-    public static final int KICKER_RIGHT_ID = 17; 
-    public static final int KICKER_TRANSFER_ID = 16; 
-
+    public static final int KICKER_LEFT_ID = 13; 
+    public static final int KICKER_RIGHT_ID = 14; 
 
     public static final double KICKER_SPEED = 3100;
     public static final double KICKER_REVERSE_SPEED = -3100;
@@ -104,8 +102,8 @@ public final class Constants
   public static class HopperConstants
   {
     
-    public static final int TWINDEXER_RIGHT_ID = 19; 
-    public static final int TWINDEXER_LEFT_ID = 15; 
+    public static final int TWINDEXER_RIGHT_ID = 18; 
+    public static final int TWINDEXER_LEFT_ID = 17; 
 
     public static final double TWINDEXER_RIGHT_SPEED = 0.7;
     public static final double TWINDEXER_LEFT_SPEED = -0.7;
@@ -119,8 +117,8 @@ public final class Constants
 
   public static class ClimberConstants
   {
-    public static final int CLIMBER_LEFT_ID = 24; // placeholder
-    public static final int CLIMBER_RIGHT_ID = 25; // placeholder
+    public static final int CLIMBER_LEFT_ID = 20; // placeholder
+    // public static final int CLIMBER_RIGHT_ID = 25; // placeholder
 
     public static final double CLIMBER_SPEED = 0.5; // placeholder
 

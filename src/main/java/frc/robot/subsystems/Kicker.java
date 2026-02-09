@@ -34,7 +34,6 @@ public class Kicker extends SubsystemBase {
     private final RelativeEncoder kickerLeftEncoder = KickerLeftMotor.getEncoder();
     private final RelativeEncoder kickerRightEncoder = KickerRightMotor.getEncoder();
 
-    private double targetRPM = 0.0;
     private double targetKickerRPM = 0.0;
 
     private final SysIdRoutine sysIdRoutine = new SysIdRoutine(
@@ -85,7 +84,6 @@ public class Kicker extends SubsystemBase {
 
 
     public void stopKicking() {
-        targetRPM = 0.0;
         targetKickerRPM = 0.0;
         KickerLeftMotor.set(KickerConstants.STOP);
         KickerRightMotor.set(KickerConstants.STOP);
