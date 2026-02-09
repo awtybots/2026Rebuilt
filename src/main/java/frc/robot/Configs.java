@@ -37,7 +37,7 @@ public final class Configs
 
                         PushoutLeftMotorConfig.closedLoop
                         .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
-                        .p(0.6)
+                        .p(0.0002355)
                         .i(0.0)
                         .d(0.05)
                         .outputRange(-1.0, 1.0)
@@ -46,7 +46,7 @@ public final class Configs
 
                         PushoutRightMotorConfig.closedLoop
                         .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
-                        .p(0.6)
+                        .p(0.0002355)
                         .i(0.0)
                         .d(0.05)
                         .outputRange(-1.0, 1.0)
@@ -57,7 +57,7 @@ public final class Configs
                         IntakeLeftMotorConfig.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder)
                             // Set PID values for position control. We don't need to pass a closed
                             // loop slot, as it will default to slot 0.
-                            .p(0.4)
+                            .p(0.0002355)
                             .i(0)
                             .d(0)
                             .outputRange(-1, 1);
@@ -68,7 +68,7 @@ public final class Configs
                         IntakeRightMotorConfig.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder)
                             // Set PID values for position control. We don't need to pass a closed
                             // loop slot, as it will default to slot 0.
-                            .p(0.4)
+                            .p(0.0002355)
                             .i(0)
                             .d(0)
                             .outputRange(-1, 1);
@@ -101,7 +101,7 @@ public final class Configs
 
                         PushoutLeftMotorConfig.closedLoop
                         .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
-                        .p(0.6)
+                        .p(0.0002355)
                         .i(0.0)
                         .d(0.05)
                         .outputRange(-1.0, 1.0)
@@ -110,7 +110,7 @@ public final class Configs
 
                         PushoutRightMotorConfig.closedLoop
                         .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
-                        .p(0.6)
+                        .p(0.0002355)
                         .i(0.0)
                         .d(0.05)
                         .outputRange(-1.0, 1.0)
@@ -231,7 +231,7 @@ public final class Configs
                         TwindexerRightControllerConfig.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder)
                             // Set PID values for position control. We don't need to pass a closed
                             // loop slot, as it will default to slot 0.
-                            .p(0.4)
+                            .p(0.0002355)
                             .i(0)
                             .d(0)
                             .outputRange(-1, 1);
@@ -248,7 +248,7 @@ public final class Configs
                             TwindexerLeftControllerConfig.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder)
                             // Set PID values for position control. We don't need to pass a closed
                             // loop slot, as it will default to slot 0.
-                            .p(0.4)
+                            .p(0.0002355)
                             .i(0)
                             .d(0)
                             .outputRange(-1, 1);
@@ -277,7 +277,7 @@ public final class Configs
                         ClimbMotorRightConfig.idleMode(IdleMode.kBrake).smartCurrentLimit(40).voltageCompensation(12);
 
                         ClimbMotorLeftConfig.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder)
-                                .p(0.4)
+                                .p(0.0002355)
                                 .i(0)
                                 .d(0)
                                 .outputRange(-1, 1);
@@ -285,7 +285,7 @@ public final class Configs
 
                             // Set PID values for position control. We don't need to pass a closed
                             // loop slot, as it will default to slot 0.
-                            .p(0.4)
+                            .p(0.0002355)
                             .i(0)
                             .d(0)
                             .outputRange(-1, 1);
