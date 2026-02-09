@@ -135,8 +135,8 @@ private final Pushout m_pushout = new Pushout();
 
 
  // Parallel Commands
- private final Trigger transfer_kick_shoot = driverXbox.rightTrigger(); // transfer to kicker, kick, and shoot only when up to speed
- private final Trigger pushout_and_intake  = driverXbox.rightBumper(); // pushout the intake and intake fuel
+ private final Trigger RTtransfer_kick_shoot = driverXbox.rightTrigger(); // transfer to kicker, kick, and shoot only when up to speed
+ private final Trigger LTpushout_and_intake  = driverXbox.leftTrigger(); // pushout the intake and intake fuel
  private final Trigger retract_and_stop = driverXbox.leftBumper(); // run climber command
  private final Trigger transfer = driverXbox.povRight(); // transfer to kicker and kicks
  private final Trigger unjam = driverXbox.povLeft(); // run hopper in reverse and kick backwards to unjam
@@ -173,15 +173,15 @@ private final Pushout m_pushout = new Pushout();
    // Configure the trigger bindings
    configureBindings();
    DriverStation.silenceJoystickConnectionWarning(true);
-   SmartDashboard.putNumber("Heading Bias Deg", 0.0);
-   // Tunable gain: radians of bias -> radians/sec of angular velocity
-   SmartDashboard.putNumber("Heading Bias Gain", 0);
+//    SmartDashboard.putNumber("Heading Bias Deg", 0.0);
+//    // Tunable gain: radians of bias -> radians/sec of angular velocity
+//    SmartDashboard.putNumber("Heading Bias Gain", 0);
 
 
    // Create the NamedCommands that will be used in PathPlanner
    NamedCommands.registerCommand("test", Commands.print("I EXIST"));
-   NamedCommands.registerCommand("extend intake", m_pushout.Push().withTimeout(4));
-   NamedCommands.registerCommand("retract intake", m_pushout.Retract().withTimeout(4));
+   NamedCommands.registerCommand("extend intake", m_pushout.PushCommand().withTimeout(4));
+   NamedCommands.registerCommand("retract intake", m_pushout.RetractCommand().withTimeout(4));
    NamedCommands.registerCommand("kick", m_kicker.kickCommand().withTimeout(8));
    NamedCommands.registerCommand("kick-backwards", m_kicker.kickBackwardsCommand().withTimeout(8));
    NamedCommands.registerCommand("shoot", m_shooter.shootFuelCommand().withTimeout(8));
@@ -239,13 +239,13 @@ private final Pushout m_pushout = new Pushout();
  private void configureBindings() {
 
    // transfer + kick + shoot command, only runs if the shooter is up to speed
-   transfer_kick_shoot.whileTrue(Commands.parallel(m_hopper.runHopperToShooterCommand(), m_kicker.kickCommand(), m_shooter.shootFuelCommand()).onlyIf(m_shooter::isShooterFast));
-   pushout_and_intake.whileTrue(Commands.parallel(m_pushout.Push(), m_intake.runIntakeCommand()));
-   retract_and_stop.whileTrue(Commands.parallel(m_pushout.Retract(), m_intake.stopIntakeCommand().withTimeout(0.5).repeatedly()));
+   RTtransfer_kick_shoot.whileTrue(Commands.parallel(m_hopper.runHopperToShooterCommand(), m_kicker.kickCommand(), m_shooter.shootFuelCommand()).onlyIf(m_shooter::isShooterFast));
+   LTpushout_and_intake.whileTrue(Commands.parallel(m_pushout.PushCommand(), m_intake.runIntakeCommand()));
+ // retract_and_stop.whileTrue(Commands.parallel(m_pushout.RetractCommand(), m_intake.stopIntakeCommand().withTimeout(0.5).repeatedly()));
 
    // Pushout Commands
-   extendIntake.whileTrue(m_pushout.Push());
-   retractIntake.whileTrue(m_pushout.Retract());
+   extendIntake.whileTrue(m_pushout.PushCommand());
+   retractIntake.whileTrue(m_pushout.RetractCommand());
 
    // Intake Commands
    runIntake.whileTrue(m_intake.runIntakeCommand());
@@ -259,7 +259,7 @@ private final Pushout m_pushout = new Pushout();
 
    // Shooter Commands
    shootFuel.whileTrue(m_shooter.shootFuelCommand());
-   speedUpShooter.whileTrue(m_shooter.SpeedUpShooterCommand());
+//    speedUpShooter.whileTrue(m_shooter.SpeedUpShooterCommand());
 
    // Climber Commands
    Climb.whileTrue(m_climber.runClimbCommand());

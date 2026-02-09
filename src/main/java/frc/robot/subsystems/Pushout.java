@@ -61,21 +61,21 @@ public class Pushout extends SubsystemBase {
         PushoutRightController.setSetpoint(PushoutRightRetracted, ControlType.kMAXMotionPositionControl);
     }
 
-    public void StopPushing() {
-        PushoutLeftController.setSetpoint(0, ControlType.kMAXMotionPositionControl);
-        PushoutRightController.setSetpoint(0, ControlType.kMAXMotionPositionControl);
-    }
+    // public void StopPushing() {
+    //     PushoutLeftController.setSetpoint(0, ControlType.kMAXMotionPositionControl);
+    //     PushoutRightController.setSetpoint(0, ControlType.kMAXMotionPositionControl);
+    // }
 
 
 
-    public Command Push() {
+    public Command PushCommand() {
         return new RunCommand(() -> PushIntake(), this)
-                .finallyDo(interrupted -> StopPushing());
+                .finallyDo(interrupted -> PushIntake());
     }
 
-    public Command Retract() {
+    public Command RetractCommand() {
         return new RunCommand(() -> RetractIntake(), this)
-                .finallyDo(interrupted -> StopPushing());
+                .finallyDo(interrupted -> RetractIntake());
     }
 
     @Override
