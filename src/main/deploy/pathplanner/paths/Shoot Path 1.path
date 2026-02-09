@@ -86,7 +86,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 159.934
+    "rotation": -20.594090220308768
   },
   "reversed": false,
   "folder": "Week 3 Paths",
