@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.4938659058487813,
-        "y": 5.982268188295019
+        "x": 0.7397004279600568,
+        "y": 5.943452211126962
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.4938659058487813,
-        "y": 5.982268188295019
+        "x": 0.952633707748319,
+        "y": 5.812458248065248
       },
       "isLocked": false,
-      "linkedName": "Extra Intake 1 End"
+      "linkedName": "Depot"
     },
     {
       "anchor": {
-        "x": 1.5548359486447931,
-        "y": 3.937960057061342
+        "x": 1.1796148359486442,
+        "y": 4.662524964336662
       },
       "prevControl": {
-        "x": 1.6454065620542082,
-        "y": 5.3353352353780314
+        "x": 0.3896191628788397,
+        "y": 5.676501875553067
       },
       "nextControl": null,
       "isLocked": false,
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 90.0
   },
   "reversed": false,
   "folder": "Week 3 Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": 0.0
   },
   "useDefaultConstraints": true
 }
