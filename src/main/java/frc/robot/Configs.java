@@ -78,6 +78,49 @@ public final class Configs
                 }
 
         };
+
+        public static final class PushoutSubsystem {
+
+            public static final SparkFlexConfig PushoutLeftMotorConfig = new SparkFlexConfig();
+            public static final SparkFlexConfig PushoutRightMotorConfig = new SparkFlexConfig();
+
+
+                static {
+
+                        PushoutLeftMotorConfig
+                        .inverted(false)
+                        .idleMode(IdleMode.kBrake)
+                        .smartCurrentLimit(40)
+                        .voltageCompensation(12);
+
+                        PushoutRightMotorConfig
+                        .inverted(true) // likely opposite side of 4-bar
+                        .idleMode(IdleMode.kBrake)
+                        .smartCurrentLimit(40)
+                        .voltageCompensation(12);
+
+                        PushoutLeftMotorConfig.closedLoop
+                        .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
+                        .p(0.6)
+                        .i(0.0)
+                        .d(0.05)
+                        .outputRange(-1.0, 1.0)
+                        .maxMotion
+                                .maxAcceleration(3000); // smooth extension
+
+                        PushoutRightMotorConfig.closedLoop
+                        .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
+                        .p(0.6)
+                        .i(0.0)
+                        .d(0.05)
+                        .outputRange(-1.0, 1.0)
+                        .maxMotion
+                                .maxAcceleration(3000);
+                                
+                }
+
+        };
+
         public static final class KickerSubsystem {
                 public static final SparkFlexConfig kickerLeftMotorConfig = new SparkFlexConfig();
                 public static final SparkFlexConfig kickerRightMotorConfig = new SparkFlexConfig();

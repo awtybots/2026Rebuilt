@@ -38,6 +38,7 @@ import frc.robot.subsystems.Kicker;
 import frc.robot.subsystems.Hopper;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Climber;
+import frc.robot.subsystems.Pushout;
 
 
 /**
@@ -64,7 +65,7 @@ public class RobotContainer {
  private final Shooter m_shooter = new Shooter();
  private final Climber m_climber = new Climber();
  private final Kicker m_kicker = new Kicker();
-
+private final Pushout m_pushout = new Pushout();
 
 
  // Establish a Sendable Chooser that will be able to be sent to the
@@ -133,24 +134,25 @@ public class RobotContainer {
          0));
 
 
+ // Parallel Commands
+ private final Trigger transfer_kick_shoot = driverXbox.rightTrigger(); // transfer to kicker, kick, and shoot only when up to speed
+ private final Trigger pushout_and_intake  = driverXbox.rightBumper(); // pushout the intake and intake fuel
+ private final Trigger retract_and_stop = driverXbox.leftBumper(); // run climber command
+ private final Trigger transfer = driverXbox.povRight(); // transfer to kicker and kicks
+ private final Trigger unjam = driverXbox.povLeft(); // run hopper in reverse and kick backwards to unjam
 
 
  // Shooter
  private final Trigger shootFuel = driverXbox.y();
- private final Trigger speedUpShooter = driverXbox.rightTrigger();
-
- // Kicker
- private final Trigger kick = driverXbox.b();
-
+ private final Trigger speedUpShooter = driverXbox.leftTrigger();
 
  // Intake
  private final Trigger runIntake = driverXbox.x();
  private final Trigger runOuttake = driverXbox.a();
 
-
- // Hopper
- private final Trigger HopperToShooter = driverXbox.rightBumper();
- private final Trigger ReverseHopper = driverXbox.leftBumper();
+ // Pushout
+ private final Trigger extendIntake = operatorXbox.y();
+ private final Trigger retractIntake = operatorXbox.b();
 
 
  // Climber
@@ -178,6 +180,8 @@ public class RobotContainer {
 
    // Create the NamedCommands that will be used in PathPlanner
    NamedCommands.registerCommand("test", Commands.print("I EXIST"));
+   NamedCommands.registerCommand("extend intake", m_pushout.Push().withTimeout(4));
+   NamedCommands.registerCommand("retract intake", m_pushout.Retract().withTimeout(4));
    NamedCommands.registerCommand("kick", m_kicker.kickCommand().withTimeout(8));
    NamedCommands.registerCommand("kick-backwards", m_kicker.kickBackwardsCommand().withTimeout(8));
    NamedCommands.registerCommand("shoot", m_shooter.shootFuelCommand().withTimeout(8));
@@ -234,9 +238,14 @@ public class RobotContainer {
   */
  private void configureBindings() {
 
-   // Parallel commands
-   kick.whileTrue(Commands.parallel(m_kicker.kickCommand(), m_shooter.shootFuelCommand()).onlyIf(m_shooter::isShooterFast));
+   // transfer + kick + shoot command, only runs if the shooter is up to speed
+   transfer_kick_shoot.whileTrue(Commands.parallel(m_hopper.runHopperToShooterCommand(), m_kicker.kickCommand(), m_shooter.shootFuelCommand()).onlyIf(m_shooter::isShooterFast));
+   pushout_and_intake.whileTrue(Commands.parallel(m_pushout.Push(), m_intake.runIntakeCommand()));
+   retract_and_stop.whileTrue(Commands.parallel(m_pushout.Retract(), m_intake.stopIntakeCommand().withTimeout(0.5).repeatedly()));
 
+   // Pushout Commands
+   extendIntake.whileTrue(m_pushout.Push());
+   retractIntake.whileTrue(m_pushout.Retract());
 
    // Intake Commands
    runIntake.whileTrue(m_intake.runIntakeCommand());
@@ -244,8 +253,8 @@ public class RobotContainer {
    
 
    // Hopper Commands
-   HopperToShooter.whileTrue(m_hopper.runHopperToShooterCommand());
-   ReverseHopper.whileTrue(m_hopper.runReverseHopperCommand());
+   transfer.whileTrue(Commands.parallel(m_hopper.runHopperToShooterCommand(), m_kicker.kickCommand()));
+   unjam.whileTrue(Commands.parallel(m_hopper.runReverseHopperCommand(), m_kicker.kickBackwardsCommand()));
 
 
    // Shooter Commands
