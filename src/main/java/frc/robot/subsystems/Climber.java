@@ -18,28 +18,28 @@ import frc.robot.Configs;
 public class Climber extends SubsystemBase {
    
     private SparkFlex ClimbMotorLeft = new SparkFlex(ClimberConstants.CLIMBER_LEFT_ID, MotorType.kBrushless);
-    private SparkFlex ClimbMotorRight = new SparkFlex(ClimberConstants.CLIMBER_RIGHT_ID, MotorType.kBrushless);
+    // private SparkFlex ClimbMotorRight = new SparkFlex(ClimberConstants.CLIMBER_RIGHT_ID, MotorType.kBrushless);
 
     private SparkClosedLoopController climbLeftController = ClimbMotorLeft.getClosedLoopController();
-    private SparkClosedLoopController climbRightController = ClimbMotorRight.getClosedLoopController();
+    // private SparkClosedLoopController climbRightController = ClimbMotorRight.getClosedLoopController();
 
 
     public Climber(){
         ClimbMotorLeft.configure(Configs.ClimberSubsystem.ClimbMotorLeftConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-        ClimbMotorRight.configure(Configs.ClimberSubsystem.ClimbMotorRightConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        // ClimbMotorRight.configure(Configs.ClimberSubsystem.ClimbMotorRightConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     }
 
     public void Climb(){
         ClimbMotorLeft.set(ClimberConstants.CLIMBER_SPEED);
-        ClimbMotorRight.set(ClimberConstants.CLIMBER_SPEED);
+        // ClimbMotorRight.set(ClimberConstants.CLIMBER_SPEED);
     }
     public void ClimbDown(){
         ClimbMotorLeft.set(ClimberConstants.CLIMBER_DOWN_SPEED);
-        ClimbMotorRight.set(ClimberConstants.CLIMBER_DOWN_SPEED);
+        // ClimbMotorRight.set(ClimberConstants.CLIMBER_DOWN_SPEED);
     }
     public void stopClimber(){
         ClimbMotorLeft.set(0);
-        ClimbMotorRight.set(0);
+        // ClimbMotorRight.set(0);
     }
     
     public Command runClimbCommand(){

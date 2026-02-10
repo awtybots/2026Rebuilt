@@ -40,11 +40,22 @@ public class ShootOnTheMoveCommand extends Command
     robotPose = currentPose;
     this.fieldOrientedChassisSpeeds = fieldOrientedChassisSpeeds;
     this.goalPose = goal;
-
+    // 4.034 meters half field, 0.661 byumper to shooter exit. Only 3.373 vertical distance to target meters, 
+    // horizontal distance 4.625 meters from driver station to middle of hub, minus 0.661 byumper to shooter exit, 
+    // total 3.964 meters horizontal distance from driver station to shooter exit.
+    //using cosine rule we find that max distance would be 5.2048 M
+    //the closest shooter can get to the hub would be 1.1277 meters
+    //ball exit at 62 degrees
+    //ball exit from 0.391 meters above ground.
+    //RPM = 249.665 v_out
     // Test Results
-    for (var entry : List.of(Pair.of(Meters.of(1), RPM.of((1000))),
-                             Pair.of(Meters.of(2), RPM.of(2000)),
-                             Pair.of(Meters.of(3), RPM.of(3000)))
+    for (var entry : List.of(
+      // Pair.of(Meters.of(1), RPM.of((1000))),
+                             Pair.of(Meters.of(2), RPM.of(1622.8225)),
+                             Pair.of(Meters.of(3), RPM.of(1772.6215)),
+                             Pair.of(Meters.of(3.373), RPM.of(1897.454)),
+                             Pair.of(Meters.of(4), RPM.of(2022.2865)),
+                             Pair.of(Meters.of(5.2048), RPM.of(2296.918)))
     )
     {shooterTable.put(entry.getFirst().in(Meters), entry.getSecond().in(RPM));}
 
@@ -100,6 +111,7 @@ public class ShootOnTheMoveCommand extends Command
     //turret.setAngle(turretAngle); // Could also just set the swerveDrive to point towards this angle like AlignToGoal
     //hood.setAngle(Math.toDegrees(newPitch));
     //shooter.setRPM(MetersPerSecond.of(totalExitVelocity));
+    
 
   }
 
