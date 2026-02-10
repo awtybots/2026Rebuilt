@@ -6,7 +6,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import edu.wpi.first.units.Units;
 
-
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.RelativeEncoder;
@@ -32,14 +31,13 @@ public class Shooter extends SubsystemBase {
 
     private SparkFlex ShooterRight1Motor = new SparkFlex(ShooterConstants.SHOOTER_R1_ID, MotorType.kBrushless);
     private SparkFlex ShooterRight2Motor = new SparkFlex(ShooterConstants.SHOOTER_R2_ID, MotorType.kBrushless);
-    private SparkClosedLoopController shooterright1Controller = ShooterRight1Motor.getClosedLoopController(); 
-    private SparkClosedLoopController shooterright2Controller = ShooterRight2Motor.getClosedLoopController(); 
+    private SparkClosedLoopController shooterright1Controller = ShooterRight1Motor.getClosedLoopController();
+    private SparkClosedLoopController shooterright2Controller = ShooterRight2Motor.getClosedLoopController();
 
     private SparkFlex ShooterLeft1Motor = new SparkFlex(ShooterConstants.SHOOTER_L1_ID, MotorType.kBrushless);
     private SparkFlex ShooterLeft2Motor = new SparkFlex(ShooterConstants.SHOOTER_L2_ID, MotorType.kBrushless);
-    private SparkClosedLoopController shooterleft1Controller = ShooterLeft1Motor.getClosedLoopController(); 
-    private SparkClosedLoopController shooterleft2Controller = ShooterLeft2Motor.getClosedLoopController(); 
-
+    private SparkClosedLoopController shooterleft1Controller = ShooterLeft1Motor.getClosedLoopController();
+    private SparkClosedLoopController shooterleft2Controller = ShooterLeft2Motor.getClosedLoopController();
 
     private final RelativeEncoder shooterRight1Encoder = ShooterRight1Motor.getEncoder();
     private final RelativeEncoder shooterRight2Encoder = ShooterRight2Motor.getEncoder();
@@ -105,7 +103,7 @@ public class Shooter extends SubsystemBase {
                 PersistMode.kPersistParameters);
         ShooterLeft2Motor.configure(Configs.ShooterSubsystem.ShooterLeftMotor1Config, ResetMode.kResetSafeParameters,
                 PersistMode.kPersistParameters);
-        
+
     }
 
     public boolean isShooterFast() {
@@ -116,13 +114,15 @@ public class Shooter extends SubsystemBase {
         double left2RPM = ShooterLeft2Motor.getEncoder().getVelocity();
         double avgShooterRPM = (right1RPM + right2RPM + left1RPM + left2RPM) / 4.0;
 
-        // Return true when average shooter RPM is within ERROR_MARGIN of the target speed.
-        // Use java.lang.Math (capital M), and compare absolute difference against the error margin.
+        // Return true when average shooter RPM is within ERROR_MARGIN of the target
+        // speed.
+        // Use java.lang.Math (capital M), and compare absolute difference against the
+        // error margin.
         return Math.abs(avgShooterRPM - ShooterConstants.SHOOTER_SPEED) <= ShooterConstants.ERROR_MARGIN;
     }
 
-
-    // Alright so essentially we made a method to make the motor speed up (a few methods below this) and decided to make 
+    // Alright so essentially we made a method to make the motor speed up (a few
+    // methods below this) and decided to make
     // shoot fuel call that, as well as the kicker motor so we reduce extra code
     public void shootFuel() {
         SpeedUpShooter();
@@ -138,8 +138,7 @@ public class Shooter extends SubsystemBase {
     }
 
     // Speeds up shooter (runs all motors except kicker) so it's faster
-    public void SpeedUpShooter()
-    {
+    public void SpeedUpShooter() {
         shooterright1Controller.setSetpoint(ShooterConstants.SHOOTER_SPEED, ControlType.kMAXMotionVelocityControl);
         shooterright2Controller.setSetpoint(ShooterConstants.SHOOTER_SPEED, ControlType.kMAXMotionVelocityControl);
         shooterleft1Controller.setSetpoint(ShooterConstants.SHOOTER_SPEED, ControlType.kMAXMotionVelocityControl);
@@ -154,8 +153,21 @@ public class Shooter extends SubsystemBase {
         shooterleft2Controller.setSetpoint(rpm, ControlType.kMAXMotionVelocityControl);
     }
 
+    public boolean isAtTargetRPM() {
+        double right1RPM = ShooterRight1Motor.getEncoder().getVelocity();
+        double right2RPM = ShooterRight2Motor.getEncoder().getVelocity();
+        double left1RPM = ShooterLeft1Motor.getEncoder().getVelocity();
+        double left2RPM = ShooterLeft2Motor.getEncoder().getVelocity();
+
+        double avg = (right1RPM + right2RPM + left1RPM + left2RPM) / 4.0;
+
+        // Compare to targetRPM (not SHOOTER_SPEED)
+        // :contentReference[oaicite:16]{index=16}
+        return Math.abs(avg - targetRPM) <= ShooterConstants.ERROR_MARGIN;
+    }
+
     public Command shootFuelCommand() {
-         
+
         return new RunCommand(() -> shootFuel(), this)
                 .finallyDo(interrupted -> stopShooting());
     }
@@ -168,28 +180,22 @@ public class Shooter extends SubsystemBase {
         return new RunCommand(() -> SpeedUpShooter(), this);
     }
 
-
-    public Command sysIdQuasistaticForward()
-    {
+    public Command sysIdQuasistaticForward() {
         return sysIdRoutine.quasistatic(SysIdRoutine.Direction.kForward);
     }
 
-    public Command sysIdQuasistaticReverse()
-    {
+    public Command sysIdQuasistaticReverse() {
         return sysIdRoutine.quasistatic(SysIdRoutine.Direction.kReverse);
     }
 
-    public Command sysIdDynamicForward()
-    {
+    public Command sysIdDynamicForward() {
         return sysIdRoutine.dynamic(SysIdRoutine.Direction.kForward);
     }
 
-    public Command sysIdDynamicReverse()
-    {
+    public Command sysIdDynamicReverse() {
         return sysIdRoutine.dynamic(SysIdRoutine.Direction.kReverse);
     }
 
-   
     @Override
     public void periodic() {
         // AdvantageKit Logging
@@ -213,11 +219,15 @@ public class Shooter extends SubsystemBase {
         Logger.recordOutput("Shooter/TargetKickerRPM", targetKickerRPM);
 
         // Applied voltage to right shooter motor.
-        Logger.recordOutput("Shooter/Right1AppliedVolts", ShooterRight1Motor.getAppliedOutput() * ShooterRight1Motor.getBusVoltage());
-        Logger.recordOutput("Shooter/Right2AppliedVolts", ShooterRight2Motor.getAppliedOutput() * ShooterRight2Motor.getBusVoltage());
+        Logger.recordOutput("Shooter/Right1AppliedVolts",
+                ShooterRight1Motor.getAppliedOutput() * ShooterRight1Motor.getBusVoltage());
+        Logger.recordOutput("Shooter/Right2AppliedVolts",
+                ShooterRight2Motor.getAppliedOutput() * ShooterRight2Motor.getBusVoltage());
 
         // Applied voltage to left shooter motor.
-        Logger.recordOutput("Shooter/Left1AppliedVolts", ShooterLeft1Motor.getAppliedOutput() * ShooterLeft1Motor.getBusVoltage());
-        Logger.recordOutput("Shooter/Left2AppliedVolts", ShooterLeft2Motor.getAppliedOutput() * ShooterLeft2Motor.getBusVoltage());    
+        Logger.recordOutput("Shooter/Left1AppliedVolts",
+                ShooterLeft1Motor.getAppliedOutput() * ShooterLeft1Motor.getBusVoltage());
+        Logger.recordOutput("Shooter/Left2AppliedVolts",
+                ShooterLeft2Motor.getAppliedOutput() * ShooterLeft2Motor.getBusVoltage());
     }
 }

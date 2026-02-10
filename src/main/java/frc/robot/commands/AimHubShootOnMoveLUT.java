@@ -17,6 +17,8 @@ import java.util.function.Supplier;
 
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Hopper;
+import frc.robot.subsystems.Kicker;
 
 /**
  * Shoot-on-the-move helper:
@@ -29,6 +31,8 @@ public class AimHubShootOnMoveLUT extends Command {
 
   private final SwerveSubsystem drive;
   private final Shooter shooter;
+  private final Hopper hopper;
+  private final Kicker kicker;
 
   // Driver translation inputs (typically joystick Y = +forward, X = +left; adapt as needed).
   private final DoubleSupplier xCmdSupplier; // field-relative m/s command (normalized -1..1)
@@ -76,6 +80,8 @@ public class AimHubShootOnMoveLUT extends Command {
   public AimHubShootOnMoveLUT(
       SwerveSubsystem drive,
       Shooter shooter,
+      Hopper hopper,
+      Kicker kicker,
       Supplier<Pose2d> poseSupplier,
       Supplier<ChassisSpeeds> fieldVelSupplier,
       Translation2d hubFieldPos,
@@ -93,6 +99,8 @@ public class AimHubShootOnMoveLUT extends Command {
   ) {
     this.drive = drive;
     this.shooter = shooter;
+    this.hopper = hopper;
+    this.kicker = kicker;
     this.poseSupplier = poseSupplier;
     this.fieldVelSupplier = fieldVelSupplier;
 
@@ -213,8 +221,17 @@ public class AimHubShootOnMoveLUT extends Command {
 
     // You can also gate feeding on yaw error + shooter speed:
     // boolean aimed = Math.abs(yawErrorRad) < aimToleranceRad;
-    // boolean upToSpeed = shooter.isAtTarget();  // implement using targetRPM not constant :contentReference[oaicite:12]{index=12}
+     boolean upToSpeed = shooter.isAtTargetRPM();  // implement using targetRPM not constant :contentReference[oaicite:12]{index=12}
     // if (aimed && upToSpeed) feed...
+    if (upToSpeed) {
+      // feed balls into shooter
+      hopper.HopperToShooter();
+      kicker.Kick();
+    } else {
+      // optionally stop feeding when not aimed or not up to speed
+      hopper.stopHopper();
+      kicker.stopKicking();
+    }
   }
 
   @Override
@@ -223,6 +240,8 @@ public class AimHubShootOnMoveLUT extends Command {
     // - usually keep drive under default command automatically
     // - stop shooter if you want
     shooter.stopShooting();
+    hopper.stopHopper();
+      kicker.stopKicking();
   }
 
   @Override

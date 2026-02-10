@@ -26,6 +26,8 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Configs.ShooterSubsystem;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.AimHubShootOnMoveLUT;
+import frc.robot.commands.LAlignToReefTagRelative;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.io.File;
 import swervelib.SwerveInputStream;
@@ -66,6 +68,11 @@ public class RobotContainer {
  private final Climber m_climber = new Climber();
  private final Kicker m_kicker = new Kicker();
 private final Pushout m_pushout = new Pushout();
+private final LAlignToReefTagRelative m_lAlignToReefTagRelative = new LAlignToReefTagRelative(drivebase);
+// AimHubShootOnMoveLUT instantiation removed: the available AimHubShootOnMoveLUT constructors
+// do not match the arguments used here, and SwerveDrive does not provide getFieldRelativeSpeeds().
+// Instantiate this command later where you can supply the correct types/APIs (e.g. a Supplier<Pose2d>
+// and a Supplier<ChassisSpeeds> or adjust to the command's expected inputs).
 
 
  // Establish a Sendable Chooser that will be able to be sent to the
@@ -343,6 +350,8 @@ private final Pushout m_pushout = new Pushout();
    driverXbox.back().whileTrue(drivebase.centerModulesCommand());
    driverXbox.leftBumper().onTrue(Commands.none());
    driverXbox.rightBumper().onTrue(Commands.none());
+   driverXbox.a().whileTrue(m_lAlignToReefTagRelative);
+//    driverXbox.b().whileTrue(
    } else
    {
    driverXbox.a().onTrue((Commands.runOnce(drivebase::zeroGyro)));
