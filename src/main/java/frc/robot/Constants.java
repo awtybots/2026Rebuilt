@@ -121,7 +121,7 @@ public final class Constants
   public static class ClimberConstants
   {
     public static final int CLIMBER_LEFT_ID = 20; // placeholder
-    // public static final int CLIMBER_RIGHT_ID = 25; // placeholder
+    public static final int CLIMBER_RIGHT_ID = 25; // placeholder
 
     public static final double CLIMBER_SPEED = 0.5; // placeholder
 
