@@ -64,7 +64,7 @@ public final class Constants
   public static class PushoutConstants
   {
     // public static final int PUSHOUT_LEFT_ID = 0; 
-    public static final int PUSHOUT_RIGHT_ID = 19; 
+    public static final int PUSHOUT_RIGHT_ID = 17; 
 
     public static final double PUSHOUT_RETRACTED_POS = 0.0;     
     public static final double PUSHOUT_EXTENDED_POS  = 11.8;    // TUNE THIS!!!
@@ -103,7 +103,10 @@ public final class Constants
   {
     
     public static final int TWINDEXER_RIGHT_ID = 18; 
-    public static final int TWINDEXER_LEFT_ID = 17; 
+  public static final int TWINDEXER_LEFT_ID = 18; 
+
+  // Twindexer right/left IDEAL CAN IDs (from motor_can_ids.csv)
+  public static final int TWINDEXER_RIGHT_ID_IDEAL = 19; 
 
     public static final double TWINDEXER_RIGHT_SPEED = 0.7;
     public static final double TWINDEXER_LEFT_SPEED = -0.7;
