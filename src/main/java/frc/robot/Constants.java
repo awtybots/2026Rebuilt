@@ -128,5 +128,37 @@ public final class Constants
     public static final double CLIMBER_DOWN_SPEED = -0.5; // placeholder
   }
 
+   public static final double X_REEF_ALIGNMENT_P = 2.1; // Proportional gain for X-axis reef alignment
+  public static final double Y_REEF_ALIGNMENT_P = 2.5; // Proportional gain for Y-axis reef alignment (previously 1.74)
+  public static final double ROT_REEF_ALIGNMENT_P = 0.07; // Proportional gain for rotational reef alignment
+  public static final boolean USE_AUTO_ALIGNMENT_FAST_APPROACH = false; // Turn fast appraoch for auto align
+  public static final double AUTO_ALIGNMENT_FAST_APPROACH_DISTANCE_METERS = 0.60; // Distance where we switch from max
+                                                                                  // speed to PID control
+  public static final double AUTO_ALIGNMENT_FAST_APPROACH_SPEED = 1.2; // Fast approach speed in m/s when far from the
+                                                                       // reef
+
+  // Shift these setpoints when the robot stops short, crashes the reef, or parks
+  // off-center.
+  public static final double ROT_SETPOINT_REEF_ALIGNMENT = 0; // Desired robot heading when aligned to the reef
+  public static final double ROT_TOLERANCE_REEF_ALIGNMENT = 1; // Allowable heading error while aligning
+  public static final double X_SETPOINT_REEF_ALIGNMENT = 0.06; // Desired X offset from reef for scoring (previously
+                                                               // -0.43)
+  public static final double X_TOLERANCE_REEF_ALIGNMENT = 0.08; // Acceptable X error when aligning
+  public static final double Y_L_SETPOINT_REEF_ALIGNMENT = 0.05; // Desired Y offset when approaching left reef side
+                                                                 // (was -0.359)
+  public static final double Y_R_SETPOINT_REEF_ALIGNMENT = 0.275; // Desired Y offset when approaching right reef side
+  public static final double Y_TOLERANCE_REEF_ALIGNMENT = 0.1; // Acceptable Y error during alignment
+
+  // Extend this wait if brief vision dropouts abort alignment, shorten to bail
+  // sooner.
+  public static final double DONT_SEE_TAG_WAIT_TIME = 0.4; // Time to continue aligning after vision tag loss
+  public static final double POSE_VALIDATION_TIME = 0.07; // Duration a pose measurement must remain valid
+  public static final double POSE_LOSS_GRACE_PERIOD = 0.2; // Allowed vision dropout time before aborting alignment
+
+  // Dashboard throttling
+  public static final boolean LIMIT_DASHBOARD_PERIODIC_UPDATES = false; // Enable throttling of dashboard updates
+  public static final int DASHBOARD_UPDATE_PERIOD_CYCLES = 10; // Number of periodic loops between dashboard refreshes
+
+
 }
 

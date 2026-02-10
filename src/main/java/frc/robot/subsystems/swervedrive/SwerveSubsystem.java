@@ -586,6 +586,13 @@ public class SwerveSubsystem extends SubsystemBase
     swerveDrive.setChassisSpeeds(chassisSpeeds);
   }
 
+   public void stop() {
+    drive(new ChassisSpeeds(0,0,0));
+
+    swerveDrive.setModuleStates(
+      swerveDrive.kinematics.toSwerveModuleStates(new ChassisSpeeds(0,0,0)), true
+      );
+  }
   /**
    * Post the trajectory to the field.
    *
