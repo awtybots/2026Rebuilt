@@ -83,7 +83,7 @@ public final class Constants
     public static final int SHOOTER_L1_ID = 9;
     public static final int SHOOTER_L2_ID = 10; 
     
-    public static final double SHOOTER_SPEED = 2000; // RPM
+    public static final double SHOOTER_SPEED = 3100; // RPM
     public static final double ERROR_MARGIN = 100; // RPM
     public static final double STOP = 0;
     public static final double IDLE = 0; // % voltage -1 --> 1
