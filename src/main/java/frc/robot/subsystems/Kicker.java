@@ -74,7 +74,7 @@ public class Kicker extends SubsystemBase {
     // shoot fuel call that, as well as the kicker motor so we reduce extra code
     public void Kick() {
         kickerLeftController.setSetpoint(KickerConstants.KICKER_SPEED, ControlType.kMAXMotionVelocityControl);
-        kickerRightController.setSetpoint(KickerConstants.KICKER_SPEED, ControlType.kMAXMotionVelocityControl);
+        // kickerRightController.setSetpoint(KickerConstants.KICKER_SPEED, ControlType.kMAXMotionVelocityControl);
     }
 
     public void KickBackwards() {

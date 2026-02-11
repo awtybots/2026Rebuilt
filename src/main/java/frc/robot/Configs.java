@@ -130,7 +130,7 @@ public final class Configs
 
                         static {
                                 kickerLeftMotorConfig.idleMode(IdleMode.kCoast).smartCurrentLimit(40).voltageCompensation(12);
-                                kickerRightMotorConfig.idleMode(IdleMode.kCoast).smartCurrentLimit(40).voltageCompensation(12).inverted(true);
+                                kickerRightMotorConfig.idleMode(IdleMode.kCoast).smartCurrentLimit(40).voltageCompensation(12).follow(13,true);
 
                         }
 
