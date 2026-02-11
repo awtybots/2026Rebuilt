@@ -101,12 +101,9 @@ public final class Constants
 
   public static class HopperConstants
   {
-    
-    public static final int TWINDEXER_RIGHT_ID = 18; 
-  public static final int TWINDEXER_LEFT_ID = 18; 
-
-  // Twindexer right/left IDEAL CAN IDs (from motor_can_ids.csv)
-  public static final int TWINDEXER_RIGHT_ID_IDEAL = 19; 
+    // IDEAL mapping from motor_can_ids.csv: left=18, right=19
+    public static final int TWINDEXER_LEFT_ID = 18;
+    public static final int TWINDEXER_RIGHT_ID = 19;
 
     public static final double TWINDEXER_RIGHT_SPEED = 0.7;
     public static final double TWINDEXER_LEFT_SPEED = -0.7;
