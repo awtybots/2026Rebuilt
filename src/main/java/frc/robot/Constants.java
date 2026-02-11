@@ -14,8 +14,8 @@ import swervelib.math.Matter;
  */
 public final class Constants
 {
-  public static final boolean USE_ROBOT_RELATIVE = false;
-  public static final boolean USE_DRIVE_ONLY = true;
+  public static final boolean USE_ROBOT_RELATIVE = true;
+  public static final boolean USE_DRIVE_ONLY = false;
   public static final boolean USE_SHOOTER_ONLY = false;
   public static final boolean SIM_REPLAY_MODE = false;
 //not used
@@ -63,8 +63,8 @@ public final class Constants
 
   public static class PushoutConstants
   {
-    public static final int PUSHOUT_LEFT_ID = 0; 
-    public static final int PUSHOUT_RIGHT_ID = 17; 
+    public static final int PUSHOUT_LEFT_ID = 17; 
+    public static final int PUSHOUT_RIGHT_ID = 21; 
 
     public static final double PUSHOUT_RETRACTED_POS = 0.0;     
     public static final double PUSHOUT_EXTENDED_POS  = 4;    // TUNE THIS!!!
@@ -77,11 +77,11 @@ public final class Constants
 
   public static class ShooterConstants
   {
-    public static final int SHOOTER_R1_ID = 9;
-    public static final int SHOOTER_R2_ID = 10;
+    public static final int SHOOTER_R1_ID = 11;
+    public static final int SHOOTER_R2_ID = 12;
 
-    public static final int SHOOTER_L1_ID = 11;
-    public static final int SHOOTER_L2_ID = 12; 
+    public static final int SHOOTER_L1_ID = 9;
+    public static final int SHOOTER_L2_ID = 10; 
     
     public static final double SHOOTER_SPEED = 5770; // RPM
     public static final double ERROR_MARGIN = 100; // RPM
@@ -120,7 +120,7 @@ public final class Constants
   public static class ClimberConstants
   {
     public static final int CLIMBER_LEFT_ID = 20; // placeholder
-    public static final int CLIMBER_RIGHT_ID = 25; // placeholder
+    // public static final int CLIMBER_RIGHT_ID = 25; // placeholder
 
     public static final double CLIMBER_SPEED = 0.5; // placeholder
 
