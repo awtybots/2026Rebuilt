@@ -185,8 +185,8 @@ private final Pushout m_pushout = new Pushout();
    NamedCommands.registerCommand("reverse hopper", m_hopper.runReverseHopperCommand().withTimeout(6.7));
    NamedCommands.registerCommand("intake", m_intake.runIntakeCommand().withTimeout(4));
    NamedCommands.registerCommand("outtake", m_intake.runOuttakeCommand().withTimeout(6.7));
-   NamedCommands.registerCommand("climb up", m_climber.runClimbCommand().withTimeout(6.7));
-   NamedCommands.registerCommand("climb down", m_climber.runClimberDownCommand().withTimeout(6.7));
+  //  NamedCommands.registerCommand("climb up", m_climber.runClimbCommand().withTimeout(6.7));
+  //  NamedCommands.registerCommand("climb down", m_climber.runClimberDownCommand().withTimeout(6.7));
 
 
 
@@ -236,11 +236,11 @@ private final Pushout m_pushout = new Pushout();
    // transfer + kick + shoot command, only runs if the shooter is up to speed
    RTtransfer_kick_shoot.whileTrue(Commands.parallel(m_hopper.runHopperToShooterCommand(), m_kicker.kickCommand(), m_shooter.shootFuelCommand()).onlyIf(m_shooter::isShooterFast));
    LTpushout_and_intake.whileTrue(Commands.parallel(m_pushout.PushCommand(), m_intake.runIntakeCommand()));
-   retract_and_stop.whileTrue(Commands.parallel(m_pushout.RetractCommand(), m_intake.stopIntakeCommand().withTimeout(0.5).repeatedly()));
+   retract_and_stop.whileTrue(Commands.parallel(m_pushout.RetractCommand()));
 
    // Pushout Commands
    extendIntake.whileTrue(m_pushout.PushCommand());
-   agitate.whileTrue(m_pushout.AgitateCommand());
+   agitate.whileTrue(m_pushout.AgitateCommand().repeatedly());
 
    // Intake Commands
    runIntake.whileTrue(m_intake.runIntakeCommand());
@@ -257,8 +257,8 @@ private final Pushout m_pushout = new Pushout();
    speedUpShooter.whileTrue(m_shooter.SpeedUpShooterCommand());
 
    // Climber Commands
-   Climb.whileTrue(m_climber.runClimbCommand());
-   ClimbDown.whileTrue(m_climber.runClimberDownCommand());
+  //  Climb.whileTrue(m_climber.runClimbCommand());
+  //  ClimbDown.whileTrue(m_climber.runClimberDownCommand());
 
     // SysId: run shooter quasistatic forward.
     operatorXbox.a().whileTrue(m_shooter.sysIdQuasistaticForward());

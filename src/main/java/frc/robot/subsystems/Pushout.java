@@ -27,26 +27,26 @@ public class Pushout extends SubsystemBase {
     // AdvantageKit logging
     private double desiredPercent = 0.0;
 
-    // private SparkFlex PushoutLeftMotor = new SparkFlex(PushoutConstants.PUSHOUT_LEFT_ID, MotorType.kBrushless);
-    // private SparkClosedLoopController PushoutLeftController = PushoutLeftMotor.getClosedLoopController();
+    private SparkFlex PushoutLeftMotor = new SparkFlex(PushoutConstants.PUSHOUT_LEFT_ID, MotorType.kBrushless);
+    private SparkClosedLoopController PushoutLeftController = PushoutLeftMotor.getClosedLoopController();
     private SparkFlex PushoutRightMotor = new SparkFlex(PushoutConstants.PUSHOUT_RIGHT_ID, MotorType.kBrushless);
     private SparkClosedLoopController PushoutRightController = PushoutRightMotor.getClosedLoopController();
 
-    // private final RelativeEncoder pushoutLeftEncoder = PushoutLeftMotor.getEncoder();
+    private final RelativeEncoder pushoutLeftEncoder = PushoutLeftMotor.getEncoder();
     private final RelativeEncoder pushoutRightEncoder = PushoutRightMotor.getEncoder();
 
     private double PushoutRightExtended = PushoutConstants.PUSHOUT_EXTENDED_POS;
-    // private double PushoutLeftExtended = PushoutConstants.PUSHOUT_EXTENDED_POS;
+    private double PushoutLeftExtended = PushoutConstants.PUSHOUT_EXTENDED_POS;
     private double PushoutRightRetracted = PushoutConstants.PUSHOUT_RETRACTED_POS;
-    // private double PushoutLeftRetracted = PushoutConstants.PUSHOUT_RETRACTED_POS;
+    private double PushoutLeftRetracted = PushoutConstants.PUSHOUT_RETRACTED_POS;
     private double PushoutRightExtendedAgitate = PushoutConstants.PUSHOUT_EXTENDED_AGITATE_POS;
-    // private double PushoutLeftExtendedAgitate = PushoutConstants.PUSHOUT_EXTENDED_AGITATE_POS;
+    private double PushoutLeftExtendedAgitate = PushoutConstants.PUSHOUT_EXTENDED_AGITATE_POS;
     private double PushoutRightRetractedAgitate = PushoutConstants.PUSHOUT_RETRACTED_AGITATE_POS;
-    // private double PushoutLeftRetractedAgitate = PushoutConstants.PUSHOUT_RETRACTED_AGITATE_POS;
+    private double PushoutLeftRetractedAgitate = PushoutConstants.PUSHOUT_RETRACTED_AGITATE_POS;
 
     public Pushout() {
-        // PushoutLeftMotor.configure(Configs.PushoutSubsystem.PushoutLeftMotorConfig, ResetMode.kResetSafeParameters,
-        //         PersistMode.kPersistParameters);
+        PushoutLeftMotor.configure(Configs.PushoutSubsystem.PushoutLeftMotorConfig, ResetMode.kResetSafeParameters,
+                PersistMode.kPersistParameters);
         PushoutRightMotor.configure(Configs.PushoutSubsystem.PushoutRightMotorConfig, ResetMode.kResetSafeParameters,
                 PersistMode.kPersistParameters);
     }
@@ -54,46 +54,46 @@ public class Pushout extends SubsystemBase {
     public void PushIntake() {
         // finds the setpoint compared to encoder positions so the pushout moves by the offsets from where it is
         // double leftNow = pushoutLeftEncoder.getPosition();
-        double rightNow = pushoutRightEncoder.getPosition();
-        // PushoutLeftController.setSetpoint(leftNow + PushoutLeftExtended, ControlType.kMAXMotionPositionControl);
-        PushoutRightController.setSetpoint(rightNow + PushoutRightExtended, ControlType.kMAXMotionPositionControl);
+        // double rightNow = pushoutRightEncoder.getPosition();
+        PushoutLeftController.setSetpoint(PushoutLeftExtended, ControlType.kMAXMotionPositionControl);
+        PushoutRightController.setSetpoint(PushoutRightExtended, ControlType.kMAXMotionPositionControl);
 
     }
     public void RetractIntake() {
         // double leftNow = pushoutLeftEncoder.getPosition();
-        double rightNow = pushoutRightEncoder.getPosition();
-        // PushoutLeftController.setSetpoint(leftNow + PushoutLeftRetracted, ControlType.kMAXMotionPositionControl);
-        PushoutRightController.setSetpoint(rightNow + PushoutRightRetracted, ControlType.kMAXMotionPositionControl);
+        // double rightNow = pushoutRightEncoder.getPosition();
+        PushoutLeftController.setSetpoint(PushoutLeftRetracted, ControlType.kMAXMotionPositionControl);
+        PushoutRightController.setSetpoint( PushoutRightRetracted, ControlType.kMAXMotionPositionControl);
     }
 
     public void SmallPush() 
     {
         // double leftNow = pushoutLeftEncoder.getPosition();
-        double rightNow = pushoutRightEncoder.getPosition();
-        // PushoutLeftController.setSetpoint(leftNow + PushoutLeftExtendedAgitate, ControlType.kMAXMotionPositionControl);
-        PushoutRightController.setSetpoint(rightNow + PushoutRightExtendedAgitate, ControlType.kMAXMotionPositionControl);
+        // double rightNow = pushoutRightEncoder.getPosition();
+        PushoutLeftController.setSetpoint(PushoutLeftExtendedAgitate, ControlType.kMAXMotionPositionControl);
+        PushoutRightController.setSetpoint(PushoutRightExtendedAgitate, ControlType.kMAXMotionPositionControl);
     }
 
     public void SmallRetract() 
     {
         // double leftNow = pushoutLeftEncoder.getPosition();
-        double rightNow = pushoutRightEncoder.getPosition();
-        // PushoutLeftController.setSetpoint(leftNow + PushoutLeftRetractedAgitate, ControlType.kMAXMotionPositionControl);
-        PushoutRightController.setSetpoint(rightNow + PushoutRightRetractedAgitate, ControlType.kMAXMotionPositionControl);
+        // double rightNow = pushoutRightEncoder.getPosition();
+        PushoutLeftController.setSetpoint(PushoutLeftRetractedAgitate, ControlType.kMAXMotionPositionControl);
+        PushoutRightController.setSetpoint(PushoutRightRetractedAgitate, ControlType.kMAXMotionPositionControl);
     }
 
-    public void StopPushing() {
-        // PushoutLeftController.setSetpoint(0, ControlType.kMAXMotionPositionControl);
-        PushoutRightController.setSetpoint(0, ControlType.kMAXMotionPositionControl);
-    }
+    // public void StopPushing() {
+    //     // PushoutLeftController.setSetpoint(0, ControlType.kMAXMotionPositionControl);
+    //     PushoutRightController.setSetpoint(0, ControlType.kMAXMotionPositionControl);
+    // }
 
     public void Agitate()
     {
-        while (true) {
-            SmallPush();
-            Timer.delay(0.5);
-            SmallRetract();
-        }
+        SmallPush();
+        Timer.delay(PushoutConstants.PUSHOUT_AGITATE_WAIT);
+        SmallRetract();
+        Timer.delay(PushoutConstants.PUSHOUT_AGITATE_WAIT);
+
     }
 
 

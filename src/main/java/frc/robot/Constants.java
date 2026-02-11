@@ -63,14 +63,16 @@ public final class Constants
 
   public static class PushoutConstants
   {
-    // public static final int PUSHOUT_LEFT_ID = 0; 
+    public static final int PUSHOUT_LEFT_ID = 0; 
     public static final int PUSHOUT_RIGHT_ID = 17; 
 
     public static final double PUSHOUT_RETRACTED_POS = 0.0;     
-    public static final double PUSHOUT_EXTENDED_POS  = 11.8;    // TUNE THIS!!!
+    public static final double PUSHOUT_EXTENDED_POS  = 4;    // TUNE THIS!!!
 
     public static final double PUSHOUT_RETRACTED_AGITATE_POS = 0.0;     // encoder rotations
     public static final double PUSHOUT_EXTENDED_AGITATE_POS  = 3;    // TUNE THIS!!!
+
+    public static final double PUSHOUT_AGITATE_WAIT = 0.3;     
   }
 
   public static class ShooterConstants
