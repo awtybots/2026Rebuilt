@@ -65,7 +65,7 @@ public class RobotContainer {
  private final Shooter m_shooter = new Shooter();
  private final Climber m_climber = new Climber();
  private final Kicker m_kicker = new Kicker();
-private final Pushout m_pushout = new Pushout();
+ private final Pushout m_pushout = new Pushout();
 
 
  // Establish a Sendable Chooser that will be able to be sent to the
@@ -143,16 +143,16 @@ private final Pushout m_pushout = new Pushout();
 
 
  // Shooter
- private final Trigger shootFuel = driverXbox.y();
- private final Trigger speedUpShooter = driverXbox.leftTrigger();
+ private final Trigger shootFuel = driverXbox.leftTrigger();
+//  private final Trigger speedUpShooter = driverXbox.leftTrigger();
 
  // Intake
  private final Trigger runIntake = driverXbox.x();
  private final Trigger runOuttake = driverXbox.a();
 
  // Pushout
- private final Trigger extendIntake = operatorXbox.y();
- private final Trigger agitate = operatorXbox.a();
+ private final Trigger extendIntake = driverXbox.y();
+ private final Trigger A_agitate = driverXbox.b();
 
  // Climber
  private final Trigger Climb = driverXbox.povUp();
@@ -240,7 +240,7 @@ private final Pushout m_pushout = new Pushout();
 
    // Pushout Commands
    extendIntake.whileTrue(m_pushout.PushCommand());
-   agitate.whileTrue(m_pushout.AgitateCommand().repeatedly());
+   A_agitate.whileTrue(m_pushout.AgitateCommand().repeatedly());
 
    // Intake Commands
    runIntake.whileTrue(m_intake.runIntakeCommand());
@@ -254,8 +254,10 @@ private final Pushout m_pushout = new Pushout();
 
    // Shooter Commands
    shootFuel.whileTrue(m_shooter.shootFuelCommand());
-   speedUpShooter.whileTrue(m_shooter.SpeedUpShooterCommand());
+  //  speedUpShooter.whileTrue(m_shooter.SpeedUpShooterCommand());
 
+    // Swerve Drive Commands
+   driverXbox.start().onTrue((Commands.runOnce(drivebase::zeroGyro)));
    // Climber Commands
   //  Climb.whileTrue(m_climber.runClimbCommand());
   //  ClimbDown.whileTrue(m_climber.runClimberDownCommand());
@@ -272,8 +274,7 @@ private final Pushout m_pushout = new Pushout();
 
 
 
-   // Swerve Drive Commands
-   driverXbox.start().onTrue((Commands.runOnce(drivebase::zeroGyro)));
+  
 
 
    Command driveFieldOrientedDirectAngle = drivebase.driveFieldOriented(() -> applyHeadingBias(driveDirectAngle.get()));
