@@ -98,23 +98,23 @@ public class Shooter extends SubsystemBase {
 
         ShooterRight1Motor.configure(Configs.ShooterSubsystem.ShooterRightMotor1Config, ResetMode.kResetSafeParameters,
                 PersistMode.kPersistParameters);
-        ShooterRight2Motor.configure(Configs.ShooterSubsystem.ShooterLeftMotor1Config, ResetMode.kResetSafeParameters,
+        ShooterRight2Motor.configure(Configs.ShooterSubsystem.ShooterRightMotor2Config, ResetMode.kResetSafeParameters,
                 PersistMode.kPersistParameters);
 
-        ShooterLeft1Motor.configure(Configs.ShooterSubsystem.ShooterRightMotor1Config, ResetMode.kResetSafeParameters,
+        ShooterLeft1Motor.configure(Configs.ShooterSubsystem.ShooterLeftMotor1Config, ResetMode.kResetSafeParameters,
                 PersistMode.kPersistParameters);
-        ShooterLeft2Motor.configure(Configs.ShooterSubsystem.ShooterLeftMotor1Config, ResetMode.kResetSafeParameters,
+        ShooterLeft2Motor.configure(Configs.ShooterSubsystem.ShooterLeftMotor2Config, ResetMode.kResetSafeParameters,
                 PersistMode.kPersistParameters);
         
     }
 
     public boolean isShooterFast() {
         double right1RPM = ShooterRight1Motor.getEncoder().getVelocity();
-        double right2RPM = ShooterRight2Motor.getEncoder().getVelocity();
+        // double right2RPM = ShooterRight2Motor.getEncoder().getVelocity();
 
         double left1RPM = ShooterLeft1Motor.getEncoder().getVelocity();
-        double left2RPM = ShooterLeft2Motor.getEncoder().getVelocity();
-        double avgShooterRPM = (right1RPM + right2RPM + left1RPM + left2RPM) / 4.0;
+        // double left2RPM = ShooterLeft2Motor.getEncoder().getVelocity();
+        double avgShooterRPM = (right1RPM  + left1RPM ) / 2.0;
 
         // Return true when average shooter RPM is within ERROR_MARGIN of the target speed.
         // Use java.lang.Math (capital M), and compare absolute difference against the error margin.
@@ -141,9 +141,9 @@ public class Shooter extends SubsystemBase {
     public void SpeedUpShooter()
     {
         shooterright1Controller.setSetpoint(ShooterConstants.SHOOTER_SPEED, ControlType.kMAXMotionVelocityControl);
-        shooterright2Controller.setSetpoint(ShooterConstants.SHOOTER_SPEED, ControlType.kMAXMotionVelocityControl);
+        // shooterright2Controller.setSetpoint(ShooterConstants.SHOOTER_SPEED, ControlType.kMAXMotionVelocityControl);
         shooterleft1Controller.setSetpoint(ShooterConstants.SHOOTER_SPEED, ControlType.kMAXMotionVelocityControl);
-        shooterleft2Controller.setSetpoint(ShooterConstants.SHOOTER_SPEED, ControlType.kMAXMotionVelocityControl);
+        // shooterleft2Controller.setSetpoint(ShooterConstants.SHOOTER_SPEED, ControlType.kMAXMotionVelocityControl);
     }
 
     public Command shootFuelCommand() {
