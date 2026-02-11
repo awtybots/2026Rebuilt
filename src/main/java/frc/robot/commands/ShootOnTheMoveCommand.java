@@ -9,6 +9,8 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.Command;
+import swervelib.SwerveDrive;
+
 import java.util.List;
 import java.util.function.Supplier;
 
@@ -22,6 +24,7 @@ public class ShootOnTheMoveCommand extends Command
   private final Supplier<Pose2d>        robotPose;
   private final Supplier<ChassisSpeeds> fieldOrientedChassisSpeeds;
   private final Pose2d                  goalPose;
+
 
   // Tuned Constants
   /**
@@ -97,7 +100,7 @@ public class ShootOnTheMoveCommand extends Command
     Translation2d shotVec     = targetVec.div(dist).times(idealHorizontalSpeed).minus(robotVelVec);
 
     // 5. CONVERT TO CONTROLS
-    double turretAngle        = shotVec.getAngle().getDegrees();
+    
     double newHorizontalSpeed = shotVec.getNorm();
 
     // 6. SOLVE FOR NEW PITCH/RPM
@@ -108,10 +111,11 @@ public class ShootOnTheMoveCommand extends Command
     double newPitch = Math.acos(ratio);
 
     // 7. SET OUTPUTS
-    //turret.setAngle(turretAngle); // Could also just set the swerveDrive to point towards this angle like AlignToGoal
+     
+    // Could also just set the swerveDrive to point towards this angle like AlignToGoal
     //hood.setAngle(Math.toDegrees(newPitch));
     //shooter.setRPM(MetersPerSecond.of(totalExitVelocity));
-    
+
 
   }
 
