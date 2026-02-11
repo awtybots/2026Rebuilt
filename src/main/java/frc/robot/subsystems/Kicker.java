@@ -79,7 +79,7 @@ public class Kicker extends SubsystemBase {
 
     public void KickBackwards() {
         kickerLeftController.setSetpoint(KickerConstants.KICKER_REVERSE_SPEED, ControlType.kMAXMotionVelocityControl);
-        kickerRightController.setSetpoint(KickerConstants.KICKER_REVERSE_SPEED, ControlType.kMAXMotionVelocityControl);
+        // kickerRightController.setSetpoint(KickerConstants.KICKER_REVERSE_SPEED, ControlType.kMAXMotionVelocityControl);
     }
 
 

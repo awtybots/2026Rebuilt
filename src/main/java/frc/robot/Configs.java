@@ -131,7 +131,27 @@ public final class Configs
                         static {
                                 kickerLeftMotorConfig.idleMode(IdleMode.kCoast).smartCurrentLimit(40).voltageCompensation(12);
                                 kickerRightMotorConfig.idleMode(IdleMode.kCoast).smartCurrentLimit(40).voltageCompensation(12).follow(13,true);
+                                
+                                  kickerLeftMotorConfig.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder)
+                            // Set PID values for position control. We don't need to pass a closed
+                            // loop slot, as it will default to slot 0.
+                            .p(0.0002355)
+                            .i(0)
+                            .d(0)
+                            .outputRange(-1, 1);
+                        kickerLeftMotorConfig.closedLoop
+                        .maxMotion.maxAcceleration(10000);
 
+
+                        kickerRightMotorConfig.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder)
+                            // Set PID values for position control. We don't need to pass a closed
+                            // loop slot, as it will default to slot 0.
+                            .p(0.0002355)
+                            .i(0)
+                            .d(0)
+                            .outputRange(-1, 1);
+                        kickerRightMotorConfig.closedLoop
+                        .maxMotion.maxAcceleration(10000);
                         }
 
         }
