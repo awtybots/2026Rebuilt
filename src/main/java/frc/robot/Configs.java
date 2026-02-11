@@ -106,7 +106,9 @@ public final class Configs
                         .d(0.05)
                         .outputRange(-1.0, 1.0)
                         .maxMotion
-                                .maxAcceleration(3000); // smooth extension
+                                .maxAcceleration(3000)
+                                .cruiseVelocity(1000); // smooth extension
+                                
 
                         PushoutRightMotorConfig.closedLoop
                         .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
@@ -115,7 +117,8 @@ public final class Configs
                         .d(0.05)
                         .outputRange(-1.0, 1.0)
                         .maxMotion
-                                .maxAcceleration(3000);
+                                .maxAcceleration(3000)
+                                .cruiseVelocity(1000);
                                 
                 }
 
