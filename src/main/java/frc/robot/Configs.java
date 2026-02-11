@@ -21,7 +21,7 @@ public final class Configs
                 static {
 
                         IntakeLeftMotorConfig.idleMode(IdleMode.kBrake).smartCurrentLimit(40).voltageCompensation(12);
-                        IntakeRightMotorConfig.idleMode(IdleMode.kBrake).smartCurrentLimit(40).voltageCompensation(12);
+                        IntakeRightMotorConfig.idleMode(IdleMode.kBrake).smartCurrentLimit(40).voltageCompensation(12).inverted(true);
 
                         // PushoutLeftMotorConfig
                         // .inverted(false)
