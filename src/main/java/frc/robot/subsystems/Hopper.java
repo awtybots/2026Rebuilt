@@ -36,13 +36,13 @@ public class Hopper extends SubsystemBase {
     public void HopperToShooter(){
         TwindexerRightDesiredPercent = HopperConstants.TWINDEXER_RIGHT_SPEED;
         TwindexerLeftDesiredPercent = HopperConstants.REVERSE_TWINDEXER_LEFT_SPEED;
-        TwindexerRightMotor.set(HopperConstants.TWINDEXER_RIGHT_SPEED);
+        // TwindexerRightMotor.set(HopperConstants.TWINDEXER_RIGHT_SPEED);
         TwindexerLeftMotor.set(HopperConstants.TWINDEXER_LEFT_SPEED);
     }
     public void ReverseHopper(){ 
         TwindexerRightDesiredPercent = HopperConstants.TWINDEXER_RIGHT_SPEED;
         TwindexerLeftDesiredPercent = HopperConstants.REVERSE_TWINDEXER_LEFT_SPEED;
-        TwindexerRightMotor.set(HopperConstants.REVERSE_TWINDEXER_RIGHT_SPEED);
+        // TwindexerRightMotor.set(HopperConstants.REVERSE_TWINDEXER_RIGHT_SPEED);
         TwindexerLeftMotor.set(HopperConstants.REVERSE_TWINDEXER_LEFT_SPEED);
     }
     public void stopHopper(){

@@ -44,11 +44,13 @@ public class Pushout extends SubsystemBase {
     private double PushoutRightRetractedAgitate = PushoutConstants.PUSHOUT_RETRACTED_AGITATE_POS;
     private double PushoutLeftRetractedAgitate = PushoutConstants.PUSHOUT_RETRACTED_AGITATE_POS;
 
+    
     public Pushout() {
         PushoutLeftMotor.configure(Configs.PushoutSubsystem.PushoutLeftMotorConfig, ResetMode.kResetSafeParameters,
                 PersistMode.kPersistParameters);
         PushoutRightMotor.configure(Configs.PushoutSubsystem.PushoutRightMotorConfig, ResetMode.kResetSafeParameters,
                 PersistMode.kPersistParameters);
+        pushoutLeftEncoder.setPosition(0);
     }
 
     public void PushIntake() {
