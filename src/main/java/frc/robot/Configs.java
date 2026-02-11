@@ -88,13 +88,13 @@ public final class Configs
                 static {
 
                         PushoutLeftMotorConfig
-                        .inverted(false)
+                        .inverted(true)
                         .idleMode(IdleMode.kBrake)
                         .smartCurrentLimit(40)
                         .voltageCompensation(12);
 
                         PushoutRightMotorConfig
-                        .inverted(true) // likely opposite side of 4-bar
+                        .inverted(false) // likely opposite side of 4-bar
                         .idleMode(IdleMode.kBrake)
                         .smartCurrentLimit(40)
                         .voltageCompensation(12);
