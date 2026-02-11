@@ -146,10 +146,10 @@ public final class Configs
 
 
                                 ShooterRightMotor1Config.idleMode(IdleMode.kCoast).smartCurrentLimit(40).voltageCompensation(12);
-                                ShooterRightMotor2Config.inverted(false).idleMode(IdleMode.kCoast).smartCurrentLimit(40).voltageCompensation(12);
+                                ShooterRightMotor2Config.inverted(true).idleMode(IdleMode.kCoast).smartCurrentLimit(40).voltageCompensation(12);
                                 
                                 ShooterLeftMotor1Config.idleMode(IdleMode.kCoast).smartCurrentLimit(40).voltageCompensation(12);
-                                ShooterLeftMotor2Config.inverted(false).idleMode(IdleMode.kCoast).smartCurrentLimit(40).voltageCompensation(12);
+                                ShooterLeftMotor2Config.inverted(true).idleMode(IdleMode.kCoast).smartCurrentLimit(40).voltageCompensation(12);
                                 
                                 
                                 ShooterRightMotor1Config.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder)
