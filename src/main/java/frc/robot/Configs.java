@@ -146,10 +146,10 @@ public final class Configs
 
 
                                 ShooterRightMotor1Config.idleMode(IdleMode.kCoast).smartCurrentLimit(40).voltageCompensation(12);
-                                ShooterRightMotor2Config.inverted(true).idleMode(IdleMode.kCoast).smartCurrentLimit(40).voltageCompensation(12);
+                                ShooterRightMotor2Config.inverted(false).idleMode(IdleMode.kCoast).smartCurrentLimit(40).voltageCompensation(12);
                                 
                                 ShooterLeftMotor1Config.idleMode(IdleMode.kCoast).smartCurrentLimit(40).voltageCompensation(12);
-                                ShooterLeftMotor2Config.inverted(true).idleMode(IdleMode.kCoast).smartCurrentLimit(40).voltageCompensation(12);
+                                ShooterLeftMotor2Config.inverted(false).idleMode(IdleMode.kCoast).smartCurrentLimit(40).voltageCompensation(12);
                                 
                                 
                                 ShooterRightMotor1Config.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder)
@@ -234,7 +234,7 @@ public final class Configs
                         TwindexerRightControllerConfig.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder)
                             // Set PID values for position control. We don't need to pass a closed
                             // loop slot, as it will default to slot 0.
-                            .p(0.0002355)
+                            .p(0.001)
                             .i(0)
                             .d(0)
                             .outputRange(-1, 1);
@@ -251,7 +251,7 @@ public final class Configs
                             TwindexerLeftControllerConfig.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder)
                             // Set PID values for position control. We don't need to pass a closed
                             // loop slot, as it will default to slot 0.
-                            .p(0.0002355)
+                            .p(0.001)
                             .i(0)
                             .d(0)
                             .outputRange(-1, 1);
