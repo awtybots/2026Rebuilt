@@ -19,4 +19,4 @@ Intake_Extension,Drive Motor,R_Pushout,0,SparkFlex,17
 Intake_Extension,Drive Motor,L_Pushout,0,SparkFlex,21
 Twindexer,Drive Motor,Twindexer L,19,SparkFlex,18
 Twindexer,Drive Motor,Twindexer R,15,SparkFlex,19
-Climber,Drive Motor,Climber,0,SparkFlex,20
+Climber,Drive Motor,Climber,20,SparkFlex,20
