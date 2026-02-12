@@ -52,8 +52,8 @@ public final class Configs
 
 
                 static {
-                        PushoutLeftMotorConfig.idleMode(IdleMode.kBrake).smartCurrentLimit(40).voltageCompensation(12);
-                        PushoutRightMotorConfig.idleMode(IdleMode.kBrake).smartCurrentLimit(40).voltageCompensation(12).follow(21,true);
+                        PushoutLeftMotorConfig.idleMode(IdleMode.kCoast).smartCurrentLimit(40).voltageCompensation(12);
+                        PushoutRightMotorConfig.idleMode(IdleMode.kCoast).smartCurrentLimit(40).voltageCompensation(12).follow(21,true);
                         
 
                         // PushoutLeftMotorConfig
