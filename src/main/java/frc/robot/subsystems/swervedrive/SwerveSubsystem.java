@@ -92,6 +92,7 @@ public class SwerveSubsystem extends SubsystemBase {
     } catch (Exception e) {
       throw new RuntimeException(e);
     }
+    swerveDrive.stopOdometryThread();
     // Enable heading correction to reduce drift when rotation input is near zero.
     swerveDrive.setHeadingCorrection(false);
     swerveDrive.setCosineCompensator(false);// !SwerveDriveTelemetry.isSimulation); // Disables cosine compensation for
@@ -584,7 +585,7 @@ public class SwerveSubsystem extends SubsystemBase {
 
   /** Updates the field relative position of the robot. */
   public void updateOdometry() {
-    swerveDrive.stopOdometryThread();
+    
     swerveDrive.updateOdometry();
   
     boolean useMegaTag2 = true; //set to false to use MegaTag1
