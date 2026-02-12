@@ -70,7 +70,7 @@ public final class Configs
 
                         PushoutLeftMotorConfig.closedLoop
                         .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
-                        .p(0.0002355)
+                        .p(0.2)
                         .i(0.0)
                         .d(0.05)
                         .outputRange(-1.0, 1.0)
@@ -82,7 +82,7 @@ public final class Configs
 
                         PushoutRightMotorConfig.closedLoop
                         .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
-                        .p(0.0002355)
+                        .p(0.2)
                         .i(0.0)
                         .d(0.05)
                         .outputRange(-1.0, 1.0)
