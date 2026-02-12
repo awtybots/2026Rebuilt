@@ -71,8 +71,6 @@ public class Kicker extends SubsystemBase {
                 PersistMode.kPersistParameters);
     }
 
-    // Alright so essentially we made a method to make the motor speed up (a few methods below this) and decided to make 
-    // shoot fuel call that, as well as the kicker motor so we reduce extra code
     public void Kick() {
         //kickerLeftController.setSetpoint(KickerConstants.KICKER_SPEED, ControlType.kMAXMotionVelocityControl);
         KickerLeftMotor.set(KickerConstants.KICKER_SPEED_PERCENT);
