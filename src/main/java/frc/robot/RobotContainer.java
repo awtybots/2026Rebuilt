@@ -136,23 +136,23 @@ public class RobotContainer {
 
  // Parallel Commands
  private final Trigger RTtransfer_kick_shoot = driverXbox.rightTrigger(); // transfer to kicker, kick, and shoot only when up to speed
- private final Trigger LTpushout_and_intake  = driverXbox.rightBumper(); // pushout the intake and intake fuel
- private final Trigger retract_and_stop = driverXbox.leftBumper(); // retract 4 bar and stop intake
- private final Trigger transfer = driverXbox.povRight(); // transfer to kicker and kicks
- private final Trigger unjam = driverXbox.povLeft(); // run hopper in reverse and kick backwards to unjam
+ private final Trigger RBpushout_and_intake  = driverXbox.rightBumper(); // pushout the intake and intake fuel
+ private final Trigger LBretract_and_stop = driverXbox.leftBumper(); // retract 4 bar and stop intake
+ private final Trigger PRtransfer = driverXbox.povRight(); // transfer to kicker and kicks
+ private final Trigger PLunjam = driverXbox.povLeft(); // run hopper in reverse and kick backwards to unjam
 
 
  // Shooter
- private final Trigger shootFuel = driverXbox.leftTrigger();
+ private final Trigger X_shootFuel = driverXbox.leftTrigger();
 //  private final Trigger speedUpShooter = driverXbox.leftTrigger();
 
  // Intake
- private final Trigger runIntake = driverXbox.x();
- private final Trigger runOuttake = driverXbox.a();
+ private final Trigger X_runIntake = driverXbox.x();
+ private final Trigger A_runOuttake = driverXbox.a();
 
  // Pushout
- private final Trigger extendIntake = driverXbox.y();
- private final Trigger A_agitate = driverXbox.b();
+ private final Trigger Y_extendIntake = driverXbox.y();
+ private final Trigger B_agitate = driverXbox.b();
 
  // Climber
  private final Trigger Climb = driverXbox.povUp();
@@ -235,25 +235,25 @@ public class RobotContainer {
 
    // transfer + kick + shoot command, only runs if the shooter is up to speed
    RTtransfer_kick_shoot.whileTrue(Commands.parallel(m_hopper.runHopperToShooterCommand(), m_kicker.kickCommand(), m_shooter.shootFuelCommand()).onlyIf(m_shooter::isShooterFast));
-   LTpushout_and_intake.whileTrue(Commands.parallel(m_pushout.PushCommand(), m_intake.runIntakeCommand()));
-   retract_and_stop.whileTrue(Commands.parallel(m_pushout.RetractCommand()));
+   RBpushout_and_intake.whileTrue(Commands.parallel(m_pushout.PushCommand(), m_intake.runIntakeCommand()));
+   LBretract_and_stop.whileTrue(Commands.parallel(m_pushout.RetractCommand()));
 
    // Pushout Commands
-   extendIntake.whileTrue(m_pushout.PushCommand());
-   A_agitate.whileTrue(m_pushout.AgitateCommand().repeatedly());
+   Y_extendIntake.whileTrue(m_pushout.PushCommand());
+   B_agitate.whileTrue(m_pushout.AgitateCommand().repeatedly());
 
    // Intake Commands
-   runIntake.whileTrue(m_intake.runIntakeCommand());
-   runOuttake.whileTrue(m_intake.runOuttakeCommand());
+   X_runIntake.whileTrue(m_intake.runIntakeCommand());
+   A_runOuttake.whileTrue(m_intake.runOuttakeCommand());
    
 
    // Hopper Commands
-   transfer.whileTrue(Commands.parallel(m_hopper.runHopperToShooterCommand(), m_kicker.kickCommand()));
-   unjam.whileTrue(Commands.parallel(m_hopper.runReverseHopperCommand(), m_kicker.kickBackwardsCommand()));
+   PRtransfer.whileTrue(Commands.parallel(m_hopper.runHopperToShooterCommand(), m_kicker.kickCommand()));
+   PLunjam.whileTrue(Commands.parallel(m_hopper.runReverseHopperCommand(), m_kicker.kickBackwardsCommand()));
 
 
    // Shooter Commands
-   shootFuel.whileTrue(m_shooter.shootFuelCommand());
+   X_shootFuel.whileTrue(m_shooter.shootFuelCommand());
   //  speedUpShooter.whileTrue(m_shooter.SpeedUpShooterCommand());
 
     // Swerve Drive Commands
