@@ -97,6 +97,9 @@ public final class Constants
     public static final double KICKER_SPEED = 4000;
     public static final double KICKER_REVERSE_SPEED = -4000;
 
+    public static final double KICKER_SPEED_PERCENT = 0.8;
+    public static final double REVERSE_KICKER_SPEED_PERCENT = -0.8;
+
     public static final double STOP = 0;
     public static final double IDLE = 0; // % voltage -1 --> 1
   }

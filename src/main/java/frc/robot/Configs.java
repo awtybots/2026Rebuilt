@@ -76,7 +76,7 @@ public final class Configs
                         .outputRange(-1.0, 1.0)
                         .maxMotion
                                 .maxAcceleration(3000)
-                                .cruiseVelocity(3000)
+                                .cruiseVelocity(100)
                                 .allowedProfileError(0.01); // smooth extension
                                 
 
@@ -88,7 +88,7 @@ public final class Configs
                         .outputRange(-1.0, 1.0)
                         .maxMotion
                                 .maxAcceleration(3000)
-                                .cruiseVelocity(3000)
+                                .cruiseVelocity(100)
                                 .allowedProfileError(0.01); // smooth extension, allow some error to prevent oscillation
                                 
                 }
