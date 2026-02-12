@@ -56,17 +56,17 @@ public final class Configs
                         PushoutRightMotorConfig.idleMode(IdleMode.kBrake).smartCurrentLimit(40).voltageCompensation(12).follow(21,true);
                         
 
-                        PushoutLeftMotorConfig
-                        .inverted(true)
-                        .idleMode(IdleMode.kBrake)
-                        .smartCurrentLimit(40)
-                        .voltageCompensation(12);
+                        // PushoutLeftMotorConfig
+                        // // .inverted(true)
+                        // .idleMode(IdleMode.kBrake)
+                        // .smartCurrentLimit(40)
+                        // .voltageCompensation(12);
 
-                        PushoutRightMotorConfig
-                        .inverted(false) // likely opposite side of 4-bar
-                        .idleMode(IdleMode.kBrake)
-                        .smartCurrentLimit(40)
-                        .voltageCompensation(12);
+                        // PushoutRightMotorConfig
+                        // // .inverted(false) // likely opposite side of 4-bar
+                        // .idleMode(IdleMode.kBrake)
+                        // .smartCurrentLimit(40)
+                        // .voltageCompensation(12);
 
                         PushoutLeftMotorConfig.closedLoop
                         .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
@@ -76,7 +76,8 @@ public final class Configs
                         .outputRange(-1.0, 1.0)
                         .maxMotion
                                 .maxAcceleration(3000)
-                                .cruiseVelocity(1000); // smooth extension
+                                .cruiseVelocity(3000)
+                                .allowedProfileError(0.01); // smooth extension
                                 
 
                         PushoutRightMotorConfig.closedLoop
@@ -87,7 +88,8 @@ public final class Configs
                         .outputRange(-1.0, 1.0)
                         .maxMotion
                                 .maxAcceleration(3000)
-                                .cruiseVelocity(1000);
+                                .cruiseVelocity(3000)
+                                .allowedProfileError(0.01); // smooth extension, allow some error to prevent oscillation
                                 
                 }
 

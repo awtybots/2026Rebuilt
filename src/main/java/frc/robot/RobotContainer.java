@@ -143,7 +143,7 @@ public class RobotContainer {
 
 
  // Shooter
- private final Trigger X_shootFuel = driverXbox.leftTrigger();
+ private final Trigger LT_shootFuel = driverXbox.leftTrigger();
 //  private final Trigger speedUpShooter = driverXbox.leftTrigger();
 
  // Intake
@@ -253,7 +253,7 @@ public class RobotContainer {
 
 
    // Shooter Commands
-   X_shootFuel.whileTrue(m_shooter.shootFuelCommand());
+   LT_shootFuel.whileTrue(m_shooter.shootFuelCommand());
   //  speedUpShooter.whileTrue(m_shooter.SpeedUpShooterCommand());
 
     // Swerve Drive Commands

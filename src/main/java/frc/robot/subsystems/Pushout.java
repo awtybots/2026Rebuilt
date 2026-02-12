@@ -33,15 +33,15 @@ public class Pushout extends SubsystemBase {
     private SparkClosedLoopController PushoutRightController = PushoutRightMotor.getClosedLoopController();
 
     private final RelativeEncoder pushoutLeftEncoder = PushoutLeftMotor.getEncoder();
-    private final RelativeEncoder pushoutRightEncoder = PushoutRightMotor.getEncoder();
+    // private final RelativeEncoder pushoutRightEncoder = PushoutRightMotor.getEncoder();
 
-    private double PushoutRightExtended = PushoutConstants.PUSHOUT_EXTENDED_POS;
+    // private double PushoutRightExtended = PushoutConstants.PUSHOUT_EXTENDED_POS;
     private double PushoutLeftExtended = PushoutConstants.PUSHOUT_EXTENDED_POS;
-    private double PushoutRightRetracted = PushoutConstants.PUSHOUT_RETRACTED_POS;
+    // private double PushoutRightRetracted = PushoutConstants.PUSHOUT_RETRACTED_POS;
     private double PushoutLeftRetracted = PushoutConstants.PUSHOUT_RETRACTED_POS;
-    private double PushoutRightExtendedAgitate = PushoutConstants.PUSHOUT_EXTENDED_AGITATE_POS;
+    // private double PushoutRightExtendedAgitate = PushoutConstants.PUSHOUT_EXTENDED_AGITATE_POS;
     private double PushoutLeftExtendedAgitate = PushoutConstants.PUSHOUT_EXTENDED_AGITATE_POS;
-    private double PushoutRightRetractedAgitate = PushoutConstants.PUSHOUT_RETRACTED_AGITATE_POS;
+    // private double PushoutRightRetractedAgitate = PushoutConstants.PUSHOUT_RETRACTED_AGITATE_POS;
     private double PushoutLeftRetractedAgitate = PushoutConstants.PUSHOUT_RETRACTED_AGITATE_POS;
 
     
@@ -52,19 +52,19 @@ public class Pushout extends SubsystemBase {
         PushoutRightMotor.configure(Configs.PushoutSubsystem.PushoutRightMotorConfig, ResetMode.kResetSafeParameters,
                 PersistMode.kPersistParameters);
         pushoutLeftEncoder.setPosition(0);
-        pushoutRightEncoder.setPosition(0);
+        // pushoutRightEncoder.setPosition(0);
     }
 
     public void PushIntake() 
     {
         PushoutLeftController.setSetpoint(PushoutLeftExtended, ControlType.kMAXMotionPositionControl);
-        PushoutRightController.setSetpoint(PushoutRightExtended, ControlType.kMAXMotionPositionControl);
+        // PushoutRightController.setSetpoint(PushoutRightExtended, ControlType.kMAXMotionPositionControl);
 
     }
     public void RetractIntake() 
     {
         PushoutLeftController.setSetpoint(PushoutLeftRetracted, ControlType.kMAXMotionPositionControl);
-        PushoutRightController.setSetpoint( PushoutRightRetracted, ControlType.kMAXMotionPositionControl);
+        // PushoutRightController.setSetpoint( PushoutRightRetracted, ControlType.kMAXMotionPositionControl);
     }
 
     public void SmallPush() 
@@ -72,7 +72,7 @@ public class Pushout extends SubsystemBase {
         // double leftNow = pushoutLeftEncoder.getPosition();
         // double rightNow = pushoutRightEncoder.getPosition();
         PushoutLeftController.setSetpoint(PushoutLeftExtendedAgitate, ControlType.kMAXMotionPositionControl);
-        PushoutRightController.setSetpoint(PushoutRightExtendedAgitate, ControlType.kMAXMotionPositionControl);
+        // PushoutRightController.setSetpoint(PushoutRightExtendedAgitate, ControlType.kMAXMotionPositionControl);
     }
 
     public void SmallRetract() 
@@ -80,7 +80,7 @@ public class Pushout extends SubsystemBase {
         // double leftNow = pushoutLeftEncoder.getPosition();
         // double rightNow = pushoutRightEncoder.getPosition();
         PushoutLeftController.setSetpoint(PushoutLeftRetractedAgitate, ControlType.kMAXMotionPositionControl);
-        PushoutRightController.setSetpoint(PushoutRightRetractedAgitate, ControlType.kMAXMotionPositionControl);
+        // PushoutRightController.setSetpoint(PushoutRightRetractedAgitate, ControlType.kMAXMotionPositionControl);
     }
 
     // public void StopPushing() {
