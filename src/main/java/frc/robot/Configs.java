@@ -158,6 +158,9 @@ public final class Configs
                                 .kA(0.00017)
                                 ;              
 
+                                ShooterRightMotor1Config.closedLoop
+                                .maxMotion.maxAcceleration(10000);
+
                                 ShooterRightMotor2Config.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder)
                                 // Set PID values for position control. We don't need to pass a closed
                                 // loop slot, as it will default to slot 0.
@@ -170,6 +173,9 @@ public final class Configs
                                 .kV(0.00177)
                                 .kA(0.00017)
                                 ;
+
+                                ShooterRightMotor2Config.closedLoop
+                                .maxMotion.maxAcceleration(10000);
                                 
                                 ShooterLeftMotor1Config.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder)
                                 // Set PID values for position control. We don't need to pass a closed
@@ -182,7 +188,10 @@ public final class Configs
                                 .kS(0.10)
                                 .kV(0.00177)
                                 .kA(0.00017)
-                                ;              
+                                ;      
+                                
+                                ShooterLeftMotor1Config.closedLoop
+                                .maxMotion.maxAcceleration(10000);
 
                                 ShooterLeftMotor2Config.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder)
                                 // Set PID values for position control. We don't need to pass a closed
@@ -196,6 +205,9 @@ public final class Configs
                                 .kV(0.00177)
                                 .kA(0.00017)
                                 ;
+
+                                ShooterLeftMotor2Config.closedLoop
+                                .maxMotion.maxAcceleration(10000);
 
                 }
 
