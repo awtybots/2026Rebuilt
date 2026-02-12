@@ -45,25 +45,24 @@ public class Pushout extends SubsystemBase {
     private double PushoutLeftRetractedAgitate = PushoutConstants.PUSHOUT_RETRACTED_AGITATE_POS;
 
     
-    public Pushout() {
+    public Pushout() 
+    {
         PushoutLeftMotor.configure(Configs.PushoutSubsystem.PushoutLeftMotorConfig, ResetMode.kResetSafeParameters,
                 PersistMode.kPersistParameters);
         PushoutRightMotor.configure(Configs.PushoutSubsystem.PushoutRightMotorConfig, ResetMode.kResetSafeParameters,
                 PersistMode.kPersistParameters);
         pushoutLeftEncoder.setPosition(0);
+        pushoutRightEncoder.setPosition(0);
     }
 
-    public void PushIntake() {
-        // finds the setpoint compared to encoder positions so the pushout moves by the offsets from where it is
-        // double leftNow = pushoutLeftEncoder.getPosition();
-        // double rightNow = pushoutRightEncoder.getPosition();
+    public void PushIntake() 
+    {
         PushoutLeftController.setSetpoint(PushoutLeftExtended, ControlType.kMAXMotionPositionControl);
         PushoutRightController.setSetpoint(PushoutRightExtended, ControlType.kMAXMotionPositionControl);
 
     }
-    public void RetractIntake() {
-        // double leftNow = pushoutLeftEncoder.getPosition();
-        // double rightNow = pushoutRightEncoder.getPosition();
+    public void RetractIntake() 
+    {
         PushoutLeftController.setSetpoint(PushoutLeftRetracted, ControlType.kMAXMotionPositionControl);
         PushoutRightController.setSetpoint( PushoutRightRetracted, ControlType.kMAXMotionPositionControl);
     }
