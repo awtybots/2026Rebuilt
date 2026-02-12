@@ -239,7 +239,7 @@ public class RobotContainer {
    LBretract_and_stop.whileTrue(Commands.parallel(m_pushout.RetractCommand()));
 
    // Pushout Commands
-   Y_extendIntake.whileTrue(m_pushout.PushCommand());
+   Y_extendIntake.onTrue(m_pushout.PushCommand());
    B_agitate.whileTrue(m_pushout.AgitateCommand().repeatedly());
 
    // Intake Commands

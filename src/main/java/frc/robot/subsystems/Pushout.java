@@ -32,7 +32,7 @@ public class Pushout extends SubsystemBase {
     private SparkFlex PushoutRightMotor = new SparkFlex(PushoutConstants.PUSHOUT_RIGHT_ID, MotorType.kBrushless);
     private SparkClosedLoopController PushoutRightController = PushoutRightMotor.getClosedLoopController();
 
-    private final RelativeEncoder pushoutLeftEncoder = PushoutLeftMotor.getEncoder();
+    private RelativeEncoder pushoutLeftEncoder = PushoutLeftMotor.getEncoder();
     // private final RelativeEncoder pushoutRightEncoder = PushoutRightMotor.getEncoder();
 
     // private double PushoutRightExtended = PushoutConstants.PUSHOUT_EXTENDED_POS;
