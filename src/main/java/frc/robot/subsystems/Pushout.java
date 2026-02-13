@@ -149,6 +149,7 @@ public class Pushout extends SubsystemBase {
 
     @Override
     public void periodic() {
+        MoveToSetpoint();
         // AdvantageKit Logging
         // Commanded intake motor percent output.
         Logger.recordOutput("Pushout/DesiredPercent", desiredPercent);
