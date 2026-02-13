@@ -92,6 +92,12 @@ public class Pushout extends SubsystemBase {
         // PushoutRightController.setSetpoint(PushoutRightRetractedAgitate, ControlType.kMAXMotionPositionControl);
     }
 
+    // Last year's enum approach attempt
+    public void MoveToSetpoint()
+    {
+        PushoutLeftController.setSetpoint(current_pushout_target, ControlType.kMAXMotionPositionControl);
+    }
+
     // public void StopPushing() {
     //     // PushoutLeftController.setSetpoint(0, ControlType.kMAXMotionPositionControl);
     //     PushoutRightController.setSetpoint(0, ControlType.kMAXMotionPositionControl);
@@ -120,6 +126,25 @@ public class Pushout extends SubsystemBase {
     public Command AgitateCommand() {
         return new RunCommand(() -> Agitate(), this)
                 .finallyDo(interrupted -> RetractIntake());
+    }
+
+    // Last year's enum approach attempt
+    public Command PushWithEnumCommand(Setpoint setpoint)
+    {
+        return this.runOnce(() ->
+        {
+            switch(setpoint)
+            {
+                case EXTENDED:
+                    current_pushout_target = PushoutSetpoints.EXTENDED;
+                    break;
+                case STOWED:
+                    current_pushout_target = PushoutSetpoints.STOWED;
+                    break;
+            }
+
+            MoveToSetpoint();
+        });
     }
 
     @Override
