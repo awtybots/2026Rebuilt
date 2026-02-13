@@ -26,6 +26,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Configs.ShooterSubsystem;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.Constants.PushoutSetpoints;;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.io.File;
 import swervelib.SwerveInputStream;
@@ -37,6 +38,7 @@ import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Kicker;
 import frc.robot.subsystems.Hopper;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Pushout.Setpoint;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Pushout;
 
@@ -235,11 +237,14 @@ public class RobotContainer {
 
    // transfer + kick + shoot command, only runs if the shooter is up to speed
    RTtransfer_kick_shoot.whileTrue(Commands.parallel(m_hopper.runHopperToShooterCommand(), m_kicker.kickCommand(), m_shooter.shootFuelCommand()).onlyIf(m_shooter::isShooterFast));
-   RBpushout_and_intake.whileTrue(Commands.parallel(m_pushout.PushCommand(), m_intake.runIntakeCommand()));
-   LBretract_and_stop.whileTrue(Commands.parallel(m_pushout.RetractCommand()));
+   // RBpushout_and_intake.whileTrue(Commands.parallel(m_pushout.PushCommand(), m_intake.runIntakeCommand()));
+   RBpushout_and_intake.whileTrue(Commands.parallel(m_pushout.PushWithEnumCommand(Setpoint.EXTENDED), m_intake.runIntakeCommand()));
+   // LBretract_and_stop.whileTrue(Commands.parallel(m_pushout.RetractCommand()));
+   LBretract_and_stop.whileTrue(Commands.parallel(m_pushout.PushWithEnumCommand(Setpoint.STOWED), m_intake.stopIntakeCommand()));
 
    // Pushout Commands
-   Y_extendIntake.onTrue(m_pushout.PushCommand());
+   // Y_extendIntake.onTrue(m_pushout.PushCommand());
+   Y_extendIntake.onTrue(m_pushout.PushWithEnumCommand(Setpoint.EXTENDED));
    B_agitate.whileTrue(m_pushout.AgitateCommand().repeatedly());
 
    // Intake Commands

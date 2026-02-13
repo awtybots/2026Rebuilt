@@ -16,6 +16,7 @@ import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 
 import frc.robot.Constants.PushoutConstants;
+import frc.robot.Constants.PushoutSetpoints;
 import frc.robot.Configs;
 import edu.wpi.first.wpilibj.Timer;
 import org.littletonrobotics.junction.Logger;
@@ -24,6 +25,11 @@ import org.littletonrobotics.junction.Logger;
 
 public class Pushout extends SubsystemBase {
 
+    public enum Setpoint
+    {
+        STOWED,
+        EXTENDED
+    }
     // AdvantageKit logging
     private double desiredPercent = 0.0;
 
@@ -44,6 +50,8 @@ public class Pushout extends SubsystemBase {
     // private double PushoutRightRetractedAgitate = PushoutConstants.PUSHOUT_RETRACTED_AGITATE_POS;
     private double PushoutLeftRetractedAgitate = PushoutConstants.PUSHOUT_RETRACTED_AGITATE_POS;
 
+    private double current_pushout_target = PushoutSetpoints.EXTENDED;
+
     
     public Pushout() 
     {
@@ -53,6 +61,7 @@ public class Pushout extends SubsystemBase {
                 PersistMode.kPersistParameters);
         pushoutLeftEncoder.setPosition(0);
         // pushoutRightEncoder.setPosition(0);
+
     }
 
     public void PushIntake() 

@@ -75,6 +75,12 @@ public final class Constants
     public static final double PUSHOUT_AGITATE_WAIT = 0.3;     
   }
 
+  public static class PushoutSetpoints
+  {
+    public static final double STOWED = PushoutConstants.PUSHOUT_RETRACTED_POS;
+    public static final double EXTENDED = PushoutConstants.PUSHOUT_EXTENDED_POS;
+  }
+
   public static class ShooterConstants
   {
     public static final int SHOOTER_R1_ID = 11;
