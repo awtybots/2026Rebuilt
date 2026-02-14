@@ -63,6 +63,7 @@ public class RobotContainer {
  private final Intake m_intake = new Intake();
  private final Hopper m_hopper = new Hopper();
  private final Shooter m_shooter = new Shooter();
+ 
  private final Climber m_climber = new Climber();
  private final Kicker m_kicker = new Kicker();
  private final Pushout m_pushout = new Pushout();
@@ -175,16 +176,16 @@ public class RobotContainer {
 
    // Create the NamedCommands that will be used in PathPlanner
    NamedCommands.registerCommand("test", Commands.print("I EXIST"));
-   NamedCommands.registerCommand("extend intake", m_pushout.PushCommand().withTimeout(4));
-   NamedCommands.registerCommand("retract intake", m_pushout.RetractCommand().withTimeout(4));
+  //  NamedCommands.registerCommand("extend intake", m_pushout.PushCommand().withTimeout(4));
+  //  NamedCommands.registerCommand("retract intake", m_pushout.RetractCommand().withTimeout(4));
    NamedCommands.registerCommand("kick", m_kicker.kickCommand().withTimeout(8));
    NamedCommands.registerCommand("kick backwards", m_kicker.kickBackwardsCommand().withTimeout(8));
    NamedCommands.registerCommand("shoot", m_shooter.shootFuelCommand().withTimeout(8));
    NamedCommands.registerCommand("speed up shooter", m_shooter.SpeedUpShooterCommand().withTimeout(15));
    NamedCommands.registerCommand("transfer", m_hopper.runHopperToShooterCommand().withTimeout(6.7));
    NamedCommands.registerCommand("reverse hopper", m_hopper.runReverseHopperCommand().withTimeout(6.7));
-   NamedCommands.registerCommand("intake", m_intake.runIntakeCommand().withTimeout(4));
-   NamedCommands.registerCommand("outtake", m_intake.runOuttakeCommand().withTimeout(6.7));
+  //  NamedCommands.registerCommand("intake", m_intake.runIntakeCommand().withTimeout(4));
+  //  NamedCommands.registerCommand("outtake", m_intake.runOuttakeCommand().withTimeout(6.7));
   //  NamedCommands.registerCommand("climb up", m_climber.runClimbCommand().withTimeout(6.7));
   //  NamedCommands.registerCommand("climb down", m_climber.runClimberDownCommand().withTimeout(6.7));
 
@@ -235,16 +236,16 @@ public class RobotContainer {
 
    // transfer + kick + shoot command, only runs if the shooter is up to speed
    RTtransfer_kick_shoot.whileTrue(Commands.parallel(m_hopper.runHopperToShooterCommand(), m_kicker.kickCommand(), m_shooter.shootFuelCommand()).onlyIf(m_shooter::isShooterFast));
-   RBpushout_and_intake.whileTrue(Commands.parallel(m_pushout.PushCommand(), m_intake.runIntakeCommand()));
-   LBretract_and_stop.whileTrue(Commands.parallel(m_pushout.RetractCommand()));
+  //  RBpushout_and_intake.whileTrue(Commands.parallel(m_pushout.PushCommand(), m_intake.runIntakeCommand()));
+  //  LBretract_and_stop.whileTrue(Commands.parallel(m_pushout.RetractCommand()));
 
    // Pushout Commands
-   Y_extendIntake.whileTrue(m_pushout.PushCommand());
-   B_agitate.whileTrue(m_pushout.AgitateCommand().repeatedly());
+  //  Y_extendIntake.whileTrue(m_pushout.PushCommand());
+  //  B_agitate.whileTrue(m_pushout.AgitateCommand().repeatedly());
 
    // Intake Commands
-   X_runIntake.whileTrue(m_intake.runIntakeCommand());
-   A_runOuttake.whileTrue(m_intake.runOuttakeCommand());
+  //  X_runIntake.whileTrue(m_intake.runIntakeCommand());
+  //  A_runOuttake.whileTrue(m_intake.runOuttakeCommand());
    
 
    // Hopper Commands
