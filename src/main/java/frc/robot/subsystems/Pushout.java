@@ -32,7 +32,7 @@ public class Pushout extends SubsystemBase {
     private SparkFlex PushoutRightMotor = new SparkFlex(PushoutConstants.PUSHOUT_RIGHT_ID, MotorType.kBrushless);
     private SparkClosedLoopController PushoutRightController = PushoutRightMotor.getClosedLoopController();
 
-    private final RelativeEncoder pushoutLeftEncoder = PushoutLeftMotor.getEncoder();
+    private RelativeEncoder pushoutLeftEncoder = PushoutLeftMotor.getEncoder();
     // private final RelativeEncoder pushoutRightEncoder = PushoutRightMotor.getEncoder();
 
     // private double PushoutRightExtended = PushoutConstants.PUSHOUT_EXTENDED_POS;
@@ -83,6 +83,16 @@ public class Pushout extends SubsystemBase {
         // PushoutRightController.setSetpoint(PushoutRightRetractedAgitate, ControlType.kMAXMotionPositionControl);
     }
 
+    public void PushoutDutyCycle()
+    {
+        PushoutLeftMotor.set(0.3);
+    }
+
+    public void StopPushout()
+    {
+        PushoutLeftMotor.set(0);
+    }
+
     // public void StopPushing() {
     //     // PushoutLeftController.setSetpoint(0, ControlType.kMAXMotionPositionControl);
     //     PushoutRightController.setSetpoint(0, ControlType.kMAXMotionPositionControl);
@@ -99,8 +109,8 @@ public class Pushout extends SubsystemBase {
 
 
     public Command PushCommand() {
-        return new RunCommand(() -> PushIntake(), this)
-                .finallyDo(interrupted -> PushIntake());
+        return new RunCommand(() -> PushoutDutyCycle(), this)
+                .finallyDo(interrupted -> StopPushout());
     }
 
     public Command RetractCommand() {
