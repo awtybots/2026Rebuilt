@@ -123,7 +123,7 @@ public class VariableShoot extends Command
     //hood.setAngle(Math.toDegrees(newPitch));
     //shooter.setRPM(MetersPerSecond.of(totalExitVelocity));
     
-    m_shooter.SpeedUpShooter();
+    m_shooter.setTargetRPM(idealHorizontalSpeed);
     m_hopper.runReverseHopperCommand();
     
 
@@ -140,6 +140,7 @@ public class VariableShoot extends Command
   @Override
   public void end(boolean interrupted)
   {
-
+    m_shooter.setTargetRPM(0);
+    
   }
 }
