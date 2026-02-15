@@ -10,6 +10,7 @@ import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Hopper;
+import frc.robot.subsystems.Kicker;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import swervelib.SwerveDrive;
@@ -28,7 +29,7 @@ public class VariableShoot extends Command
   private final Shooter m_shooter;
   private final SwerveSubsystem m_swerveSubsystem;
   private final Hopper m_hopper;
-
+  private final Kicker m_kicker;
   // Tuned Constants
   /**
    * Time in seconds between when the robot is told to move and when the shooter actually shoots.
@@ -40,7 +41,7 @@ public class VariableShoot extends Command
   private final InterpolatingDoubleTreeMap shooterTable = new InterpolatingDoubleTreeMap();
 
 
-  public VariableShoot(Supplier<Pose2d> goalPoseSupplier, Shooter shooter, SwerveSubsystem swerveSubsystem, Hopper hopper)
+  public VariableShoot(Supplier<Pose2d> goalPoseSupplier, Shooter shooter, SwerveSubsystem swerveSubsystem, Hopper hopper, Kicker kicker)
                                
   {
    
@@ -48,6 +49,7 @@ public class VariableShoot extends Command
     this.m_shooter = shooter;
     this.m_swerveSubsystem = swerveSubsystem;
     this.m_hopper = hopper;
+    this.m_kicker = kicker;
     // 4.034 meters half field, 0.661 byumper to shooter exit. Only 3.373 vertical distance to target meters, 
     // horizontal distance 4.625 meters from driver station to middle of hub, minus 0.661 byumper to shooter exit, 
     // total 3.964 meters horizontal distance from driver station to shooter exit.
@@ -124,7 +126,8 @@ public class VariableShoot extends Command
     //shooter.setRPM(MetersPerSecond.of(totalExitVelocity));
     
     m_shooter.setTargetRPM(idealHorizontalSpeed);
-    m_hopper.runReverseHopperCommand();
+    m_hopper.runReverseHopperCommand().onlyIf(m_shooter::isShooterFast);
+    m_kicker.kickBackwardsCommand().onlyIf(m_shooter::isShooterFast);
     
 
 
