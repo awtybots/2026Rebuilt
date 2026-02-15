@@ -235,7 +235,21 @@ public class RobotContainer {
  private void configureBindings() {
 
    // transfer + kick + shoot command, only runs if the shooter is up to speed
-   RTtransfer_kick_shoot.whileTrue(Commands.parallel(m_hopper.runHopperToShooterCommand(), m_kicker.kickCommand(), m_shooter.shootFuelCommand()).onlyIf(m_shooter::isShooterFast));
+   RTtransfer_kick_shoot.whileTrue(
+       Commands.sequence(
+           m_shooter.shootFuelCommand(),
+           Commands.parallel(m_hopper.runReverseHopperCommand(), m_kicker.kickBackwardsCommand(),m_shooter.shootFuelCommand())
+               .onlyIf(m_shooter::isShooterFast)
+       )
+   );
+
+//     RTtransfer_kick_shoot.whileTrue(
+//        Commands.sequence(
+//            m_shooter.shootFuelCommand(),
+//            Commands.parallel(m_hopper.runHopperToShooterCommand(), m_kicker.kickCommand(),m_shooter.shootFuelCommand())
+//                .onlyIf(m_shooter::isShooterFast)
+//        )
+//    );
   //  RBpushout_and_intake.whileTrue(Commands.parallel(m_pushout.PushCommand(), m_intake.runIntakeCommand()));
   //  LBretract_and_stop.whileTrue(Commands.parallel(m_pushout.RetractCommand()));
 
