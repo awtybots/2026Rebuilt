@@ -9,7 +9,9 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.Hopper;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import swervelib.SwerveDrive;
 
 import java.util.List;
@@ -24,7 +26,8 @@ public class VariableShoot extends Command
 
   private final Supplier<Pose2d>        goalPose;
   private final Shooter m_shooter;
-
+  private final SwerveSubsystem m_swerveSubsystem;
+  private final Hopper m_hopper;
 
   // Tuned Constants
   /**
@@ -37,12 +40,14 @@ public class VariableShoot extends Command
   private final InterpolatingDoubleTreeMap shooterTable = new InterpolatingDoubleTreeMap();
 
 
-  public VariableShoot(Supplier<Pose2d> goalPoseSupplier, Shooter shooter)
+  public VariableShoot(Supplier<Pose2d> goalPoseSupplier, Shooter shooter, SwerveSubsystem swerveSubsystem, Hopper hopper)
                                
   {
    
     this.goalPose = goalPoseSupplier;
     this.m_shooter = shooter;
+    this.m_swerveSubsystem = swerveSubsystem;
+    this.m_hopper = hopper;
     // 4.034 meters half field, 0.661 byumper to shooter exit. Only 3.373 vertical distance to target meters, 
     // horizontal distance 4.625 meters from driver station to middle of hub, minus 0.661 byumper to shooter exit, 
     // total 3.964 meters horizontal distance from driver station to shooter exit.
@@ -54,11 +59,12 @@ public class VariableShoot extends Command
     // Test Results
     for (var entry : List.of(
       // Pair.of(Meters.of(1), RPM.of((1000))),
-                             Pair.of(Meters.of(2), RPM.of(1622.8225)),
-                             Pair.of(Meters.of(3), RPM.of(1772.6215)),
-                             Pair.of(Meters.of(3.373), RPM.of(1897.454)),
-                             Pair.of(Meters.of(4), RPM.of(2022.2865)),
-                             Pair.of(Meters.of(5.2048), RPM.of(2296.918)))
+                            //  Pair.of(Meters.of(2), RPM.of(1622.8225)),
+                             Pair.of(Meters.of(3), RPM.of(1900))
+                            //  Pair.of(Meters.of(3.373), RPM.of(1897.454)),
+                            //  Pair.of(Meters.of(4), RPM.of(2022.2865)),
+                            //  Pair.of(Meters.of(5.2048), RPM.of(2296.918))
+                            )
     )
     {shooterTable.put(entry.getFirst().in(Meters), entry.getSecond().in(RPM));}
 
@@ -88,12 +94,13 @@ public class VariableShoot extends Command
 
     // 2. GET TARGET VECTOR
     Translation2d goalLocation = goalPose.get().getTranslation();
-    // Translation2d targetVec    = goalLocation.minus(futurePos);
-    // double        dist         = targetVec.getNorm();
+    Translation2d robotLocation = m_swerveSubsystem.getPose().getTranslation();
+    Translation2d targetVec = goalLocation.minus(robotLocation);
+    double        dist         = targetVec.getNorm();
 
     // 3. CALCULATE IDEAL SHOT (Stationary)
     // Note: This returns HORIZONTAL velocity component
-    double idealHorizontalSpeed = shooterTable.get(goalLocation.getNorm());
+    double idealHorizontalSpeed = shooterTable.get(dist);
 
     // 4. VECTOR SUBTRACTION
     // Translation2d robotVelVec = new Translation2d(robotSpeed.vxMetersPerSecond, robotSpeed.vyMetersPerSecond);
@@ -115,7 +122,10 @@ public class VariableShoot extends Command
     // Could also just set the swerveDrive to point towards this angle like AlignToGoal
     //hood.setAngle(Math.toDegrees(newPitch));
     //shooter.setRPM(MetersPerSecond.of(totalExitVelocity));
-    //TODO: SHOOT
+    
+    m_shooter.setTargetRPM(idealHorizontalSpeed);
+    m_hopper.runReverseHopperCommand();
+    
 
 
   }
@@ -130,6 +140,7 @@ public class VariableShoot extends Command
   @Override
   public void end(boolean interrupted)
   {
-
+    m_shooter.setTargetRPM(0);
+    
   }
 }
