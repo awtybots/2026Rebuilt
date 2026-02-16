@@ -243,9 +243,8 @@ public class RobotContainer {
         Commands.sequence(
           Commands.waitUntil(m_shooter::isShooterFast),
           Commands.parallel(
-             m_shooter.shootFuelCommand(),
-             m_hopper.runHopperToShooterCommand(),
-             m_kicker.kickCommand()
+             m_hopper.runReverseHopperCommand(),
+             m_kicker.kickBackwardsCommand()
           )
         )
      )
