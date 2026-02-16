@@ -226,7 +226,7 @@ public final class Configs
                         TwindexerLeftControllerConfig.idleMode(IdleMode.kBrake).smartCurrentLimit(40).voltageCompensation(12);
 
                         TwindexerRightControllerConfig.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder)
-                            // Set PID values for position control. We don't need to pass a closed
+                            // Set PID values for  position control. We don't need to pass a closed
                             // loop slot, as it will default to slot 0.
                             .p(0.001)
                             .i(0)
