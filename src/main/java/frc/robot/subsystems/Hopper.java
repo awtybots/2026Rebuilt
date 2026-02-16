@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
+import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.ResetMode;
@@ -34,22 +35,16 @@ public class Hopper extends SubsystemBase {
     }
 
     public void HopperToShooter(){
-        TwindexerRightDesiredPercent = HopperConstants.TWINDEXER_RIGHT_SPEED;
-        TwindexerLeftDesiredPercent = HopperConstants.REVERSE_TWINDEXER_LEFT_SPEED;
-        // TwindexerRightMotor.set(HopperConstants.TWINDEXER_RIGHT_SPEED);
-        TwindexerLeftMotor.set(HopperConstants.TWINDEXER_LEFT_SPEED);
+        TwindexerLeftDesiredPercent = HopperConstants.REVERSE_TWINDEXER_LEFT_RPM;
+        TwindexerLeftController.setSetpoint(HopperConstants.TWINDEXER_LEFT_RPM, ControlType.kMAXMotionVelocityControl);
     }
     public void ReverseHopper(){ 
-        TwindexerRightDesiredPercent = HopperConstants.TWINDEXER_RIGHT_SPEED;
-        TwindexerLeftDesiredPercent = HopperConstants.REVERSE_TWINDEXER_LEFT_SPEED;
-        // TwindexerRightMotor.set(HopperConstants.REVERSE_TWINDEXER_RIGHT_SPEED);
-        TwindexerLeftMotor.set(HopperConstants.TWINDEXER_LEFT_SPEED);
+        TwindexerLeftDesiredPercent = HopperConstants.REVERSE_TWINDEXER_LEFT_RPM;
+        TwindexerLeftController.setSetpoint(HopperConstants.REVERSE_TWINDEXER_LEFT_RPM, ControlType.kMAXMotionVelocityControl);
     }
     public void stopHopper(){
-        TwindexerRightDesiredPercent = 0.0;
         TwindexerLeftDesiredPercent = 0.0;
-        TwindexerRightMotor.set(0);
-        TwindexerLeftMotor.set(0);
+        TwindexerLeftController.setSetpoint(0, ControlType.kMAXMotionVelocityControl);
     }
     
     public Command runHopperToShooterCommand(){

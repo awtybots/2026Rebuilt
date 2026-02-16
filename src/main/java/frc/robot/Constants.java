@@ -131,7 +131,7 @@ public final class Constants
     public static final int SHOOTER_L1_ID = 9;
     public static final int SHOOTER_L2_ID = 10; 
     
-    public static final double SHOOTER_SPEED = 2200; // RPM 3 meters 1900 4.5 meters 2200
+    public static final double SHOOTER_SPEED = 2200; // RPM 3 meters 1900 4 meters 2200
     public static final double ERROR_MARGIN = 100; // RPM
     public static final double STOP = 0;
     public static final double IDLE = 0; // % voltage -1 --> 1
@@ -142,11 +142,8 @@ public final class Constants
     public static final int KICKER_LEFT_ID = 13; 
     public static final int KICKER_RIGHT_ID = 14; 
 
-    public static final double KICKER_SPEED = 4000;
-    public static final double KICKER_REVERSE_SPEED = -4000;
-
-    public static final double KICKER_SPEED_PERCENT = 0.8;
-    public static final double REVERSE_KICKER_SPEED_PERCENT = -0.8;
+    public static final double KICKER_RPM_TARGET = 2000; // RPM
+    public static final double KICKER_REVERSE_RPM_TARGET = -2000; // RPM
 
     public static final double STOP = 0;
     public static final double IDLE = 0; // % voltage -1 --> 1
@@ -158,11 +155,11 @@ public final class Constants
     public static final int TWINDEXER_LEFT_ID = 18;
     public static final int TWINDEXER_RIGHT_ID = 19;
 
-    public static final double TWINDEXER_RIGHT_SPEED = -1;
-    public static final double TWINDEXER_LEFT_SPEED = 1;
+    public static final double TWINDEXER_RIGHT_RPM = -2000;
+    public static final double TWINDEXER_LEFT_RPM = 2000;
 
-    public static final double REVERSE_TWINDEXER_RIGHT_SPEED = 1;
-    public static final double REVERSE_TWINDEXER_LEFT_SPEED = -1;
+    public static final double REVERSE_TWINDEXER_RIGHT_RPM = 2000;
+    public static final double REVERSE_TWINDEXER_LEFT_RPM = -2000;
 
     public static final int six_seven = 67; // <---------- HISTORICAL MONUMENT
 
