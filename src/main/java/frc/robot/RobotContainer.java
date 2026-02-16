@@ -238,7 +238,7 @@ public class RobotContainer {
   RTtransfer_kick_shoot.whileTrue(
      Commands.parallel(
         // keep spinning the shooter while we wait for it to reach speed
-        m_shooter.SpeedUpShooterCommand(),
+        m_shooter.shootFuelCommand(),
         // once at speed, run hopper + kicker
         Commands.sequence(
           Commands.waitUntil(m_shooter::isShooterFast),
