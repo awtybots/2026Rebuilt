@@ -158,11 +158,11 @@ public final class Constants
     public static final int TWINDEXER_LEFT_ID = 18;
     public static final int TWINDEXER_RIGHT_ID = 19;
 
-    public static final double TWINDEXER_RIGHT_SPEED = 1;
-    public static final double TWINDEXER_LEFT_SPEED = -1;
+    public static final double TWINDEXER_RIGHT_SPEED = -1;
+    public static final double TWINDEXER_LEFT_SPEED = 1;
 
-    public static final double REVERSE_TWINDEXER_RIGHT_SPEED = -1;
-    public static final double REVERSE_TWINDEXER_LEFT_SPEED = 1;
+    public static final double REVERSE_TWINDEXER_RIGHT_SPEED = 1;
+    public static final double REVERSE_TWINDEXER_LEFT_SPEED = -1;
 
     public static final int six_seven = 67; // <---------- HISTORICAL MONUMENT
 
