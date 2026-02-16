@@ -63,7 +63,7 @@ public class RobotContainer {
  private final Intake m_intake = new Intake();
  private final Hopper m_hopper = new Hopper();
  private final Shooter m_shooter = new Shooter();
- 
+
  private final Climber m_climber = new Climber();
  private final Kicker m_kicker = new Kicker();
  private final Pushout m_pushout = new Pushout();
@@ -237,9 +237,9 @@ public class RobotContainer {
    // transfer + kick + shoot command, only runs if the shooter is up to speed
    RTtransfer_kick_shoot.whileTrue(
        Commands.sequence(
-           m_shooter.shootFuelCommand(),
+           m_shooter.shootFuelCommand().until((m_shooter::isShooterFast)),
            Commands.parallel(m_hopper.runReverseHopperCommand(), m_kicker.kickBackwardsCommand(),m_shooter.shootFuelCommand())
-               .onlyIf(m_shooter::isShooterFast)
+               
        )
    );
 
