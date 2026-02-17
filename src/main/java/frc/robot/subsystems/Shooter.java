@@ -154,6 +154,13 @@ public class Shooter extends SubsystemBase {
         // shooterleft2Controller.setSetpoint(rpm, ControlType.kMAXMotionVelocityControl);
     }
 
+      public void setTargetRPM(double rpm) {
+        targetRPM = rpm;
+        shooterright1Controller.setSetpoint(rpm, ControlType.kMAXMotionVelocityControl);
+        // shooterright2Controller.setSetpoint(rpm, ControlType.kMAXMotionVelocityControl);
+        shooterleft1Controller.setSetpoint(rpm, ControlType.kMAXMotionVelocityControl);
+        // shooterleft2Controller.setSetpoint(rpm, ControlType.kMAXMotionVelocityControl);
+    }
     public Command shootFuelCommand() {
          
         return new RunCommand(() -> shootFuel(), this)

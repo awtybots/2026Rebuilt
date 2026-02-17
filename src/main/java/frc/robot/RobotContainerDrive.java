@@ -43,6 +43,8 @@ public class RobotContainerDrive {
       .scaleTranslation(1.2)
       .scaleRotation(1.2)
       .allianceRelativeControl(true)
+      // .aim(Constants.DrivebaseConstants.getHubPose().toPose2d())
+      // .aimWhile(driverXbox.b())
       ;
 
    private final SwerveInputStream driveSlowerAngularVelocity = SwerveInputStream.of(
@@ -56,6 +58,7 @@ public class RobotContainerDrive {
       .allianceRelativeControl(true)
       ;
 
+  
   public RobotContainerDrive() {
  
 
