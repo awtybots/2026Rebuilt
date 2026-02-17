@@ -62,9 +62,9 @@ public class VariableShoot extends Command
     for (var entry : List.of(
       // Pair.of(Meters.of(1), RPM.of((1000))),
                             //  Pair.of(Meters.of(2), RPM.of(1622.8225)),
-                             Pair.of(Meters.of(3), RPM.of(1900))
+                             Pair.of(Meters.of(3), RPM.of(1900)),
                             //  Pair.of(Meters.of(3.373), RPM.of(1897.454)),
-                            //  Pair.of(Meters.of(4), RPM.of(2022.2865)),
+                              Pair.of(Meters.of(4), RPM.of(2200))
                             //  Pair.of(Meters.of(5.2048), RPM.of(2296.918))
                             )
     )
