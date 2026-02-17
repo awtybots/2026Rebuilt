@@ -143,7 +143,7 @@ public final class Constants
     public static final int KICKER_RIGHT_ID = 14; 
 
     public static final double KICKER_RPM_TARGET = 6000; // RPM
-    public static final double KICKER_REVERSE_RPM_TARGET = -6000; // RPM
+    public static final double KICKER_REVERSE_RPM_TARGET = -0.8; // RPM
 
     public static final double STOP = 0;
     public static final double IDLE = 0; // % voltage -1 --> 1
