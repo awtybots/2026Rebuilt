@@ -246,7 +246,7 @@ public final class Configs
                                 .kV(0.00177)
                                 .kA(0.00017);
                         TwindexerRightControllerConfig.closedLoop
-                                .maxMotion.maxAcceleration(10000);
+                                .maxMotion.maxAcceleration(100000);
                             // Set PID values for velocity control in slot 1
                         //     .p(0.0001, ClosedLoopSlot.kSlot1)
                         //     .i(0, ClosedLoopSlot.kSlot1)
@@ -269,7 +269,7 @@ public final class Configs
                                 .kV(0.00177)
                                 .kA(0.00017);
                         TwindexerLeftControllerConfig.closedLoop
-                                .maxMotion.maxAcceleration(10000);
+                                .maxMotion.maxAcceleration(100000);
                             // Set PID values for velocity control in slot 1
                         //     .p(0.0001, ClosedLoopSlot.kSlot1)
                         //     .i(0, ClosedLoopSlot.kSlot1)
