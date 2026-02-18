@@ -26,6 +26,8 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Configs.ShooterSubsystem;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.VariableShoot;
+import frc.robot.Constants.DrivebaseConstants;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.io.File;
 
@@ -70,7 +72,9 @@ public class RobotContainer {
  private final Kicker m_kicker = new Kicker();
  private final Pushout m_pushout = new Pushout();
 
-
+// VariableShoot constructor parameters do not match here, so declare the field and
+// instantiate it later with the correct constructor when available.
+private VariableShoot m_variableShoot = new VariableShoot(Constants.DrivebaseConstants.getHubPose2D(), m_shooter, drivebase, m_hopper, m_kicker);
  // Establish a Sendable Chooser that will be able to be sent to the
  // SmartDashboard, allowing selection of desired auto
  private final SendableChooser<Command> autoChooser;
@@ -88,7 +92,9 @@ public class RobotContainer {
      .withControllerRotationAxis(() -> driverXbox.getRightX()*-1)
      .deadband(OperatorConstants.DEADBAND)
      .scaleTranslation(0.8)
-     .allianceRelativeControl(true);
+     .allianceRelativeControl(true)
+     .aim(Constants.DrivebaseConstants.getHubPose2D())
+     .aimWhile(driverXbox.povDown());
 
 
  /**
@@ -252,6 +258,8 @@ public class RobotContainer {
         )
      )
   );
+
+  // RTtransfer_kick_shoot.whileTrue(m_variableShoot);
 
 //     RTtransfer_kick_shoot.whileTrue(
 //        Commands.sequence(

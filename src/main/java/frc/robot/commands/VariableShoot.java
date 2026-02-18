@@ -25,7 +25,7 @@ import java.util.function.Supplier;
 public class VariableShoot extends Command
 {
 
-  private final Supplier<Pose2d>        goalPose;
+  private final Pose2d        goalPose;
   private final Shooter m_shooter;
   private final SwerveSubsystem m_swerveSubsystem;
   private final Hopper m_hopper;
@@ -41,7 +41,7 @@ public class VariableShoot extends Command
   private final InterpolatingDoubleTreeMap shooterTable = new InterpolatingDoubleTreeMap();
 
 
-  public VariableShoot(Supplier<Pose2d> goalPoseSupplier, Shooter shooter, SwerveSubsystem swerveSubsystem, Hopper hopper, Kicker kicker)
+  public VariableShoot(Pose2d goalPoseSupplier, Shooter shooter, SwerveSubsystem swerveSubsystem, Hopper hopper, Kicker kicker)
                                
   {
    
@@ -95,7 +95,7 @@ public class VariableShoot extends Command
     //                                                                );
 
     // 2. GET TARGET VECTOR
-    Translation2d goalLocation = goalPose.get().getTranslation();
+    Translation2d goalLocation = goalPose.getTranslation();
     Translation2d robotLocation = m_swerveSubsystem.getPose().getTranslation();
     Translation2d targetVec = goalLocation.minus(robotLocation);
     double        dist         = targetVec.getNorm();
