@@ -162,6 +162,7 @@ public class Robot extends LoggedRobot {
    */
   @Override
   public void autonomousInit() {
+    LimelightHelpers.SetThrottle("limelight", 0);
     LimelightHelpers.SetIMUMode("limelight", 4); // Use internal IMU + external IMU
     // Set the complementary filter alpha (optional, default is 0.001)
     LimelightHelpers.SetIMUAssistAlpha("limelight", 0.001);
@@ -193,6 +194,7 @@ public class Robot extends LoggedRobot {
 
   @Override
   public void teleopInit() {
+    LimelightHelpers.SetThrottle("limelight", 0);
     LimelightHelpers.SetIMUMode("limelight", 4); // Use internal IMU + external IMU
     // Set the complementary filter alpha (optional, default is 0.001)
     LimelightHelpers.SetIMUAssistAlpha("limelight", 0.001);
