@@ -116,7 +116,7 @@ public final class Configs
                                 .kV(0.003)
                                 .kA(0.00017);
                                 kickerLeftMotorConfig.closedLoop
-                                .maxMotion.maxAcceleration(100000).allowedProfileError(0, null);
+                                .maxMotion.maxAcceleration(100000);
 
 
                                 kickerRightMotorConfig.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder)
