@@ -593,7 +593,7 @@ public class SwerveSubsystem extends SubsystemBase {
   /** Updates the field relative position of the robot. */
   public void updateOdometry() {
     
-    swerveDrive.updateOdometry();
+    
   
     boolean useMegaTag2 = true; //set to false to use MegaTag1
     boolean doRejectUpdate = false;
@@ -649,6 +649,7 @@ public class SwerveSubsystem extends SubsystemBase {
       }
     }
     
+    swerveDrive.updateOdometry();
   }
 
   /**
