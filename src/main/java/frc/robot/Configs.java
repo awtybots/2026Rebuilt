@@ -243,7 +243,7 @@ public final class Configs
                             .outputRange(-1, 1)
                              .feedForward
                                 .kS(0.10)
-                                .kV(0.002)
+                                .kV(0.00177)
                                 .kA(0.00017);
                         TwindexerRightControllerConfig.closedLoop
                                 .maxMotion.maxAcceleration(100000);
@@ -266,7 +266,7 @@ public final class Configs
                             .outputRange(-1, 1)
                              .feedForward
                                 .kS(0.10)
-                                .kV(0.002)
+                                .kV(0.00177)
                                 .kA(0.00017);
                         TwindexerLeftControllerConfig.closedLoop
                                 .maxMotion.maxAcceleration(100000);

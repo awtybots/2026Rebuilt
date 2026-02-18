@@ -67,8 +67,8 @@ public class Hopper extends SubsystemBase {
         // Commanded transfer motor percent output.
         Logger.recordOutput("Hopper/TransferDesiredPercent", TwindexerLeftDesiredPercent);
         // Applied voltage to pushdown motor.
-        Logger.recordOutput("Hopper/PushdownAppliedVolts", TwindexerRightMotor.getAppliedOutput() * TwindexerRightMotor.getBusVoltage());
+        Logger.recordOutput("Hopper/TwindexerRightMotor", TwindexerRightMotor.getAppliedOutput() * TwindexerRightMotor.getBusVoltage());
         // Applied voltage to transfer motor.
-        Logger.recordOutput("Hopper/TransferAppliedVolts", TwindexerLeftMotor.getAppliedOutput() * TwindexerLeftMotor.getBusVoltage());
+        Logger.recordOutput("Hopper/TwindexerLeftMotor", TwindexerLeftMotor.getAppliedOutput() * TwindexerLeftMotor.getBusVoltage());
     }
 }
