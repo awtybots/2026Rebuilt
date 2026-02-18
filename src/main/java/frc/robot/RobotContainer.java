@@ -243,23 +243,23 @@ private VariableShoot m_variableShoot = new VariableShoot(Constants.DrivebaseCon
   */
  private void configureBindings() {
 
-   // transfer + kick + shoot command, only runs if the shooter is up to speed
-  RTtransfer_kick_shoot.whileTrue(
-     Commands.parallel(
-        // keep spinning the shooter while we wait for it to reach speed
-        m_shooter.shootFuelCommand(),
-        // once at speed, run hopper + kicker
-        Commands.sequence(
-          Commands.waitUntil(m_shooter::isShooterFast),
-          Commands.parallel(
-             m_hopper.runReverseHopperCommand(),
-             m_kicker.kickBackwardsCommand()
-          )
-        )
-     )
-  );
+  //  // transfer + kick + shoot command, only runs if the shooter is up to speed
+  // RTtransfer_kick_shoot.whileTrue(
+  //    Commands.parallel(
+  //       // keep spinning the shooter while we wait for it to reach speed
+  //       m_shooter.shootFuelCommand(),
+  //       // once at speed, run hopper + kicker
+  //       Commands.sequence(
+  //         Commands.waitUntil(m_shooter::isShooterFast),
+  //         Commands.parallel(
+  //            m_hopper.runReverseHopperCommand(),
+  //            m_kicker.kickBackwardsCommand()
+  //         )
+  //       )
+  //    )
+  // );
 
-  // RTtransfer_kick_shoot.whileTrue(m_variableShoot);
+  RTtransfer_kick_shoot.whileTrue(m_variableShoot);
 
 //     RTtransfer_kick_shoot.whileTrue(
 //        Commands.sequence(
