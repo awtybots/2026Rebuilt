@@ -164,8 +164,8 @@ public final class Constants
     public static final double TWINDEXER_RIGHT_RPM = -0.8;
     public static final double TWINDEXER_LEFT_RPM = 0.8;
 
-    public static final double REVERSE_TWINDEXER_RIGHT_RPM = 2000;
-    public static final double REVERSE_TWINDEXER_LEFT_RPM = -2000;
+    public static final double REVERSE_TWINDEXER_RIGHT_RPM = 6000;
+    public static final double REVERSE_TWINDEXER_LEFT_RPM = -6000;
 
     public static final int six_seven = 67; // <---------- HISTORICAL MONUMENT
 

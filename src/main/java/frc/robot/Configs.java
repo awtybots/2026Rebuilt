@@ -237,13 +237,13 @@ public final class Configs
                         TwindexerRightControllerConfig.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder)
                             // Set PID values for  position control. We don't need to pass a closed
                             // loop slot, as it will default to slot 0.
-                            .p(0.0001)
+                            .p(0.0002)
                             .i(0)
                             .d(0)
                             .outputRange(-1, 1)
                              .feedForward
                                 .kS(0.10)
-                                .kV(0.00177)
+                                .kV(0.002)
                                 .kA(0.00017);
                         TwindexerRightControllerConfig.closedLoop
                                 .maxMotion.maxAcceleration(100000);
@@ -260,13 +260,13 @@ public final class Configs
                             TwindexerLeftControllerConfig.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder)
                             // Set PID values for position control. We don't need to pass a closed
                             // loop slot, as it will default to slot 0.
-                            .p(0.0001)
+                            .p(0.0002)
                             .i(0)
                             .d(0)
                             .outputRange(-1, 1)
                              .feedForward
                                 .kS(0.10)
-                                .kV(0.00177)
+                                .kV(0.002)
                                 .kA(0.00017);
                         TwindexerLeftControllerConfig.closedLoop
                                 .maxMotion.maxAcceleration(100000);
