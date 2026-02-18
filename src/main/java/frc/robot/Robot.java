@@ -138,6 +138,7 @@ public class Robot extends LoggedRobot {
     }
     disabledTimer.reset();
     disabledTimer.start();
+    LimelightHelpers.SetThrottle("limelight", 200);
   }
 
   @Override
