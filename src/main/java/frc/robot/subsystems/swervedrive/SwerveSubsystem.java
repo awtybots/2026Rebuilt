@@ -509,6 +509,13 @@ public class SwerveSubsystem extends SubsystemBase {
         false); // Open loop is disabled since it shouldn't be used most of the time.
   }
 
+  public void stop() {
+    swerveDrive.drive(new ChassisSpeeds(0, 0, 0));
+    
+    swerveDrive.setModuleStates((swerveDrive.kinematics.toSwerveModuleStates(
+      new ChassisSpeeds(0,0,0))), 
+    false);
+  }
   /**
    * Drive the robot given a chassis field oriented velocity.
    *
