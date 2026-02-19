@@ -25,7 +25,7 @@ import java.util.function.BooleanSupplier;
 /**
  * Largely written by Eeshwar based off their blog at https://blog.eeshwark.com/robotblog/shooting-on-the-fly
  */
-public class VariableShoot extends Command
+public class ControlAllShooting extends Command
 {
 
   private final Pose2d        goalPose;
@@ -46,7 +46,7 @@ public class VariableShoot extends Command
   
   
 
-  public VariableShoot(Pose2d goalPoseSupplier, Shooter shooter, Pose2d robotPoseSupplier, Hopper hopper, Kicker kicker)
+  public ControlAllShooting(Pose2d goalPoseSupplier, Shooter shooter, Pose2d robotPoseSupplier, Hopper hopper, Kicker kicker)
                                
   {
    

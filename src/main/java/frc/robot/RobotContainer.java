@@ -26,7 +26,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Configs.ShooterSubsystem;
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.VariableShoot;
+import frc.robot.commands.ControlAllShooting;
 import frc.robot.Constants.DrivebaseConstants;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.io.File;
@@ -74,7 +74,7 @@ public class RobotContainer {
 
 // VariableShoot constructor parameters do not match here, so declare the field and
 // instantiate it later with the correct constructor when available.
-private VariableShoot m_variableShoot = new VariableShoot(Constants.DrivebaseConstants.getHubPose2D(), m_shooter, drivebase.getPose(), m_hopper, m_kicker);
+private ControlAllShooting m_variableShoot = new ControlAllShooting(Constants.DrivebaseConstants.getHubPose2D(), m_shooter, drivebase.getPose(), m_hopper, m_kicker);
  // Establish a Sendable Chooser that will be able to be sent to the
  // SmartDashboard, allowing selection of desired auto
  private final SendableChooser<Command> autoChooser;
@@ -82,68 +82,6 @@ private VariableShoot m_variableShoot = new VariableShoot(Constants.DrivebaseCon
 
 
  
- /**
-  * Converts driver input into a field-relative ChassisSpeeds that is controlled
-  * by angular velocity.
-  */
- SwerveInputStream driveAngularVelocity = SwerveInputStream.of(drivebase.getSwerveDrive(),
-     () -> driverXbox.getLeftY() * -1,
-     () -> driverXbox.getLeftX() * -1)
-     .withControllerRotationAxis(() -> driverXbox.getRightX()*-1)
-     .deadband(OperatorConstants.DEADBAND)
-     .scaleTranslation(0.8)
-     .allianceRelativeControl(true)
-     .aim(Constants.DrivebaseConstants.getHubPose2D())
-     .aimWhile(driverXbox.rightTrigger());
-
-
- /**
-  * Clone's the angular velocity input stream and converts it to a fieldRelative
-  * input stream.
-  */
- SwerveInputStream driveDirectAngle = driveAngularVelocity.copy().withControllerHeadingAxis(driverXbox::getRightX,
-     driverXbox::getRightY)
-     .headingWhile(true);
-
-
- /**
-  * Clone's the angular velocity input stream and converts it to a robotRelative
-  * input stream.
-  */
- SwerveInputStream driveRobotOriented = driveAngularVelocity.copy().robotRelative(true)
-     .allianceRelativeControl(false);
-
-
- SwerveInputStream driveAngularVelocityKeyboard = SwerveInputStream.of(drivebase.getSwerveDrive(),
-     () -> -driverXbox.getLeftY(),
-     () -> -driverXbox.getLeftX())
-     .withControllerRotationAxis(() -> driverXbox.getRawAxis(
-         2))
-     .deadband(OperatorConstants.DEADBAND)
-     .scaleTranslation(0.8)
-     .allianceRelativeControl(true);
- // Derive the heading axis with math!
- SwerveInputStream driveDirectAngleKeyboard = driveAngularVelocityKeyboard.copy()
-     .withControllerHeadingAxis(() -> Math.sin(
-         driverXbox.getRawAxis(
-             2) *
-             Math.PI)
-         *
-         (Math.PI *
-             2),
-         () -> Math.cos(
-             driverXbox.getRawAxis(
-                 2) *
-                 Math.PI)
-             *
-             (Math.PI *
-                 2))
-     .headingWhile(true)
-     .translationHeadingOffset(true)
-     .translationHeadingOffset(Rotation2d.fromDegrees(
-         0));
-
-
  // Parallel Commands
  private final Trigger RTtransfer_kick_shoot = driverXbox.rightTrigger(); // transfer to kicker, kick, and shoot only when up to speed
  private final Trigger RBpushout_and_intake  = driverXbox.rightBumper(); // pushout the intake and intake fuel
@@ -220,11 +158,6 @@ private VariableShoot m_variableShoot = new VariableShoot(Constants.DrivebaseCon
 
    loggedAutoChooser = new LoggedDashboardChooser<>("Auto Routine", autoChooser);
 
-
-   // SmartDashboard.putData("SysId/Shooter Quasistatic Forward", m_shooter.sysIdQuasistaticForward());
-   // SmartDashboard.putData("SysId/Shooter Quasistatic Reverse", m_shooter.sysIdQuasistaticReverse());
-   // SmartDashboard.putData("SysId/Shooter Dynamic Forward", m_shooter.sysIdDynamicForward());
-   // SmartDashboard.putData("SysId/Shooter Dynamic Reverse", m_shooter.sysIdDynamicReverse());
  }
 
 
@@ -242,6 +175,98 @@ private VariableShoot m_variableShoot = new VariableShoot(Constants.DrivebaseCon
   * Flight joysticks}.
   */
  private void configureBindings() {
+//====================================== ALIGN TO HUB COMMANDS ======================================      
+    /**
+     * Converts driver input into a field-relative ChassisSpeeds that is controlled
+    * by angular velocity.
+    */
+    SwerveInputStream driveAngularVelocity = SwerveInputStream.of(drivebase.getSwerveDrive(),
+        () -> driverXbox.getLeftY() * -1,
+        () -> driverXbox.getLeftX() * -1)
+        .withControllerRotationAxis(() -> driverXbox.getRightX()*-1)
+        .deadband(OperatorConstants.DEADBAND)
+        .scaleTranslation(0.8)
+        .allianceRelativeControl(true)
+        .aim(Constants.DrivebaseConstants.getHubPose2D())
+        .aimWhile(driverXbox.leftTrigger());
+
+
+    /**
+     * Clone's the angular velocity input stream and converts it to a fieldRelative
+    * input stream.
+    */
+    SwerveInputStream driveDirectAngle = driveAngularVelocity.copy().withControllerHeadingAxis(driverXbox::getRightX,
+        driverXbox::getRightY)
+        .headingWhile(true);
+
+
+    /**
+     * Clone's the angular velocity input stream and converts it to a robotRelative
+    * input stream.
+    */
+    SwerveInputStream driveRobotOriented = driveAngularVelocity.copy().robotRelative(true)
+        .allianceRelativeControl(false);
+
+
+    SwerveInputStream driveAngularVelocityKeyboard = SwerveInputStream.of(drivebase.getSwerveDrive(),
+        () -> -driverXbox.getLeftY(),
+        () -> -driverXbox.getLeftX())
+        .withControllerRotationAxis(() -> driverXbox.getRawAxis(
+            2))
+        .deadband(OperatorConstants.DEADBAND)
+        .scaleTranslation(0.8)
+        .allianceRelativeControl(true);
+    // Derive the heading axis with math!
+    SwerveInputStream driveDirectAngleKeyboard = driveAngularVelocityKeyboard.copy()
+        .withControllerHeadingAxis(() -> Math.sin(
+            driverXbox.getRawAxis(
+                2) *
+                Math.PI)
+            *
+            (Math.PI *
+                2),
+            () -> Math.cos(
+                driverXbox.getRawAxis(
+                    2) *
+                    Math.PI)
+                *
+                (Math.PI *
+                    2))
+        .headingWhile(true)
+        .translationHeadingOffset(true)
+        .translationHeadingOffset(Rotation2d.fromDegrees(
+            0));
+
+//====================================== ALL CONTROLS ======================================
+    RTtransfer_kick_shoot.whileTrue(m_variableShoot);
+
+    // Hopper Commands
+    PRtransfer.whileTrue(Commands.parallel(m_hopper.runHopperToShooterCommand(), m_kicker.kickCommand()));
+    PLunjam.whileTrue(Commands.parallel(m_hopper.runReverseHopperCommand(), m_kicker.kickBackwardsCommand()));
+
+
+    // Shooter Commands
+    LT_shootFuel.whileTrue(m_shooter.shootFuelCommand());
+    //  speedUpShooter.whileTrue(m_shooter.SpeedUpShooterCommand());
+
+    // Swerve Drive Commands
+    driverXbox.start().onTrue((Commands.runOnce(drivebase::zeroGyro)));
+
+  //  RBpushout_and_intake.whileTrue(Commands.parallel(m_pushout.PushCommand(), m_intake.runIntakeCommand()));
+  //  LBretract_and_stop.whileTrue(Commands.parallel(m_pushout.RetractCommand()));
+
+   // Pushout Commands
+  //  Y_extendIntake.whileTrue(m_pushout.PushCommand());
+  //  B_agitate.whileTrue(m_pushout.AgitateCommand().repeatedly());
+
+   // Intake Commands
+  //  X_runIntake.whileTrue(m_intake.runIntakeCommand());
+  //  A_runOuttake.whileTrue(m_intake.runOuttakeCommand());
+  
+   // Climber Commands
+   // Climb.whileTrue(m_climber.runClimbCommand());
+   // ClimbDown.whileTrue(m_climber.runClimberDownCommand());
+
 
   //  // transfer + kick + shoot command, only runs if the shooter is up to speed
   // RTtransfer_kick_shoot.whileTrue(
@@ -259,34 +284,9 @@ private VariableShoot m_variableShoot = new VariableShoot(Constants.DrivebaseCon
   //       )
   //    )
   // );
-  RTtransfer_kick_shoot.whileTrue(m_variableShoot);
 
-  //  RBpushout_and_intake.whileTrue(Commands.parallel(m_pushout.PushCommand(), m_intake.runIntakeCommand()));
-  //  LBretract_and_stop.whileTrue(Commands.parallel(m_pushout.RetractCommand()));
-
-   // Pushout Commands
-  //  Y_extendIntake.whileTrue(m_pushout.PushCommand());
-  //  B_agitate.whileTrue(m_pushout.AgitateCommand().repeatedly());
-
-   // Intake Commands
-  //  X_runIntake.whileTrue(m_intake.runIntakeCommand());
-  //  A_runOuttake.whileTrue(m_intake.runOuttakeCommand());
    
 
-   // Hopper Commands
-   PRtransfer.whileTrue(Commands.parallel(m_hopper.runHopperToShooterCommand(), m_kicker.kickCommand()));
-   PLunjam.whileTrue(Commands.parallel(m_hopper.runReverseHopperCommand(), m_kicker.kickBackwardsCommand()));
-
-
-   // Shooter Commands
-   LT_shootFuel.whileTrue(m_shooter.shootFuelCommand());
-  //  speedUpShooter.whileTrue(m_shooter.SpeedUpShooterCommand());
-
-    // Swerve Drive Commands
-   driverXbox.start().onTrue((Commands.runOnce(drivebase::zeroGyro)));
-   // Climber Commands
-  //  Climb.whileTrue(m_climber.runClimbCommand());
-  //  ClimbDown.whileTrue(m_climber.runClimberDownCommand());
 
     // SysId: run shooter quasistatic forward.
     operatorXbox.a().whileTrue(m_shooter.sysIdQuasistaticForward());
@@ -296,10 +296,6 @@ private VariableShoot m_variableShoot = new VariableShoot(Constants.DrivebaseCon
     operatorXbox.x().whileTrue(m_shooter.sysIdDynamicForward());
     // SysId: run shooter dynamic reverse.
     operatorXbox.y().whileTrue(m_shooter.sysIdDynamicReverse());
-
-
-
-
   
 
 
