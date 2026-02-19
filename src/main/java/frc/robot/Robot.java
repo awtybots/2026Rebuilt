@@ -77,6 +77,7 @@ public class Robot extends LoggedRobot {
    */
   @Override
   public void robotInit() {
+       LimelightHelpers.SetIMUMode("limelight", 1); // Seed internal IMU
     // Instantiate the selected container. This will perform all button bindings.
     if (Constants.USE_DRIVE_ONLY) {
       m_robotContainerDrive = new RobotContainerDrive();
@@ -94,6 +95,8 @@ public class Robot extends LoggedRobot {
     if (isSimulation()) {
       DriverStation.silenceJoystickConnectionWarning(true);
     }
+
+    
   }
 
   /**
@@ -131,6 +134,7 @@ public class Robot extends LoggedRobot {
    */
   @Override
   public void disabledInit() {
+           LimelightHelpers.SetIMUMode("limelight", 1); // Seed internal IMU
     if (Constants.USE_DRIVE_ONLY) {
       m_robotContainerDrive.setMotorBrake(true);
     } else if (!Constants.USE_SHOOTER_ONLY) {
@@ -152,7 +156,7 @@ public class Robot extends LoggedRobot {
       disabledTimer.stop();
       disabledTimer.reset();
     }
-    LimelightHelpers.SetIMUMode("limelight", 1); // Seed internal IMU
+ 
 
   }
 
