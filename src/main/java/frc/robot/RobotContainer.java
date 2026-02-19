@@ -74,7 +74,7 @@ public class RobotContainer {
 
 // VariableShoot constructor parameters do not match here, so declare the field and
 // instantiate it later with the correct constructor when available.
-private VariableShoot m_variableShoot = new VariableShoot(Constants.DrivebaseConstants.getHubPose2D(), m_shooter, drivebase);
+private VariableShoot m_variableShoot = new VariableShoot(Constants.DrivebaseConstants.getHubPose2D(), m_shooter, drivebase.getPose());
  // Establish a Sendable Chooser that will be able to be sent to the
  // SmartDashboard, allowing selection of desired auto
  private final SendableChooser<Command> autoChooser;
@@ -248,7 +248,7 @@ private VariableShoot m_variableShoot = new VariableShoot(Constants.DrivebaseCon
      Commands.parallel(
         // keep running the VariableShoot command while we wait for the shooter to reach speed
         m_variableShoot,
-        m_shooter.shootFuelCommand(),
+        
         // once at speed, run hopper + kicker
         Commands.sequence(
           Commands.waitUntil(m_shooter::isShooterFast),

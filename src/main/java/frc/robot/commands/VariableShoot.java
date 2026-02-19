@@ -27,25 +27,27 @@ public class VariableShoot extends Command
 
   private final Pose2d        goalPose;
   private final Shooter m_shooter;
-  private final SwerveSubsystem m_swerveSubsystem;
+  private final Pose2d robotPose;
+  // private final SwerveSubsystem m_swerveSubsystem;
   // Tuned Constants
   /**
    * Time in seconds between when the robot is told to move and when the shooter actually shoots.
    */
-  private final double                     latency      = 0.15;
+  // private final double                     latency      = 0.15;
   /**
    * Maps Distance to RPM
    */
   private final InterpolatingDoubleTreeMap shooterTable = new InterpolatingDoubleTreeMap();
 
 
-  public VariableShoot(Pose2d goalPoseSupplier, Shooter shooter, SwerveSubsystem swerveSubsystem)
+  public VariableShoot(Pose2d goalPoseSupplier, Shooter shooter, Pose2d robotPoseSupplier)
                                
   {
    
     this.goalPose = goalPoseSupplier;
     this.m_shooter = shooter;
-    this.m_swerveSubsystem = swerveSubsystem;
+    this.robotPose = robotPoseSupplier;
+    // this.m_swerveSubsystem = swerveSubsystem;
     // this.m_hopper = hopper;
     // this.m_kicker = kicker;
     // 4.034 meters half field, 0.661 byumper to shooter exit. Only 3.373 vertical distance to target meters, 
@@ -94,7 +96,7 @@ public class VariableShoot extends Command
 
     // 2. GET TARGET VECTOR
     Translation2d goalLocation = goalPose.getTranslation();
-    Translation2d robotLocation = m_swerveSubsystem.getPose().getTranslation();
+    Translation2d robotLocation = robotPose.getTranslation();
     Translation2d targetVec = goalLocation.minus(robotLocation);
     double        dist         = targetVec.getNorm();
 
