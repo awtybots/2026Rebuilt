@@ -247,7 +247,7 @@ private VariableShoot m_variableShoot = new VariableShoot(Constants.DrivebaseCon
   RTtransfer_kick_shoot.whileTrue(
      Commands.parallel(
         // keep running the VariableShoot command while we wait for the shooter to reach speed
-        m_variableShoot,
+        //m_variableShoot,
         m_shooter.shootFuelCommand(),
         // once at speed, run hopper + kicker
         Commands.sequence(
