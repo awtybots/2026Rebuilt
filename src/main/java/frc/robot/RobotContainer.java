@@ -81,6 +81,70 @@ private ControlAllShooting m_variableShoot = new ControlAllShooting(Constants.Dr
  private LoggedDashboardChooser<Command> loggedAutoChooser;
 
 
+     /**
+     * Converts driver input into a field-relative ChassisSpeeds that is controlled
+    * by angular velocity.
+    */
+    SwerveInputStream driveAngularVelocity = SwerveInputStream.of(drivebase.getSwerveDrive(),
+        () -> driverXbox.getLeftY() * -1,
+        () -> driverXbox.getLeftX() * -1)
+        .withControllerRotationAxis(() -> driverXbox.getRightX()*-1)
+        .deadband(OperatorConstants.DEADBAND)
+        .scaleTranslation(0.8)
+        .allianceRelativeControl(true)
+        .aim(Constants.DrivebaseConstants.getHubPose2D())
+        .aimWhile(driverXbox.leftTrigger());
+
+
+    /**
+     * Clone's the angular velocity input stream and converts it to a fieldRelative
+    * input stream.
+    */
+    SwerveInputStream driveDirectAngle = driveAngularVelocity.copy().withControllerHeadingAxis(driverXbox::getRightX,
+        driverXbox::getRightY)
+        .headingWhile(true);
+
+
+    /**
+     * Clone's the angular velocity input stream and converts it to a robotRelative
+    * input stream.
+    */
+    SwerveInputStream driveRobotOriented = driveAngularVelocity.copy().robotRelative(true)
+        .allianceRelativeControl(false);
+
+
+    SwerveInputStream driveAngularVelocityKeyboard = SwerveInputStream.of(drivebase.getSwerveDrive(),
+        () -> -driverXbox.getLeftY(),
+        () -> -driverXbox.getLeftX())
+        .withControllerRotationAxis(() -> driverXbox.getRawAxis(
+            2))
+        .deadband(OperatorConstants.DEADBAND)
+        .scaleTranslation(0.8)
+        .allianceRelativeControl(true);
+    // Derive the heading axis with math!
+    SwerveInputStream driveDirectAngleKeyboard = driveAngularVelocityKeyboard.copy()
+        .withControllerHeadingAxis(() -> Math.sin(
+            driverXbox.getRawAxis(
+                2) *
+                Math.PI)
+            *
+            (Math.PI *
+                2),
+            () -> Math.cos(
+                driverXbox.getRawAxis(
+                    2) *
+                    Math.PI)
+                *
+                (Math.PI *
+                    2))
+        .headingWhile(true)
+        .translationHeadingOffset(true)
+        .translationHeadingOffset(Rotation2d.fromDegrees(
+            0));
+
+
+
+
  
  // Parallel Commands
  private final Trigger RTtransfer_kick_shoot = driverXbox.rightTrigger(); // transfer to kicker, kick, and shoot only when up to speed
@@ -176,67 +240,6 @@ private ControlAllShooting m_variableShoot = new ControlAllShooting(Constants.Dr
   */
  private void configureBindings() {
 //====================================== ALIGN TO HUB COMMANDS ======================================      
-    /**
-     * Converts driver input into a field-relative ChassisSpeeds that is controlled
-    * by angular velocity.
-    */
-    SwerveInputStream driveAngularVelocity = SwerveInputStream.of(drivebase.getSwerveDrive(),
-        () -> driverXbox.getLeftY() * -1,
-        () -> driverXbox.getLeftX() * -1)
-        .withControllerRotationAxis(() -> driverXbox.getRightX()*-1)
-        .deadband(OperatorConstants.DEADBAND)
-        .scaleTranslation(0.8)
-        .allianceRelativeControl(true)
-        .aim(Constants.DrivebaseConstants.getHubPose2D())
-        .aimWhile(driverXbox.leftTrigger());
-
-
-    /**
-     * Clone's the angular velocity input stream and converts it to a fieldRelative
-    * input stream.
-    */
-    SwerveInputStream driveDirectAngle = driveAngularVelocity.copy().withControllerHeadingAxis(driverXbox::getRightX,
-        driverXbox::getRightY)
-        .headingWhile(true);
-
-
-    /**
-     * Clone's the angular velocity input stream and converts it to a robotRelative
-    * input stream.
-    */
-    SwerveInputStream driveRobotOriented = driveAngularVelocity.copy().robotRelative(true)
-        .allianceRelativeControl(false);
-
-
-    SwerveInputStream driveAngularVelocityKeyboard = SwerveInputStream.of(drivebase.getSwerveDrive(),
-        () -> -driverXbox.getLeftY(),
-        () -> -driverXbox.getLeftX())
-        .withControllerRotationAxis(() -> driverXbox.getRawAxis(
-            2))
-        .deadband(OperatorConstants.DEADBAND)
-        .scaleTranslation(0.8)
-        .allianceRelativeControl(true);
-    // Derive the heading axis with math!
-    SwerveInputStream driveDirectAngleKeyboard = driveAngularVelocityKeyboard.copy()
-        .withControllerHeadingAxis(() -> Math.sin(
-            driverXbox.getRawAxis(
-                2) *
-                Math.PI)
-            *
-            (Math.PI *
-                2),
-            () -> Math.cos(
-                driverXbox.getRawAxis(
-                    2) *
-                    Math.PI)
-                *
-                (Math.PI *
-                    2))
-        .headingWhile(true)
-        .translationHeadingOffset(true)
-        .translationHeadingOffset(Rotation2d.fromDegrees(
-            0));
-
 //====================================== ALL CONTROLS ======================================
     RTtransfer_kick_shoot.whileTrue(m_variableShoot);
 
