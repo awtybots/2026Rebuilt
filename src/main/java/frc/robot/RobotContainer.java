@@ -74,7 +74,7 @@ public class RobotContainer {
 
 // VariableShoot constructor parameters do not match here, so declare the field and
 // instantiate it later with the correct constructor when available.
-private VariableShoot m_variableShoot = new VariableShoot(Constants.DrivebaseConstants.getHubPose2D(), m_shooter, drivebase, m_hopper, m_kicker);
+private VariableShoot m_variableShoot = new VariableShoot(Constants.DrivebaseConstants.getHubPose2D(), m_shooter, drivebase);
  // Establish a Sendable Chooser that will be able to be sent to the
  // SmartDashboard, allowing selection of desired auto
  private final SendableChooser<Command> autoChooser;
@@ -94,7 +94,7 @@ private VariableShoot m_variableShoot = new VariableShoot(Constants.DrivebaseCon
      .scaleTranslation(0.8)
      .allianceRelativeControl(true)
      .aim(Constants.DrivebaseConstants.getHubPose2D())
-     .aimWhile(driverXbox.povDown());
+     .aimWhile(driverXbox.rightTrigger());
 
 
  /**
@@ -246,8 +246,8 @@ private VariableShoot m_variableShoot = new VariableShoot(Constants.DrivebaseCon
   //  // transfer + kick + shoot command, only runs if the shooter is up to speed
   RTtransfer_kick_shoot.whileTrue(
      Commands.parallel(
-        // keep spinning the shooter while we wait for it to reach speed
-        m_variableShoot.run(() -> m_variableShoot.execute(), () -> m_variableShoot.end(false)).repeatedly(),
+        // keep running the VariableShoot command while we wait for the shooter to reach speed
+        m_variableShoot,
         m_shooter.shootFuelCommand(),
         // once at speed, run hopper + kicker
         Commands.sequence(
@@ -259,8 +259,6 @@ private VariableShoot m_variableShoot = new VariableShoot(Constants.DrivebaseCon
         )
      )
   );
-
-  RTtransfer_kick_shoot.whileTrue(m_variableShoot);
 
   //  RBpushout_and_intake.whileTrue(Commands.parallel(m_pushout.PushCommand(), m_intake.runIntakeCommand()));
   //  LBretract_and_stop.whileTrue(Commands.parallel(m_pushout.RetractCommand()));
