@@ -249,6 +249,8 @@ private ControlAllShooting m_variableShoot = new ControlAllShooting(Constants.Dr
     LT_shootFuel.whileTrue(m_shooter.shootFuelCommand());
     //  speedUpShooter.whileTrue(m_shooter.SpeedUpShooterCommand());
 
+    driverXbox.povDown().whileTrue(drivebase.driveToPose(new Pose2d(new Translation2d(2.3, 4.0), Rotation2d.fromDegrees(0)))); //in front of the blue hub
+
     // Swerve Drive Commands
     driverXbox.start().onTrue((Commands.runOnce(drivebase::zeroGyro)));
 
