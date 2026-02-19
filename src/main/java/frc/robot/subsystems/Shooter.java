@@ -122,6 +122,12 @@ public class Shooter extends SubsystemBase {
     }
 
 
+    public double getRPM () {
+
+        return (shooterLeft1Encoder.getVelocity()+ shooterLeft2Encoder.getVelocity() + shooterRight1Encoder.getVelocity() + shooterRight2Encoder.getVelocity()) / 4.0;
+    }
+
+
     // Alright so essentially we made a method to make the motor speed up (a few methods below this) and decided to make 
     // shoot fuel call that, as well as the kicker motor so we reduce extra code
     public void shootFuel() {
@@ -154,6 +160,11 @@ public class Shooter extends SubsystemBase {
         shooterleft1Controller.setSetpoint(rpm, ControlType.kMAXMotionVelocityControl);
         // shooterleft2Controller.setSetpoint(rpm, ControlType.kMAXMotionVelocityControl);
     }
+
+    public Command setTargetRPMCommand(double rpm) {
+        return new RunCommand(() -> setTargetRPM(rpm), this);
+    }
+    
     public Command shootFuelCommand() {
          
         return new RunCommand(() -> shootFuel(), this)
@@ -192,6 +203,7 @@ public class Shooter extends SubsystemBase {
    
     @Override
     public void periodic() {
+        getRPM();
         // AdvantageKit Logging
         double right1RPM = ShooterRight1Motor.getEncoder().getVelocity();
         double right2RPM = ShooterRight2Motor.getEncoder().getVelocity();

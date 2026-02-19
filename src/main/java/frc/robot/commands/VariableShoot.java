@@ -9,6 +9,8 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
+import frc.robot.Constants.ShooterConstants;
 import frc.robot.subsystems.Hopper;
 import frc.robot.subsystems.Kicker;
 import frc.robot.subsystems.Shooter;
@@ -17,6 +19,7 @@ import swervelib.SwerveDrive;
 
 import java.util.List;
 import java.util.function.Supplier;
+import java.util.function.BooleanSupplier;
 
 
 /**
@@ -28,6 +31,8 @@ public class VariableShoot extends Command
   private final Pose2d        goalPose;
   private final Shooter m_shooter;
   private final Pose2d robotPose;
+  private final Hopper m_hopper;
+  private final Kicker m_kicker;
   // private final SwerveSubsystem m_swerveSubsystem;
   // Tuned Constants
   /**
@@ -38,14 +43,17 @@ public class VariableShoot extends Command
    * Maps Distance to RPM
    */
   private final InterpolatingDoubleTreeMap shooterTable = new InterpolatingDoubleTreeMap();
+  
+  
 
-
-  public VariableShoot(Pose2d goalPoseSupplier, Shooter shooter, Pose2d robotPoseSupplier)
+  public VariableShoot(Pose2d goalPoseSupplier, Shooter shooter, Pose2d robotPoseSupplier, Hopper hopper, Kicker kicker)
                                
   {
    
     this.goalPose = goalPoseSupplier;
     this.m_shooter = shooter;
+    this.m_hopper = hopper;
+    this.m_kicker = kicker;
     this.robotPose = robotPoseSupplier;
     // this.m_swerveSubsystem = swerveSubsystem;
     // this.m_hopper = hopper;
@@ -99,11 +107,12 @@ public class VariableShoot extends Command
     Translation2d robotLocation = robotPose.getTranslation();
     Translation2d targetVec = goalLocation.minus(robotLocation);
     double        dist         = targetVec.getNorm();
-
     // 3. CALCULATE IDEAL SHOT (Stationary)
     // Note: This returns HORIZONTAL velocity component
     double idealHorizontalSpeed = shooterTable.get(dist);
 
+    // Local predicate to check if shooter is at the desired speed (methods cannot be declared inside methods)
+    BooleanSupplier isAtSpeed = () -> Math.abs(idealHorizontalSpeed - m_shooter.getRPM()) <= ShooterConstants.ERROR_MARGIN;
     // 4. VECTOR SUBTRACTION
     // Translation2d robotVelVec = new Translation2d(robotSpeed.vxMetersPerSecond, robotSpeed.vyMetersPerSecond);
     // Translation2d shotVec     = targetVec.div(dist).times(idealHorizontalSpeed).minus(robotVelVec);
@@ -125,7 +134,24 @@ public class VariableShoot extends Command
     //hood.setAngle(Math.toDegrees(newPitch));
     //shooter.setRPM(MetersPerSecond.of(totalExitVelocity));
     
-    m_shooter.setTargetRPM(idealHorizontalSpeed);
+    
+
+
+  Commands.parallel(
+        // keep running the VariableShoot command while we wait for the shooter to reach speed
+        m_shooter.setTargetRPMCommand(idealHorizontalSpeed),
+        
+        // once at speed, run hopper + kicker
+        Commands.sequence(
+          Commands.waitUntil(isAtSpeed),
+          Commands.parallel(
+             m_hopper.runReverseHopperCommand(),
+             m_kicker.kickBackwardsCommand()
+          )
+        )
+     );
+     
+    
     // m_hopper.runReverseHopperCommand().onlyIf(m_shooter::isShooterFast);
     // m_kicker.kickBackwardsCommand().onlyIf(m_shooter::isShooterFast);
     
