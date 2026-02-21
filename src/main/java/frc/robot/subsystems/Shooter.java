@@ -23,7 +23,7 @@ import au.grapplerobotics.LaserCan;
 
 import com.revrobotics.spark.SparkBase.ControlType;
 import frc.robot.Constants.ShooterConstants;
-import yams.motorcontrollers.SmartMotorControllerConfig.ControlMode;
+// import yams.motorcontrollers.SmartMotorControllerConfig.ControlMode;
 import frc.robot.Configs;
 
 public class Shooter extends SubsystemBase {

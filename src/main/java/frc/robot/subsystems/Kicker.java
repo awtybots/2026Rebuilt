@@ -20,7 +20,7 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkBase.ControlType;
 import frc.robot.Constants.KickerConstants;
 import frc.robot.Constants.ShooterConstants;
-import yams.motorcontrollers.SmartMotorControllerConfig.ControlMode;
+// import yams.motorcontrollers.SmartMotorControllerConfig.ControlMode;
 import frc.robot.Configs;
 import frc.robot.Configs.KickerSubsystem;
 
