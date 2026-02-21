@@ -49,6 +49,7 @@ import org.json.simple.parser.ParseException;
 import swervelib.SwerveController;
 import swervelib.SwerveDrive;
 import swervelib.SwerveDriveTest;
+import swervelib.imu.SwerveIMU;
 import swervelib.math.SwerveMath;
 import swervelib.parser.SwerveControllerConfiguration;
 import swervelib.parser.SwerveDriveConfiguration;
@@ -627,7 +628,10 @@ public class SwerveSubsystem extends SubsystemBase {
     }
     else if (useMegaTag2 == true)
     {
-      LimelightHelpers.SetRobotOrientation("limelight", swerveDrive.getGyro().getRotation3d().toRotation2d().getDegrees(), 0.0, 0.0, 0.0, 0.0, 0.0);
+      LimelightHelpers.SetRobotOrientation("limelight", 
+      swerveDrive.getGyro().getRawRotation3d().toRotation2d().getDegrees(), 
+      0.0, 0.0, 0.0, 0.0, 0.0);
+      //first try raw, then delete raw, if both dont work try getHeading and stuff
       LimelightHelpers.PoseEstimate mt2 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight");
       // double omegaDegPerSec = Units.radiansToDegrees(swerveDrive.getFieldVelocity().omegaRadiansPerSecond);
       //or we can do omegaDegPerSec

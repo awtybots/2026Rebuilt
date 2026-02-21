@@ -26,37 +26,37 @@ public class Intake extends SubsystemBase {
     // AdvantageKit logging
     private double desiredPercent = 0.0;
 
-    private SparkFlex IntakeLeftMotor = new SparkFlex(IntakeConstants.INTAKE_LEFT_ID, MotorType.kBrushless);
-    private SparkClosedLoopController intakeLeftController = IntakeLeftMotor.getClosedLoopController();
-    private SparkFlex IntakeRightMotor = new SparkFlex(IntakeConstants.INTAKE_RIGHT_ID, MotorType.kBrushless);
-    private SparkClosedLoopController intakeRightController = IntakeRightMotor.getClosedLoopController();
+    private SparkFlex IntakeMotor = new SparkFlex(IntakeConstants.INTAKE_ID, MotorType.kBrushless);
+    private SparkClosedLoopController intakeController = IntakeMotor.getClosedLoopController();
+    // private SparkFlex IntakeRightMotor = new SparkFlex(IntakeConstants.INTAKE_ID, MotorType.kBrushless);
+    // private SparkClosedLoopController intakeRightController = IntakeRightMotor.getClosedLoopController();
 
     
     public Intake() {
-        IntakeLeftMotor.configure(Configs.IntakeSubsystem.IntakeLeftMotorConfig, ResetMode.kResetSafeParameters,
+        IntakeMotor.configure(Configs.IntakeSubsystem.IntakeLeftMotorConfig, ResetMode.kResetSafeParameters,
                 PersistMode.kPersistParameters);
-        IntakeRightMotor.configure(Configs.IntakeSubsystem.IntakeRightMotorConfig, ResetMode.kResetSafeParameters,
-                PersistMode.kPersistParameters);
+        // IntakeRightMotor.configure(Configs.IntakeSubsystem.IntakeRightMotorConfig, ResetMode.kResetSafeParameters,
+        //         PersistMode.kPersistParameters);
     }
 
 
     public void runIntake() {
         desiredPercent = IntakeConstants.INTAKE_SPEED;
-        IntakeLeftMotor.set(IntakeConstants.INTAKE_SPEED);
-        IntakeRightMotor.set(IntakeConstants.INTAKE_SPEED);
+        IntakeMotor.set(IntakeConstants.INTAKE_SPEED);
+        // IntakeRightMotor.set(IntakeConstants.INTAKE_SPEED);
         
     }
 
     public void runOuttake() {
         desiredPercent = IntakeConstants.OUTTAKE_SPEED;
-        IntakeLeftMotor.set(IntakeConstants.OUTTAKE_SPEED);
-        IntakeRightMotor.set(IntakeConstants.OUTTAKE_SPEED);
+        IntakeMotor.set(IntakeConstants.OUTTAKE_SPEED);
+        // IntakeRightMotor.set(IntakeConstants.OUTTAKE_SPEED);
     }
 
     public void stopIntake() {
         desiredPercent = 0.0;
-        IntakeLeftMotor.set(0);
-        IntakeRightMotor.set(0);        
+        IntakeMotor.set(0);
+        // IntakeRightMotor.set(0);        
     }
 
     public Command runIntakeCommand() {
@@ -79,6 +79,6 @@ public class Intake extends SubsystemBase {
         // Commanded intake motor percent output.
         Logger.recordOutput("Intake/DesiredPercent", desiredPercent);
         // Applied voltage to intake motor.
-        Logger.recordOutput("Intake/AppliedVolts", IntakeLeftMotor.getAppliedOutput() * IntakeLeftMotor.getBusVoltage());
+        Logger.recordOutput("Intake/AppliedVolts", IntakeMotor.getAppliedOutput() * IntakeMotor.getBusVoltage());
     }
 }

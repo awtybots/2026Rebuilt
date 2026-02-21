@@ -3,45 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.7397004279600568,
-        "y": 5.943452211126962
+        "x": 3.0616457960644006,
+        "y": 1.7391055456171727
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.0238688872742632,
-        "y": 5.7731454255872
-      },
-      "isLocked": false,
-      "linkedName": "Depot"
-    },
-    {
-      "anchor": {
-        "x": 2.1370756062767473,
-        "y": 4.61077032810271
-      },
-      "prevControl": {
-        "x": 1.6941501233423983,
-        "y": 5.744306529869231
-      },
-      "nextControl": {
-        "x": 2.2303790740137472,
-        "y": 4.371987818391204
+        "x": 4.061645796064399,
+        "y": 1.7391055456171727
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 1.2054921540656205,
-        "y": 2.669971469329529
+        "x": 2.3,
+        "y": 4.0
       },
       "prevControl": {
-        "x": 2.570963159543785,
-        "y": 2.986904669550077
+        "x": 1.2999999999999998,
+        "y": 4.0
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Right Climb"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
@@ -58,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": 0.0
   },
   "reversed": false,
-  "folder": "Week 3 Paths",
+  "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": 0.0
   },
   "useDefaultConstraints": true
 }
