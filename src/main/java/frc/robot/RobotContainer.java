@@ -43,6 +43,7 @@ import frc.robot.subsystems.Hopper;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Pushout;
+import frc.robot.subsystems.ObjectDetection;
 
 
 /**
@@ -71,6 +72,8 @@ public class RobotContainer {
  private final Climber m_climber = new Climber();
  private final Kicker m_kicker = new Kicker();
  private final Pushout m_pushout = new Pushout();
+
+  private final ObjectDetection m_ObjectDetection = new ObjectDetection();
 
 // VariableShoot constructor parameters do not match here, so declare the field and
 // instantiate it later with the correct constructor when available.
