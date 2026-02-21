@@ -106,8 +106,8 @@ public final class Constants
 
   public static class IntakeConstants
   {
-    public static final int INTAKE_LEFT_ID = 15; // unknown
-    public static final int INTAKE_RIGHT_ID = 16; // unknown
+    public static final int INTAKE_ID = 15; // unknown
+    // public static final int INTAKE_RIGHT_ID = 16; // unknown
 
 
     public static final double INTAKE_SPEED = 0.7;
@@ -117,8 +117,8 @@ public final class Constants
 
   public static class PushoutConstants
   {
-    public static final int PUSHOUT_LEFT_ID = 21; 
-    public static final int PUSHOUT_RIGHT_ID = 17; 
+    public static final int PUSHOUT_ID = 21; // Unknown
+    // public static final int PUSHOUT_RIGHT_ID = 17; 
 
     public static final double PUSHOUT_RETRACTED_POS = 0.0;     
     public static final double PUSHOUT_EXTENDED_POS  = -0.948;    // TUNE THIS!!!
