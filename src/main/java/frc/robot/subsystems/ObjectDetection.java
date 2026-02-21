@@ -1,3 +1,5 @@
+package frc.robot.subsystems;
+
 import org.littletonrobotics.junction.Logger;
 import org.photonvision.PhotonCamera;
 import org.photonvision.targeting.PhotonPipelineResult;
