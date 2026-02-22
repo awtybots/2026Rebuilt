@@ -359,32 +359,32 @@ private ControlAllShooting m_variableShoot = new ControlAllShooting(Constants.Dr
      // );
    
    }
-   if (DriverStation.isTest())
-   {
-   if (Constants.USE_ROBOT_RELATIVE) {
-     drivebase.setDefaultCommand(
-         drivebase.run(() -> drivebase.drive(driveRobotOriented.get())));
-   } else {
-     drivebase.setDefaultCommand(driveFieldOrientedAnglularVelocity); // Overrides drive command above!
-   }
+//    if (DriverStation.isTest())
+//    {
+//    if (Constants.USE_ROBOT_RELATIVE) {
+//      drivebase.setDefaultCommand(
+//          drivebase.run(() -> drivebase.drive(driveRobotOriented.get())));
+//    } else {
+//      drivebase.setDefaultCommand(driveFieldOrientedAnglularVelocity); // Overrides drive command above!
+//    }
 
 
-   driverXbox.x().whileTrue(Commands.runOnce(drivebase::lock, drivebase).repeatedly());
-   driverXbox.start().onTrue((Commands.runOnce(drivebase::zeroGyro)));
-   driverXbox.back().whileTrue(drivebase.centerModulesCommand());
-   driverXbox.leftBumper().onTrue(Commands.none());
-   driverXbox.rightBumper().onTrue(Commands.none());
-   } else
-   {
-   driverXbox.a().onTrue((Commands.runOnce(drivebase::zeroGyro)));
-   driverXbox.start().whileTrue(Commands.none());
-   driverXbox.back().whileTrue(Commands.none());
-   driverXbox.leftBumper().whileTrue(Commands.runOnce(drivebase::lock, drivebase).repeatedly());
-   driverXbox.rightBumper().onTrue(Commands.none());
-   }
+//    driverXbox.x().whileTrue(Commands.runOnce(drivebase::lock, drivebase).repeatedly());
+//    driverXbox.start().onTrue((Commands.runOnce(drivebase::zeroGyro)));
+//    driverXbox.back().whileTrue(drivebase.centerModulesCommand());
+//    driverXbox.leftBumper().onTrue(Commands.none());
+//    driverXbox.rightBumper().onTrue(Commands.none());
+//    } else
+//    {
+//    driverXbox.a().onTrue((Commands.runOnce(drivebase::zeroGyro)));
+//    driverXbox.start().whileTrue(Commands.none());
+//    driverXbox.back().whileTrue(Commands.none());
+//    driverXbox.leftBumper().whileTrue(Commands.runOnce(drivebase::lock, drivebase).repeatedly());
+//    driverXbox.rightBumper().onTrue(Commands.none());
+//    }
 
 
- }
+  }
 
 
  /**
