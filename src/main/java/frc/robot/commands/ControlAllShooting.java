@@ -145,8 +145,8 @@ public class ControlAllShooting extends Command
         Commands.sequence(
           Commands.waitUntil(isAtSpeed),
           Commands.parallel(
-             m_hopper.runReverseHopperCommand(),
-             m_kicker.kickBackwardsCommand()
+             m_hopper.runHopperToShooterCommand(),
+             m_kicker.kickCommand()
           )
         )
      );
