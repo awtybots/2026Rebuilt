@@ -71,13 +71,13 @@ public class Kicker extends SubsystemBase {
                 PersistMode.kPersistParameters);
     }
 
-    public void Kick() {
+    public void KickBackwards() {
         //kickerLeftController.setSetpoint(KickerConstants.KICKER_SPEED, ControlType.kMAXMotionVelocityControl);
         kickerLeftController.setSetpoint(KickerConstants.KICKER_RPM_TARGET, ControlType.kMAXMotionVelocityControl);
         // kickerRightController.setSetpoint(KickerConstants.KICKER_SPEED, ControlType.kMAXMotionVelocityControl);
     }
 
-    public void KickBackwards() {
+    public void Kick() {
         //kickerLeftController.setSetpoint(KickerConstants.KICKER_REVERSE_SPEED, ControlType.kMAXMotionVelocityControl);
         //KickerLeftMotor.set(KickerConstants.KICKER_REVERSE_RPM_TARGET);
         kickerLeftController.setSetpoint(KickerConstants.KICKER_REVERSE_RPM_TARGET, ControlType.kMAXMotionVelocityControl);
