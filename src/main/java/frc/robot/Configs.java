@@ -11,36 +11,36 @@ public final class Configs
 
         public static final class IntakeSubsystem {
                 
-            public static final SparkFlexConfig IntakeLeftMotorConfig = new SparkFlexConfig();
-            public static final SparkFlexConfig IntakeRightMotorConfig = new SparkFlexConfig();
+            public static final SparkFlexConfig IntakeMotorConfig = new SparkFlexConfig();
+            // public static final SparkFlexConfig IntakeRightMotorConfig = new SparkFlexConfig();
 
                 static {
 
-                        IntakeLeftMotorConfig.idleMode(IdleMode.kBrake).smartCurrentLimit(40).voltageCompensation(12);
-                        IntakeRightMotorConfig.idleMode(IdleMode.kBrake).smartCurrentLimit(40).voltageCompensation(12);
+                        IntakeMotorConfig.idleMode(IdleMode.kBrake).smartCurrentLimit(40).voltageCompensation(12);
+                        // IntakeRightMotorConfig.idleMode(IdleMode.kBrake).smartCurrentLimit(40).voltageCompensation(12);
 
 
 
-                        IntakeLeftMotorConfig.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder)
+                        IntakeMotorConfig.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder)
                             // Set PID values for position control. We don't need to pass a closed
                             // loop slot, as it will default to slot 0.
                             .p(0.0002355)
                             .i(0)
                             .d(0)
                             .outputRange(-1, 1);
-                        IntakeLeftMotorConfig.closedLoop
+                        IntakeMotorConfig.closedLoop
                         .maxMotion.maxAcceleration(10000);
 
 
-                        IntakeRightMotorConfig.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder)
-                            // Set PID values for position control. We don't need to pass a closed
-                            // loop slot, as it will default to slot 0.
-                            .p(0.0002355)
-                            .i(0)
-                            .d(0)
-                            .outputRange(-1, 1);
-                        IntakeRightMotorConfig.closedLoop
-                        .maxMotion.maxAcceleration(10000);
+                        // IntakeRightMotorConfig.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder)
+                        //     // Set PID values for position control. We don't need to pass a closed
+                        //     // loop slot, as it will default to slot 0.
+                        //     .p(0.0002355)
+                        //     .i(0)
+                        //     .d(0)
+                        //     .outputRange(-1, 1);
+                        // IntakeRightMotorConfig.closedLoop
+                        // .maxMotion.maxAcceleration(10000);
 
                 }
 
@@ -48,13 +48,13 @@ public final class Configs
 
         public static final class PushoutSubsystem {
 
-            public static final SparkFlexConfig PushoutLeftMotorConfig = new SparkFlexConfig();
-            public static final SparkFlexConfig PushoutRightMotorConfig = new SparkFlexConfig();
+            public static final SparkFlexConfig PushoutMotorConfig = new SparkFlexConfig();
+            // public static final SparkFlexConfig PushoutRightMotorConfig = new SparkFlexConfig();
 
 
                 static {
-                        PushoutLeftMotorConfig.idleMode(IdleMode.kBrake).smartCurrentLimit(40).voltageCompensation(12);
-                        PushoutRightMotorConfig.idleMode(IdleMode.kBrake).smartCurrentLimit(40).voltageCompensation(12).follow(21,true);
+                        PushoutMotorConfig.idleMode(IdleMode.kBrake).smartCurrentLimit(40).voltageCompensation(12);
+                        // PushoutRightMotorConfig.idleMode(IdleMode.kBrake).smartCurrentLimit(40).voltageCompensation(12).follow(21,true);
                         
 
                         // PushoutLeftMotorConfig
@@ -69,7 +69,7 @@ public final class Configs
                         // .smartCurrentLimit(40)
                         // .voltageCompensation(12);
 
-                        PushoutLeftMotorConfig.closedLoop
+                        PushoutMotorConfig.closedLoop
                         .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
                         .p(0.2)
                         .i(0.0)
@@ -81,16 +81,16 @@ public final class Configs
                                 .allowedProfileError(0.01); // smooth extension
                                 
 
-                        PushoutRightMotorConfig.closedLoop
-                        .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
-                        .p(0.2)
-                        .i(0.0)
-                        .d(0.05)
-                        .outputRange(-1.0, 1.0)
-                        .maxMotion
-                                .maxAcceleration(3000)
-                                .cruiseVelocity(100)
-                                .allowedProfileError(0.01); // smooth extension, allow some error to prevent oscillation
+                        // PushoutRightMotorConfig.closedLoop
+                        // .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
+                        // .p(0.2)
+                        // .i(0.0)
+                        // .d(0.05)
+                        // .outputRange(-1.0, 1.0)
+                        // .maxMotion
+                        //         .maxAcceleration(3000)
+                        //         .cruiseVelocity(100)
+                        //         .allowedProfileError(0.01); // smooth extension, allow some error to prevent oscillation
                                 
                 }
 

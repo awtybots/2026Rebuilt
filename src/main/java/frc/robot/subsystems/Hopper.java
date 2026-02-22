@@ -34,12 +34,12 @@ public class Hopper extends SubsystemBase {
         TwindexerLeftMotor.configure(Configs.HopperSubsystem.TwindexerLeftControllerConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     }
 
-    public void HopperToShooter(){
+    public void ReverseHopper(){
         TwindexerLeftDesiredPercent = HopperConstants.REVERSE_TWINDEXER_LEFT_RPM;
         // TwindexerLeftMotor.set(HopperConstants.REVERSE_TWINDEXER_LEFT_RPM);
         TwindexerLeftController.setSetpoint(HopperConstants.REVERSE_TWINDEXER_LEFT_RPM, ControlType.kMAXMotionVelocityControl);
     }
-    public void ReverseHopper(){ 
+    public void HopperToShooter(){ 
         TwindexerLeftDesiredPercent = HopperConstants.REVERSE_TWINDEXER_LEFT_RPM;
         // TwindexerLeftMotor.set(HopperConstants.TWINDEXER_LEFT_RPM);
         TwindexerLeftController.setSetpoint(HopperConstants.REVERSE_TWINDEXER_RIGHT_RPM, ControlType.kMAXMotionVelocityControl);

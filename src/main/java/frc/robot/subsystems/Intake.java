@@ -33,21 +33,21 @@ public class Intake extends SubsystemBase {
 
     
     public Intake() {
-        IntakeMotor.configure(Configs.IntakeSubsystem.IntakeLeftMotorConfig, ResetMode.kResetSafeParameters,
+        IntakeMotor.configure(Configs.IntakeSubsystem.IntakeMotorConfig, ResetMode.kResetSafeParameters,
                 PersistMode.kPersistParameters);
         // IntakeRightMotor.configure(Configs.IntakeSubsystem.IntakeRightMotorConfig, ResetMode.kResetSafeParameters,
         //         PersistMode.kPersistParameters);
     }
 
 
-    public void runIntake() {
+    public void runOuttake() {
         desiredPercent = IntakeConstants.INTAKE_SPEED;
         IntakeMotor.set(IntakeConstants.INTAKE_SPEED);
         // IntakeRightMotor.set(IntakeConstants.INTAKE_SPEED);
         
     }
 
-    public void runOuttake() {
+    public void runIntake() {
         desiredPercent = IntakeConstants.OUTTAKE_SPEED;
         IntakeMotor.set(IntakeConstants.OUTTAKE_SPEED);
         // IntakeRightMotor.set(IntakeConstants.OUTTAKE_SPEED);
