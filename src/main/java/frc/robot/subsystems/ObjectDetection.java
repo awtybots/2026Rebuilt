@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import java.util.List;
+
 import org.littletonrobotics.junction.Logger;
 import org.photonvision.PhotonCamera;
 import org.photonvision.targeting.PhotonPipelineResult;
@@ -11,10 +13,11 @@ public class ObjectDetection extends SubsystemBase{
     PhotonCamera camera = new PhotonCamera("photonvision");   
     
     // Query the latest result from PhotonVision
-    PhotonPipelineResult result = camera.getLatestResult();    
+    List<PhotonPipelineResult> results = camera.getAllUnreadResults();    
 
     // Check if the latest result has any targets.
-    boolean hasTargets = result.hasTargets();
+    boolean hasTargets = (results.size() > 0);
+    
 
     @Override
     public void periodic() {
