@@ -41,15 +41,15 @@ public class Intake extends SubsystemBase {
 
 
     public void runOuttake() {
-        desiredPercent = IntakeConstants.INTAKE_SPEED;
-        IntakeMotor.set(IntakeConstants.INTAKE_SPEED);
+        desiredPercent = IntakeConstants.OUTTAKE_SPEED;
+        IntakeMotor.set(IntakeConstants.OUTTAKE_SPEED);
         // IntakeRightMotor.set(IntakeConstants.INTAKE_SPEED);
         
     }
 
     public void runIntake() {
-        desiredPercent = IntakeConstants.OUTTAKE_SPEED;
-        IntakeMotor.set(IntakeConstants.OUTTAKE_SPEED);
+        desiredPercent = IntakeConstants.INTAKE_SPEED;
+        IntakeMotor.set(IntakeConstants.INTAKE_SPEED);
         // IntakeRightMotor.set(IntakeConstants.OUTTAKE_SPEED);
     }
 

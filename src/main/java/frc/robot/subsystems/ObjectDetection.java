@@ -21,11 +21,12 @@ public class ObjectDetection extends SubsystemBase{
 
     @Override
     public void periodic() {
-        
+        results = camera.getAllUnreadResults();
     }
 
     @Override
     public void simulationPeriodic() {
+        results = camera.getAllUnreadResults();
         Logger.recordOutput("ObjectDetection/PipelineHasTargets", hasTargets);
     }
 
