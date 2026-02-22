@@ -76,7 +76,7 @@ public final class Configs
                         .d(0.05)
                         .outputRange(-1.0, 1.0)
                         .maxMotion
-                                .maxAcceleration(3000)
+                                .maxAcceleration(6000)
                                 .cruiseVelocity(2000)
                                 .allowedProfileError(0.1); // smooth extension
                                 
