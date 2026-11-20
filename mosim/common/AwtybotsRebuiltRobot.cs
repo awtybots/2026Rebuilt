@@ -25,9 +25,9 @@ public abstract class AwtybotsRebuiltRobot : RebuiltRobotBase
     protected bool CanAimShot => Aim && flywheelRollers && flywheelRpmScale > 0f;
     protected bool CanFeed => hopperRollers && kickerRollers && hopperRpm != 0f && kickerRpm != 0f;
 
-    protected override void LateInit()
+    protected override void Init()
     {
-        base.LateInit();
+        base.Init();
 
         Aim = GetComponent<RebuiltAutoAimController>();
         Scheduler.AddProtectedSystem(StopWhileDisabled);

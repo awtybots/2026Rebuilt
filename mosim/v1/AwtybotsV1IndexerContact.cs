@@ -87,7 +87,10 @@ public sealed class AwtybotsV1IndexerContact : MonoBehaviour
         var point = inHopper ? new Vector2(Mathf.Abs(position.x), position.z) : new Vector2(position.z, position.y);
         var track = ClosestPoint(path, point, out int segment);
         var error = track - point;
-        if (error.sqrMagnitude > 0.145f * 0.145f || (inHopper && position.y > 0.35f))
+        // A ball resting on the centerline between the two cones is about 0.15 m
+        // from both lanes. The hopper radius reaches it so a spinning cone picks it up.
+        float capture = inHopper ? 0.18f : 0.145f;
+        if (error.sqrMagnitude > capture * capture || (inHopper && position.y > 0.35f))
         {
             return;
         }

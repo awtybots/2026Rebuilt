@@ -30,17 +30,23 @@ public sealed class AwtybotsV3 : AwtybotsRebuiltRobot
 
     private bool intakeDeployed;
 
+    protected override void Init()
+    {
+        base.Init();
+        if (intakePivot) intakePivot.SetPid(intakePid);
+        Scheduler.AddSubsystems(UpdateMechanisms);
+        Scheduler.AddLateRecursive(UpdatePids);
+    }
+
     protected override void LateInit()
     {
         base.LateInit();
-        if (intakePivot)
-        {
-            intakePivot.angularAxis = intakeAxis;
-            intakePivot.SetPid(intakePid);
-        }
-
         InitializeShotCurves(hubShots, passShots);
-        Scheduler.AddSubsystems(UpdateMechanisms);
+    }
+
+    private void UpdatePids()
+    {
+        if (intakePivot) intakePivot.UpdatePid(intakePid);
     }
 
     private void UpdateMechanisms()
@@ -58,7 +64,7 @@ public sealed class AwtybotsV3 : AwtybotsRebuiltRobot
 
         if (intakePivot)
         {
-            intakePivot.SetTargetAngle(intakeDeployed ? deployedIntakeAngle : 0f);
+            intakePivot.SetTargetAngle(intakeDeployed ? deployedIntakeAngle : 0f).withAxis(intakeAxis);
         }
 
         bool feed = UpdateShooter();
