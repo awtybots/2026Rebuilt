@@ -21,6 +21,8 @@ public sealed class AwtybotsV1 : AwtybotsRebuiltRobot
     [SerializeField, Min(0f), Tooltip("Travel from stowed. Equal distances disable agitation.")]
     private float agitationExtendedInches;
     [SerializeField, Min(0f)] private float agitationRetractedInches;
+    [SerializeField] private GenericJoint climberSlide;
+    [SerializeField] private PidConstants climberPid = new PidConstants(10f, 0f, 0f, 1f, 1f);
 
     [Header("V1 shot tuning")]
     [SerializeField] private RebuiltInterpolation hubShots = new RebuiltInterpolation(null, new[]
@@ -53,6 +55,9 @@ public sealed class AwtybotsV1 : AwtybotsRebuiltRobot
     private float feedingSince = -1f;
     private float activeFeedAgitationDelay;
     private float agitationSince = -1f;
+    private bool climberExtended;
+    private FixedJoint heldRung;
+    private readonly Collider[] nearbyRungs = new Collider[8];
 
     protected override void LateInit()
     {
@@ -65,12 +70,34 @@ public sealed class AwtybotsV1 : AwtybotsRebuiltRobot
         }
 
         chassis = GetComponent<Rigidbody>();
+        DriveController?.OverrideBrakeTime(0.25f, true);
+        if (climberSlide)
+        {
+            climberSlide.linearAxis = JointAxis.Y;
+            climberSlide.useStartingOffset = true;
+            climberSlide.SetPid(climberPid);
+        }
         InitializeShotCurves(hubShots, passShots, flightTimes);
         Scheduler.AddSubsystems(UpdateMechanisms);
     }
 
     private void UpdateMechanisms()
     {
+        if (climberSlide)
+        {
+            if (DpadUp.WasTriggered())
+            {
+                climberExtended = !climberExtended;
+                if (climberExtended && heldRung)
+                {
+                    Destroy(heldRung);
+                    heldRung = null;
+                }
+            }
+            if (!climberExtended && !heldRung)
+                TryLatchRung();
+            climberSlide.SetLinearTarget(climberExtended ? 7.64f : 0f);
+        }
         bool autoShoot = OuttakeAction;
         if (autoShoot && !autoShootWasHeld)
         {
@@ -103,6 +130,42 @@ public sealed class AwtybotsV1 : AwtybotsRebuiltRobot
         UpdateIntake(feedingShot, agitating);
     }
 
+    private void TryLatchRung()
+    {
+        Transform stage = climberSlide.transform;
+        Vector3 notch = stage.TransformPoint(new Vector3(-0.324f, 0.518f, -0.096f));
+        int count = Physics.OverlapSphereNonAlloc(notch, 0.070f, nearbyRungs,
+            LayerMask.GetMask("Field"), QueryTriggerInteraction.Ignore);
+        for (int i = 0; i < count; i++)
+        {
+            if (nearbyRungs[i] is not CapsuleCollider rung || !rung.name.Contains("Tower Rung"))
+                continue;
+
+            Vector3 localAxis = rung.direction == 0 ? Vector3.right : rung.direction == 1 ? Vector3.up : Vector3.forward;
+            Vector3 origin = rung.transform.TransformPoint(rung.center);
+            Vector3 extent = rung.transform.TransformVector(localAxis * (rung.height / 2f - rung.radius));
+            Vector3 along = extent.normalized;
+            if (Mathf.Abs(Vector3.Dot(stage.right, along)) < 0.90f)
+                continue;
+
+            Vector3 point = origin + along * Mathf.Clamp(Vector3.Dot(notch - origin, along), -extent.magnitude, extent.magnitude);
+            Vector3 local = stage.InverseTransformPoint(point);
+            if (Mathf.Abs(local.x + 0.324f) > 0.026f || Mathf.Abs(local.z + 0.096f) > 0.023f ||
+                local.y < 0.474f || local.y > 0.527f)
+                continue;
+
+            // Only seat a rung that is inside the hook as it retracts.
+            // Both anchors start at the point the bar already occupies.
+            heldRung = stage.gameObject.AddComponent<FixedJoint>();
+            heldRung.connectedBody = rung.attachedRigidbody;
+            heldRung.autoConfigureConnectedAnchor = false;
+            heldRung.anchor = local;
+            heldRung.connectedAnchor = rung.attachedRigidbody ? rung.attachedRigidbody.transform.InverseTransformPoint(point) : point;
+            heldRung.enableCollision = true;
+            break;
+        }
+    }
+
     private bool UpdateShooter(bool aiming, bool passing)
     {
         if (!aiming)
@@ -125,6 +188,7 @@ public sealed class AwtybotsV1 : AwtybotsRebuiltRobot
 
         Vector3 offset = target - transform.position;
         float distance = HorizontalDistance(offset);
+        // Goldfire launches over the hopper toward the intake.
         float heading = Mathf.Atan2(offset.x, offset.z) * Mathf.Rad2Deg;
         Vector3 velocity = chassis ? chassis.velocity : Vector3.zero;
         float headingRate = (offset.x * velocity.z - offset.z * velocity.x)
